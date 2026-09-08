@@ -1,0 +1,6968 @@
+{
+  "crops": [
+    "Beans",
+    "Brinjal",
+    "Cabbage",
+    "Carrot",
+    "Cauliflower",
+    "Onion",
+    "Peas",
+    "Potato",
+    "Spinach",
+    "Tomato"
+  ],
+  "locations": [
+    "Bangalore",
+    "Chennai",
+    "Delhi",
+    "Hyderabad",
+    "Kolkata",
+    "Mumbai",
+    "Patna",
+    "Pune"
+  ],
+  "monthly": {
+    "Beans|Bangalore": {
+      "1": {
+        "avg_market_price": 38.55,
+        "rainfall_mm": 18.1,
+        "temperature_c": 34.7,
+        "festival_flag": 0,
+        "demand_kg": 2686
+      },
+      "2": {
+        "avg_market_price": 36.9,
+        "rainfall_mm": 16.2,
+        "temperature_c": 29.7,
+        "festival_flag": 0,
+        "demand_kg": 2938
+      },
+      "3": {
+        "avg_market_price": 38.4,
+        "rainfall_mm": 20.3,
+        "temperature_c": 25.5,
+        "festival_flag": 0,
+        "demand_kg": 2833
+      },
+      "4": {
+        "avg_market_price": 39.63,
+        "rainfall_mm": 19.5,
+        "temperature_c": 22.3,
+        "festival_flag": 0,
+        "demand_kg": 2489
+      },
+      "5": {
+        "avg_market_price": 41.64,
+        "rainfall_mm": 81.0,
+        "temperature_c": 20.2,
+        "festival_flag": 0,
+        "demand_kg": 1746
+      },
+      "6": {
+        "avg_market_price": 40.76,
+        "rainfall_mm": 151.2,
+        "temperature_c": 22.9,
+        "festival_flag": 0,
+        "demand_kg": 1324
+      },
+      "7": {
+        "avg_market_price": 41.73,
+        "rainfall_mm": 199.1,
+        "temperature_c": 25.8,
+        "festival_flag": 0,
+        "demand_kg": 768
+      },
+      "8": {
+        "avg_market_price": 42.69,
+        "rainfall_mm": 206.9,
+        "temperature_c": 30.8,
+        "festival_flag": 0,
+        "demand_kg": 470
+      },
+      "9": {
+        "avg_market_price": 41.64,
+        "rainfall_mm": 140.5,
+        "temperature_c": 35.1,
+        "festival_flag": 0,
+        "demand_kg": 649
+      },
+      "10": {
+        "avg_market_price": 41.41,
+        "rainfall_mm": 58.8,
+        "temperature_c": 37.3,
+        "festival_flag": 1,
+        "demand_kg": 1136
+      },
+      "11": {
+        "avg_market_price": 41.03,
+        "rainfall_mm": 12.7,
+        "temperature_c": 39.3,
+        "festival_flag": 1,
+        "demand_kg": 1959
+      },
+      "12": {
+        "avg_market_price": 38.34,
+        "rainfall_mm": 10.4,
+        "temperature_c": 39.5,
+        "festival_flag": 0,
+        "demand_kg": 2349
+      }
+    },
+    "Beans|Chennai": {
+      "1": {
+        "avg_market_price": 37.78,
+        "rainfall_mm": 16.9,
+        "temperature_c": 35.1,
+        "festival_flag": 0,
+        "demand_kg": 2369
+      },
+      "2": {
+        "avg_market_price": 37.68,
+        "rainfall_mm": 15.2,
+        "temperature_c": 30.7,
+        "festival_flag": 0,
+        "demand_kg": 2650
+      },
+      "3": {
+        "avg_market_price": 39.0,
+        "rainfall_mm": 15.8,
+        "temperature_c": 25.1,
+        "festival_flag": 0,
+        "demand_kg": 2464
+      },
+      "4": {
+        "avg_market_price": 39.05,
+        "rainfall_mm": 29.6,
+        "temperature_c": 21.2,
+        "festival_flag": 0,
+        "demand_kg": 2149
+      },
+      "5": {
+        "avg_market_price": 40.32,
+        "rainfall_mm": 70.9,
+        "temperature_c": 19.7,
+        "festival_flag": 0,
+        "demand_kg": 1738
+      },
+      "6": {
+        "avg_market_price": 41.7,
+        "rainfall_mm": 144.2,
+        "temperature_c": 22.2,
+        "festival_flag": 0,
+        "demand_kg": 1179
+      },
+      "7": {
+        "avg_market_price": 43.91,
+        "rainfall_mm": 178.4,
+        "temperature_c": 25.7,
+        "festival_flag": 0,
+        "demand_kg": 645
+      },
+      "8": {
+        "avg_market_price": 42.31,
+        "rainfall_mm": 192.6,
+        "temperature_c": 29.7,
+        "festival_flag": 0,
+        "demand_kg": 417
+      },
+      "9": {
+        "avg_market_price": 42.6,
+        "rainfall_mm": 151.3,
+        "temperature_c": 35.2,
+        "festival_flag": 0,
+        "demand_kg": 545
+      },
+      "10": {
+        "avg_market_price": 41.03,
+        "rainfall_mm": 54.7,
+        "temperature_c": 38.3,
+        "festival_flag": 1,
+        "demand_kg": 1138
+      },
+      "11": {
+        "avg_market_price": 39.71,
+        "rainfall_mm": 4.0,
+        "temperature_c": 38.1,
+        "festival_flag": 1,
+        "demand_kg": 1717
+      },
+      "12": {
+        "avg_market_price": 39.83,
+        "rainfall_mm": 12.8,
+        "temperature_c": 37.2,
+        "festival_flag": 0,
+        "demand_kg": 2003
+      }
+    },
+    "Beans|Delhi": {
+      "1": {
+        "avg_market_price": 37.73,
+        "rainfall_mm": 34.3,
+        "temperature_c": 34.5,
+        "festival_flag": 0,
+        "demand_kg": 2927
+      },
+      "2": {
+        "avg_market_price": 38.64,
+        "rainfall_mm": 15.8,
+        "temperature_c": 29.2,
+        "festival_flag": 0,
+        "demand_kg": 3223
+      },
+      "3": {
+        "avg_market_price": 38.16,
+        "rainfall_mm": 21.6,
+        "temperature_c": 24.7,
+        "festival_flag": 0,
+        "demand_kg": 3036
+      },
+      "4": {
+        "avg_market_price": 40.29,
+        "rainfall_mm": 9.8,
+        "temperature_c": 23.4,
+        "festival_flag": 0,
+        "demand_kg": 2776
+      },
+      "5": {
+        "avg_market_price": 38.61,
+        "rainfall_mm": 70.8,
+        "temperature_c": 20.5,
+        "festival_flag": 0,
+        "demand_kg": 2123
+      },
+      "6": {
+        "avg_market_price": 41.45,
+        "rainfall_mm": 139.2,
+        "temperature_c": 23.2,
+        "festival_flag": 0,
+        "demand_kg": 1494
+      },
+      "7": {
+        "avg_market_price": 41.9,
+        "rainfall_mm": 206.7,
+        "temperature_c": 25.8,
+        "festival_flag": 0,
+        "demand_kg": 871
+      },
+      "8": {
+        "avg_market_price": 42.77,
+        "rainfall_mm": 186.4,
+        "temperature_c": 30.5,
+        "festival_flag": 0,
+        "demand_kg": 631
+      },
+      "9": {
+        "avg_market_price": 43.11,
+        "rainfall_mm": 141.4,
+        "temperature_c": 34.3,
+        "festival_flag": 0,
+        "demand_kg": 560
+      },
+      "10": {
+        "avg_market_price": 41.62,
+        "rainfall_mm": 68.4,
+        "temperature_c": 37.3,
+        "festival_flag": 1,
+        "demand_kg": 1341
+      },
+      "11": {
+        "avg_market_price": 40.6,
+        "rainfall_mm": 33.1,
+        "temperature_c": 39.7,
+        "festival_flag": 1,
+        "demand_kg": 2233
+      },
+      "12": {
+        "avg_market_price": 39.31,
+        "rainfall_mm": 32.3,
+        "temperature_c": 38.5,
+        "festival_flag": 0,
+        "demand_kg": 2458
+      }
+    },
+    "Beans|Hyderabad": {
+      "1": {
+        "avg_market_price": 38.41,
+        "rainfall_mm": 12.5,
+        "temperature_c": 33.8,
+        "festival_flag": 0,
+        "demand_kg": 2325
+      },
+      "2": {
+        "avg_market_price": 37.53,
+        "rainfall_mm": 20.8,
+        "temperature_c": 29.0,
+        "festival_flag": 0,
+        "demand_kg": 2594
+      },
+      "3": {
+        "avg_market_price": 39.12,
+        "rainfall_mm": 20.7,
+        "temperature_c": 24.6,
+        "festival_flag": 0,
+        "demand_kg": 2496
+      },
+      "4": {
+        "avg_market_price": 39.43,
+        "rainfall_mm": 7.3,
+        "temperature_c": 20.8,
+        "festival_flag": 0,
+        "demand_kg": 2204
+      },
+      "5": {
+        "avg_market_price": 39.03,
+        "rainfall_mm": 67.5,
+        "temperature_c": 20.4,
+        "festival_flag": 0,
+        "demand_kg": 1851
+      },
+      "6": {
+        "avg_market_price": 41.63,
+        "rainfall_mm": 156.6,
+        "temperature_c": 23.3,
+        "festival_flag": 0,
+        "demand_kg": 1218
+      },
+      "7": {
+        "avg_market_price": 41.44,
+        "rainfall_mm": 174.0,
+        "temperature_c": 26.1,
+        "festival_flag": 0,
+        "demand_kg": 829
+      },
+      "8": {
+        "avg_market_price": 42.31,
+        "rainfall_mm": 189.4,
+        "temperature_c": 30.3,
+        "festival_flag": 0,
+        "demand_kg": 545
+      },
+      "9": {
+        "avg_market_price": 40.33,
+        "rainfall_mm": 140.4,
+        "temperature_c": 35.3,
+        "festival_flag": 0,
+        "demand_kg": 604
+      },
+      "10": {
+        "avg_market_price": 41.05,
+        "rainfall_mm": 35.1,
+        "temperature_c": 37.3,
+        "festival_flag": 1,
+        "demand_kg": 1288
+      },
+      "11": {
+        "avg_market_price": 40.02,
+        "rainfall_mm": 7.4,
+        "temperature_c": 37.5,
+        "festival_flag": 1,
+        "demand_kg": 1910
+      },
+      "12": {
+        "avg_market_price": 38.97,
+        "rainfall_mm": 22.9,
+        "temperature_c": 39.1,
+        "festival_flag": 0,
+        "demand_kg": 2054
+      }
+    },
+    "Beans|Kolkata": {
+      "1": {
+        "avg_market_price": 39.02,
+        "rainfall_mm": 1.4,
+        "temperature_c": 35.4,
+        "festival_flag": 0,
+        "demand_kg": 2548
+      },
+      "2": {
+        "avg_market_price": 38.28,
+        "rainfall_mm": 18.8,
+        "temperature_c": 31.0,
+        "festival_flag": 0,
+        "demand_kg": 2782
+      },
+      "3": {
+        "avg_market_price": 37.48,
+        "rainfall_mm": 31.8,
+        "temperature_c": 25.9,
+        "festival_flag": 0,
+        "demand_kg": 2790
+      },
+      "4": {
+        "avg_market_price": 39.57,
+        "rainfall_mm": 22.2,
+        "temperature_c": 22.4,
+        "festival_flag": 0,
+        "demand_kg": 2432
+      },
+      "5": {
+        "avg_market_price": 39.16,
+        "rainfall_mm": 49.9,
+        "temperature_c": 21.4,
+        "festival_flag": 0,
+        "demand_kg": 2006
+      },
+      "6": {
+        "avg_market_price": 43.45,
+        "rainfall_mm": 145.6,
+        "temperature_c": 22.3,
+        "festival_flag": 0,
+        "demand_kg": 1238
+      },
+      "7": {
+        "avg_market_price": 42.22,
+        "rainfall_mm": 186.4,
+        "temperature_c": 26.6,
+        "festival_flag": 0,
+        "demand_kg": 718
+      },
+      "8": {
+        "avg_market_price": 43.09,
+        "rainfall_mm": 215.1,
+        "temperature_c": 31.3,
+        "festival_flag": 0,
+        "demand_kg": 610
+      },
+      "9": {
+        "avg_market_price": 42.09,
+        "rainfall_mm": 156.0,
+        "temperature_c": 35.1,
+        "festival_flag": 0,
+        "demand_kg": 526
+      },
+      "10": {
+        "avg_market_price": 41.06,
+        "rainfall_mm": 88.8,
+        "temperature_c": 38.6,
+        "festival_flag": 1,
+        "demand_kg": 1239
+      },
+      "11": {
+        "avg_market_price": 40.61,
+        "rainfall_mm": 21.2,
+        "temperature_c": 41.6,
+        "festival_flag": 1,
+        "demand_kg": 1888
+      },
+      "12": {
+        "avg_market_price": 39.08,
+        "rainfall_mm": 22.9,
+        "temperature_c": 37.4,
+        "festival_flag": 0,
+        "demand_kg": 2206
+      }
+    },
+    "Beans|Mumbai": {
+      "1": {
+        "avg_market_price": 37.12,
+        "rainfall_mm": 21.8,
+        "temperature_c": 34.5,
+        "festival_flag": 0,
+        "demand_kg": 2996
+      },
+      "2": {
+        "avg_market_price": 37.61,
+        "rainfall_mm": 20.4,
+        "temperature_c": 29.7,
+        "festival_flag": 0,
+        "demand_kg": 3523
+      },
+      "3": {
+        "avg_market_price": 39.7,
+        "rainfall_mm": 8.7,
+        "temperature_c": 26.0,
+        "festival_flag": 0,
+        "demand_kg": 3254
+      },
+      "4": {
+        "avg_market_price": 38.7,
+        "rainfall_mm": 17.5,
+        "temperature_c": 22.5,
+        "festival_flag": 0,
+        "demand_kg": 2871
+      },
+      "5": {
+        "avg_market_price": 41.18,
+        "rainfall_mm": 66.1,
+        "temperature_c": 21.6,
+        "festival_flag": 0,
+        "demand_kg": 2239
+      },
+      "6": {
+        "avg_market_price": 41.45,
+        "rainfall_mm": 152.8,
+        "temperature_c": 22.1,
+        "festival_flag": 0,
+        "demand_kg": 1647
+      },
+      "7": {
+        "avg_market_price": 41.68,
+        "rainfall_mm": 194.8,
+        "temperature_c": 27.3,
+        "festival_flag": 0,
+        "demand_kg": 940
+      },
+      "8": {
+        "avg_market_price": 42.08,
+        "rainfall_mm": 188.4,
+        "temperature_c": 30.3,
+        "festival_flag": 0,
+        "demand_kg": 833
+      },
+      "9": {
+        "avg_market_price": 42.02,
+        "rainfall_mm": 153.9,
+        "temperature_c": 34.9,
+        "festival_flag": 0,
+        "demand_kg": 856
+      },
+      "10": {
+        "avg_market_price": 41.33,
+        "rainfall_mm": 64.3,
+        "temperature_c": 37.8,
+        "festival_flag": 1,
+        "demand_kg": 1576
+      },
+      "11": {
+        "avg_market_price": 39.15,
+        "rainfall_mm": 27.2,
+        "temperature_c": 38.0,
+        "festival_flag": 1,
+        "demand_kg": 2355
+      },
+      "12": {
+        "avg_market_price": 40.07,
+        "rainfall_mm": 22.2,
+        "temperature_c": 37.8,
+        "festival_flag": 0,
+        "demand_kg": 2708
+      }
+    },
+    "Beans|Patna": {
+      "1": {
+        "avg_market_price": 39.37,
+        "rainfall_mm": 18.1,
+        "temperature_c": 34.1,
+        "festival_flag": 0,
+        "demand_kg": 1684
+      },
+      "2": {
+        "avg_market_price": 36.53,
+        "rainfall_mm": 14.0,
+        "temperature_c": 29.3,
+        "festival_flag": 0,
+        "demand_kg": 1942
+      },
+      "3": {
+        "avg_market_price": 38.32,
+        "rainfall_mm": 12.7,
+        "temperature_c": 26.3,
+        "festival_flag": 0,
+        "demand_kg": 1881
+      },
+      "4": {
+        "avg_market_price": 38.24,
+        "rainfall_mm": 17.7,
+        "temperature_c": 21.6,
+        "festival_flag": 0,
+        "demand_kg": 1669
+      },
+      "5": {
+        "avg_market_price": 39.35,
+        "rainfall_mm": 64.9,
+        "temperature_c": 21.4,
+        "festival_flag": 0,
+        "demand_kg": 1256
+      },
+      "6": {
+        "avg_market_price": 42.2,
+        "rainfall_mm": 145.5,
+        "temperature_c": 22.8,
+        "festival_flag": 0,
+        "demand_kg": 862
+      },
+      "7": {
+        "avg_market_price": 41.65,
+        "rainfall_mm": 192.9,
+        "temperature_c": 27.2,
+        "festival_flag": 0,
+        "demand_kg": 563
+      },
+      "8": {
+        "avg_market_price": 41.21,
+        "rainfall_mm": 199.7,
+        "temperature_c": 29.0,
+        "festival_flag": 0,
+        "demand_kg": 348
+      },
+      "9": {
+        "avg_market_price": 42.19,
+        "rainfall_mm": 151.8,
+        "temperature_c": 35.5,
+        "festival_flag": 0,
+        "demand_kg": 341
+      },
+      "10": {
+        "avg_market_price": 39.73,
+        "rainfall_mm": 66.9,
+        "temperature_c": 39.0,
+        "festival_flag": 1,
+        "demand_kg": 762
+      },
+      "11": {
+        "avg_market_price": 40.38,
+        "rainfall_mm": 33.4,
+        "temperature_c": 39.1,
+        "festival_flag": 1,
+        "demand_kg": 1200
+      },
+      "12": {
+        "avg_market_price": 38.74,
+        "rainfall_mm": 18.7,
+        "temperature_c": 35.9,
+        "festival_flag": 0,
+        "demand_kg": 1493
+      }
+    },
+    "Beans|Pune": {
+      "1": {
+        "avg_market_price": 38.32,
+        "rainfall_mm": 28.0,
+        "temperature_c": 34.6,
+        "festival_flag": 0,
+        "demand_kg": 2262
+      },
+      "2": {
+        "avg_market_price": 38.08,
+        "rainfall_mm": 27.3,
+        "temperature_c": 29.9,
+        "festival_flag": 0,
+        "demand_kg": 2407
+      },
+      "3": {
+        "avg_market_price": 38.38,
+        "rainfall_mm": 24.9,
+        "temperature_c": 25.7,
+        "festival_flag": 0,
+        "demand_kg": 2378
+      },
+      "4": {
+        "avg_market_price": 38.55,
+        "rainfall_mm": 34.6,
+        "temperature_c": 22.8,
+        "festival_flag": 0,
+        "demand_kg": 2175
+      },
+      "5": {
+        "avg_market_price": 40.66,
+        "rainfall_mm": 67.5,
+        "temperature_c": 22.1,
+        "festival_flag": 0,
+        "demand_kg": 1606
+      },
+      "6": {
+        "avg_market_price": 42.04,
+        "rainfall_mm": 151.2,
+        "temperature_c": 22.2,
+        "festival_flag": 0,
+        "demand_kg": 1142
+      },
+      "7": {
+        "avg_market_price": 41.51,
+        "rainfall_mm": 183.9,
+        "temperature_c": 25.3,
+        "festival_flag": 0,
+        "demand_kg": 648
+      },
+      "8": {
+        "avg_market_price": 43.39,
+        "rainfall_mm": 184.5,
+        "temperature_c": 31.8,
+        "festival_flag": 0,
+        "demand_kg": 364
+      },
+      "9": {
+        "avg_market_price": 42.04,
+        "rainfall_mm": 147.1,
+        "temperature_c": 32.2,
+        "festival_flag": 0,
+        "demand_kg": 541
+      },
+      "10": {
+        "avg_market_price": 41.88,
+        "rainfall_mm": 67.4,
+        "temperature_c": 38.5,
+        "festival_flag": 1,
+        "demand_kg": 1090
+      },
+      "11": {
+        "avg_market_price": 40.99,
+        "rainfall_mm": 21.3,
+        "temperature_c": 39.1,
+        "festival_flag": 1,
+        "demand_kg": 1662
+      },
+      "12": {
+        "avg_market_price": 38.03,
+        "rainfall_mm": 8.2,
+        "temperature_c": 37.2,
+        "festival_flag": 0,
+        "demand_kg": 1991
+      }
+    },
+    "Brinjal|Bangalore": {
+      "1": {
+        "avg_market_price": 24.94,
+        "rainfall_mm": 14.7,
+        "temperature_c": 33.6,
+        "festival_flag": 0,
+        "demand_kg": 2817
+      },
+      "2": {
+        "avg_market_price": 25.82,
+        "rainfall_mm": 25.0,
+        "temperature_c": 31.3,
+        "festival_flag": 0,
+        "demand_kg": 2448
+      },
+      "3": {
+        "avg_market_price": 24.47,
+        "rainfall_mm": 19.9,
+        "temperature_c": 26.3,
+        "festival_flag": 0,
+        "demand_kg": 1785
+      },
+      "4": {
+        "avg_market_price": 25.03,
+        "rainfall_mm": 38.6,
+        "temperature_c": 21.1,
+        "festival_flag": 0,
+        "demand_kg": 1474
+      },
+      "5": {
+        "avg_market_price": 26.74,
+        "rainfall_mm": 57.3,
+        "temperature_c": 20.6,
+        "festival_flag": 0,
+        "demand_kg": 1249
+      },
+      "6": {
+        "avg_market_price": 26.16,
+        "rainfall_mm": 146.5,
+        "temperature_c": 22.6,
+        "festival_flag": 0,
+        "demand_kg": 1210
+      },
+      "7": {
+        "avg_market_price": 26.16,
+        "rainfall_mm": 200.1,
+        "temperature_c": 25.7,
+        "festival_flag": 0,
+        "demand_kg": 1552
+      },
+      "8": {
+        "avg_market_price": 25.69,
+        "rainfall_mm": 188.8,
+        "temperature_c": 29.9,
+        "festival_flag": 0,
+        "demand_kg": 2040
+      },
+      "9": {
+        "avg_market_price": 24.89,
+        "rainfall_mm": 139.8,
+        "temperature_c": 32.5,
+        "festival_flag": 0,
+        "demand_kg": 2613
+      },
+      "10": {
+        "avg_market_price": 22.79,
+        "rainfall_mm": 60.3,
+        "temperature_c": 38.0,
+        "festival_flag": 1,
+        "demand_kg": 3654
+      },
+      "11": {
+        "avg_market_price": 23.92,
+        "rainfall_mm": 37.5,
+        "temperature_c": 39.2,
+        "festival_flag": 1,
+        "demand_kg": 3774
+      },
+      "12": {
+        "avg_market_price": 23.49,
+        "rainfall_mm": 16.8,
+        "temperature_c": 38.0,
+        "festival_flag": 0,
+        "demand_kg": 3469
+      }
+    },
+    "Brinjal|Chennai": {
+      "1": {
+        "avg_market_price": 25.1,
+        "rainfall_mm": 18.7,
+        "temperature_c": 36.4,
+        "festival_flag": 0,
+        "demand_kg": 2424
+      },
+      "2": {
+        "avg_market_price": 26.53,
+        "rainfall_mm": 24.4,
+        "temperature_c": 28.8,
+        "festival_flag": 0,
+        "demand_kg": 2002
+      },
+      "3": {
+        "avg_market_price": 26.71,
+        "rainfall_mm": 17.3,
+        "temperature_c": 26.4,
+        "festival_flag": 0,
+        "demand_kg": 1590
+      },
+      "4": {
+        "avg_market_price": 27.45,
+        "rainfall_mm": 20.2,
+        "temperature_c": 22.0,
+        "festival_flag": 0,
+        "demand_kg": 1174
+      },
+      "5": {
+        "avg_market_price": 27.52,
+        "rainfall_mm": 68.4,
+        "temperature_c": 21.3,
+        "festival_flag": 0,
+        "demand_kg": 990
+      },
+      "6": {
+        "avg_market_price": 27.23,
+        "rainfall_mm": 145.7,
+        "temperature_c": 21.6,
+        "festival_flag": 0,
+        "demand_kg": 1115
+      },
+      "7": {
+        "avg_market_price": 26.52,
+        "rainfall_mm": 204.1,
+        "temperature_c": 24.1,
+        "festival_flag": 0,
+        "demand_kg": 1237
+      },
+      "8": {
+        "avg_market_price": 23.62,
+        "rainfall_mm": 199.4,
+        "temperature_c": 30.1,
+        "festival_flag": 0,
+        "demand_kg": 1813
+      },
+      "9": {
+        "avg_market_price": 25.28,
+        "rainfall_mm": 154.3,
+        "temperature_c": 35.8,
+        "festival_flag": 0,
+        "demand_kg": 2212
+      },
+      "10": {
+        "avg_market_price": 24.41,
+        "rainfall_mm": 67.9,
+        "temperature_c": 37.3,
+        "festival_flag": 1,
+        "demand_kg": 3086
+      },
+      "11": {
+        "avg_market_price": 25.86,
+        "rainfall_mm": 9.2,
+        "temperature_c": 38.0,
+        "festival_flag": 1,
+        "demand_kg": 3366
+      },
+      "12": {
+        "avg_market_price": 24.31,
+        "rainfall_mm": 25.8,
+        "temperature_c": 36.3,
+        "festival_flag": 0,
+        "demand_kg": 3035
+      }
+    },
+    "Brinjal|Delhi": {
+      "1": {
+        "avg_market_price": 23.18,
+        "rainfall_mm": 15.1,
+        "temperature_c": 36.3,
+        "festival_flag": 0,
+        "demand_kg": 3092
+      },
+      "2": {
+        "avg_market_price": 26.03,
+        "rainfall_mm": 24.1,
+        "temperature_c": 29.8,
+        "festival_flag": 0,
+        "demand_kg": 2449
+      },
+      "3": {
+        "avg_market_price": 25.78,
+        "rainfall_mm": 46.4,
+        "temperature_c": 25.6,
+        "festival_flag": 0,
+        "demand_kg": 2144
+      },
+      "4": {
+        "avg_market_price": 26.45,
+        "rainfall_mm": 14.6,
+        "temperature_c": 22.2,
+        "festival_flag": 0,
+        "demand_kg": 1540
+      },
+      "5": {
+        "avg_market_price": 27.75,
+        "rainfall_mm": 65.8,
+        "temperature_c": 22.1,
+        "festival_flag": 0,
+        "demand_kg": 1285
+      },
+      "6": {
+        "avg_market_price": 27.07,
+        "rainfall_mm": 154.6,
+        "temperature_c": 22.3,
+        "festival_flag": 0,
+        "demand_kg": 1364
+      },
+      "7": {
+        "avg_market_price": 25.34,
+        "rainfall_mm": 185.2,
+        "temperature_c": 25.2,
+        "festival_flag": 0,
+        "demand_kg": 1692
+      },
+      "8": {
+        "avg_market_price": 25.44,
+        "rainfall_mm": 189.2,
+        "temperature_c": 28.0,
+        "festival_flag": 0,
+        "demand_kg": 2206
+      },
+      "9": {
+        "avg_market_price": 24.95,
+        "rainfall_mm": 147.2,
+        "temperature_c": 35.7,
+        "festival_flag": 0,
+        "demand_kg": 3025
+      },
+      "10": {
+        "avg_market_price": 25.29,
+        "rainfall_mm": 69.8,
+        "temperature_c": 37.7,
+        "festival_flag": 1,
+        "demand_kg": 4103
+      },
+      "11": {
+        "avg_market_price": 23.81,
+        "rainfall_mm": 19.5,
+        "temperature_c": 39.4,
+        "festival_flag": 1,
+        "demand_kg": 4463
+      },
+      "12": {
+        "avg_market_price": 23.53,
+        "rainfall_mm": 17.1,
+        "temperature_c": 39.4,
+        "festival_flag": 0,
+        "demand_kg": 3579
+      }
+    },
+    "Brinjal|Hyderabad": {
+      "1": {
+        "avg_market_price": 25.0,
+        "rainfall_mm": 27.3,
+        "temperature_c": 33.7,
+        "festival_flag": 0,
+        "demand_kg": 2668
+      },
+      "2": {
+        "avg_market_price": 25.94,
+        "rainfall_mm": 25.0,
+        "temperature_c": 30.0,
+        "festival_flag": 0,
+        "demand_kg": 2316
+      },
+      "3": {
+        "avg_market_price": 26.64,
+        "rainfall_mm": 12.9,
+        "temperature_c": 27.3,
+        "festival_flag": 0,
+        "demand_kg": 1775
+      },
+      "4": {
+        "avg_market_price": 26.31,
+        "rainfall_mm": 6.0,
+        "temperature_c": 21.9,
+        "festival_flag": 0,
+        "demand_kg": 1205
+      },
+      "5": {
+        "avg_market_price": 27.33,
+        "rainfall_mm": 58.9,
+        "temperature_c": 19.9,
+        "festival_flag": 0,
+        "demand_kg": 976
+      },
+      "6": {
+        "avg_market_price": 28.4,
+        "rainfall_mm": 147.1,
+        "temperature_c": 22.0,
+        "festival_flag": 0,
+        "demand_kg": 1034
+      },
+      "7": {
+        "avg_market_price": 26.28,
+        "rainfall_mm": 182.6,
+        "temperature_c": 26.7,
+        "festival_flag": 0,
+        "demand_kg": 1471
+      },
+      "8": {
+        "avg_market_price": 25.18,
+        "rainfall_mm": 195.0,
+        "temperature_c": 30.0,
+        "festival_flag": 0,
+        "demand_kg": 1846
+      },
+      "9": {
+        "avg_market_price": 25.1,
+        "rainfall_mm": 145.0,
+        "temperature_c": 35.1,
+        "festival_flag": 0,
+        "demand_kg": 2316
+      },
+      "10": {
+        "avg_market_price": 23.7,
+        "rainfall_mm": 50.6,
+        "temperature_c": 36.4,
+        "festival_flag": 1,
+        "demand_kg": 3147
+      },
+      "11": {
+        "avg_market_price": 23.63,
+        "rainfall_mm": 16.3,
+        "temperature_c": 37.6,
+        "festival_flag": 1,
+        "demand_kg": 3620
+      },
+      "12": {
+        "avg_market_price": 25.03,
+        "rainfall_mm": 21.1,
+        "temperature_c": 38.3,
+        "festival_flag": 0,
+        "demand_kg": 3251
+      }
+    },
+    "Brinjal|Kolkata": {
+      "1": {
+        "avg_market_price": 23.82,
+        "rainfall_mm": 40.1,
+        "temperature_c": 34.4,
+        "festival_flag": 0,
+        "demand_kg": 2688
+      },
+      "2": {
+        "avg_market_price": 24.3,
+        "rainfall_mm": 2.9,
+        "temperature_c": 29.9,
+        "festival_flag": 0,
+        "demand_kg": 2408
+      },
+      "3": {
+        "avg_market_price": 26.04,
+        "rainfall_mm": 12.6,
+        "temperature_c": 26.2,
+        "festival_flag": 0,
+        "demand_kg": 1682
+      },
+      "4": {
+        "avg_market_price": 26.37,
+        "rainfall_mm": 28.4,
+        "temperature_c": 20.8,
+        "festival_flag": 0,
+        "demand_kg": 1427
+      },
+      "5": {
+        "avg_market_price": 26.77,
+        "rainfall_mm": 69.7,
+        "temperature_c": 20.2,
+        "festival_flag": 0,
+        "demand_kg": 1156
+      },
+      "6": {
+        "avg_market_price": 26.84,
+        "rainfall_mm": 139.7,
+        "temperature_c": 22.9,
+        "festival_flag": 0,
+        "demand_kg": 1121
+      },
+      "7": {
+        "avg_market_price": 26.19,
+        "rainfall_mm": 206.7,
+        "temperature_c": 25.3,
+        "festival_flag": 0,
+        "demand_kg": 1421
+      },
+      "8": {
+        "avg_market_price": 24.62,
+        "rainfall_mm": 201.3,
+        "temperature_c": 28.9,
+        "festival_flag": 0,
+        "demand_kg": 1869
+      },
+      "9": {
+        "avg_market_price": 23.59,
+        "rainfall_mm": 147.1,
+        "temperature_c": 35.4,
+        "festival_flag": 0,
+        "demand_kg": 2604
+      },
+      "10": {
+        "avg_market_price": 23.89,
+        "rainfall_mm": 64.9,
+        "temperature_c": 38.6,
+        "festival_flag": 1,
+        "demand_kg": 3510
+      },
+      "11": {
+        "avg_market_price": 24.62,
+        "rainfall_mm": 18.3,
+        "temperature_c": 39.9,
+        "festival_flag": 1,
+        "demand_kg": 3717
+      },
+      "12": {
+        "avg_market_price": 25.18,
+        "rainfall_mm": 17.8,
+        "temperature_c": 38.9,
+        "festival_flag": 0,
+        "demand_kg": 3084
+      }
+    },
+    "Brinjal|Mumbai": {
+      "1": {
+        "avg_market_price": 26.45,
+        "rainfall_mm": 38.2,
+        "temperature_c": 34.2,
+        "festival_flag": 0,
+        "demand_kg": 3438
+      },
+      "2": {
+        "avg_market_price": 25.34,
+        "rainfall_mm": 29.3,
+        "temperature_c": 30.1,
+        "festival_flag": 0,
+        "demand_kg": 2831
+      },
+      "3": {
+        "avg_market_price": 25.71,
+        "rainfall_mm": 33.3,
+        "temperature_c": 25.9,
+        "festival_flag": 0,
+        "demand_kg": 2123
+      },
+      "4": {
+        "avg_market_price": 26.93,
+        "rainfall_mm": 20.6,
+        "temperature_c": 22.2,
+        "festival_flag": 0,
+        "demand_kg": 1667
+      },
+      "5": {
+        "avg_market_price": 26.6,
+        "rainfall_mm": 61.0,
+        "temperature_c": 22.0,
+        "festival_flag": 0,
+        "demand_kg": 1339
+      },
+      "6": {
+        "avg_market_price": 26.8,
+        "rainfall_mm": 148.2,
+        "temperature_c": 22.1,
+        "festival_flag": 0,
+        "demand_kg": 1524
+      },
+      "7": {
+        "avg_market_price": 26.4,
+        "rainfall_mm": 198.4,
+        "temperature_c": 25.7,
+        "festival_flag": 0,
+        "demand_kg": 1908
+      },
+      "8": {
+        "avg_market_price": 24.75,
+        "rainfall_mm": 196.3,
+        "temperature_c": 29.9,
+        "festival_flag": 0,
+        "demand_kg": 2564
+      },
+      "9": {
+        "avg_market_price": 25.48,
+        "rainfall_mm": 148.6,
+        "temperature_c": 34.5,
+        "festival_flag": 0,
+        "demand_kg": 3066
+      },
+      "10": {
+        "avg_market_price": 23.68,
+        "rainfall_mm": 59.3,
+        "temperature_c": 37.7,
+        "festival_flag": 1,
+        "demand_kg": 4307
+      },
+      "11": {
+        "avg_market_price": 24.34,
+        "rainfall_mm": 17.5,
+        "temperature_c": 38.2,
+        "festival_flag": 1,
+        "demand_kg": 4815
+      },
+      "12": {
+        "avg_market_price": 23.78,
+        "rainfall_mm": 28.2,
+        "temperature_c": 37.2,
+        "festival_flag": 0,
+        "demand_kg": 4185
+      }
+    },
+    "Brinjal|Patna": {
+      "1": {
+        "avg_market_price": 24.97,
+        "rainfall_mm": 19.9,
+        "temperature_c": 34.0,
+        "festival_flag": 0,
+        "demand_kg": 1805
+      },
+      "2": {
+        "avg_market_price": 26.06,
+        "rainfall_mm": 20.5,
+        "temperature_c": 29.1,
+        "festival_flag": 0,
+        "demand_kg": 1530
+      },
+      "3": {
+        "avg_market_price": 25.64,
+        "rainfall_mm": 24.9,
+        "temperature_c": 25.3,
+        "festival_flag": 0,
+        "demand_kg": 1192
+      },
+      "4": {
+        "avg_market_price": 25.08,
+        "rainfall_mm": 13.6,
+        "temperature_c": 23.5,
+        "festival_flag": 0,
+        "demand_kg": 1030
+      },
+      "5": {
+        "avg_market_price": 25.65,
+        "rainfall_mm": 50.5,
+        "temperature_c": 20.6,
+        "festival_flag": 0,
+        "demand_kg": 819
+      },
+      "6": {
+        "avg_market_price": 25.53,
+        "rainfall_mm": 138.1,
+        "temperature_c": 21.5,
+        "festival_flag": 0,
+        "demand_kg": 817
+      },
+      "7": {
+        "avg_market_price": 27.14,
+        "rainfall_mm": 178.6,
+        "temperature_c": 25.1,
+        "festival_flag": 0,
+        "demand_kg": 941
+      },
+      "8": {
+        "avg_market_price": 24.63,
+        "rainfall_mm": 189.7,
+        "temperature_c": 30.1,
+        "festival_flag": 0,
+        "demand_kg": 1260
+      },
+      "9": {
+        "avg_market_price": 24.05,
+        "rainfall_mm": 152.6,
+        "temperature_c": 34.2,
+        "festival_flag": 0,
+        "demand_kg": 1644
+      },
+      "10": {
+        "avg_market_price": 24.5,
+        "rainfall_mm": 84.8,
+        "temperature_c": 39.4,
+        "festival_flag": 1,
+        "demand_kg": 2285
+      },
+      "11": {
+        "avg_market_price": 24.84,
+        "rainfall_mm": 19.9,
+        "temperature_c": 38.8,
+        "festival_flag": 1,
+        "demand_kg": 2453
+      },
+      "12": {
+        "avg_market_price": 23.86,
+        "rainfall_mm": 16.2,
+        "temperature_c": 38.8,
+        "festival_flag": 0,
+        "demand_kg": 2185
+      }
+    },
+    "Brinjal|Pune": {
+      "1": {
+        "avg_market_price": 24.54,
+        "rainfall_mm": 27.6,
+        "temperature_c": 34.5,
+        "festival_flag": 0,
+        "demand_kg": 2493
+      },
+      "2": {
+        "avg_market_price": 25.83,
+        "rainfall_mm": 13.4,
+        "temperature_c": 29.2,
+        "festival_flag": 0,
+        "demand_kg": 2102
+      },
+      "3": {
+        "avg_market_price": 26.82,
+        "rainfall_mm": 24.7,
+        "temperature_c": 24.9,
+        "festival_flag": 0,
+        "demand_kg": 1463
+      },
+      "4": {
+        "avg_market_price": 26.37,
+        "rainfall_mm": 17.6,
+        "temperature_c": 22.5,
+        "festival_flag": 0,
+        "demand_kg": 1203
+      },
+      "5": {
+        "avg_market_price": 26.36,
+        "rainfall_mm": 61.6,
+        "temperature_c": 21.1,
+        "festival_flag": 0,
+        "demand_kg": 1045
+      },
+      "6": {
+        "avg_market_price": 26.78,
+        "rainfall_mm": 153.8,
+        "temperature_c": 22.3,
+        "festival_flag": 0,
+        "demand_kg": 1094
+      },
+      "7": {
+        "avg_market_price": 25.78,
+        "rainfall_mm": 169.9,
+        "temperature_c": 25.2,
+        "festival_flag": 0,
+        "demand_kg": 1396
+      },
+      "8": {
+        "avg_market_price": 25.25,
+        "rainfall_mm": 206.6,
+        "temperature_c": 31.0,
+        "festival_flag": 0,
+        "demand_kg": 1852
+      },
+      "9": {
+        "avg_market_price": 25.51,
+        "rainfall_mm": 131.7,
+        "temperature_c": 34.5,
+        "festival_flag": 0,
+        "demand_kg": 2427
+      },
+      "10": {
+        "avg_market_price": 24.79,
+        "rainfall_mm": 65.3,
+        "temperature_c": 39.1,
+        "festival_flag": 1,
+        "demand_kg": 3271
+      },
+      "11": {
+        "avg_market_price": 24.8,
+        "rainfall_mm": 31.0,
+        "temperature_c": 38.6,
+        "festival_flag": 1,
+        "demand_kg": 3320
+      },
+      "12": {
+        "avg_market_price": 23.09,
+        "rainfall_mm": 7.3,
+        "temperature_c": 38.6,
+        "festival_flag": 0,
+        "demand_kg": 2984
+      }
+    },
+    "Cabbage|Bangalore": {
+      "1": {
+        "avg_market_price": 17.3,
+        "rainfall_mm": 19.4,
+        "temperature_c": 34.0,
+        "festival_flag": 0,
+        "demand_kg": 4263
+      },
+      "2": {
+        "avg_market_price": 16.86,
+        "rainfall_mm": 32.5,
+        "temperature_c": 30.6,
+        "festival_flag": 0,
+        "demand_kg": 4032
+      },
+      "3": {
+        "avg_market_price": 18.94,
+        "rainfall_mm": 30.3,
+        "temperature_c": 25.3,
+        "festival_flag": 0,
+        "demand_kg": 3643
+      },
+      "4": {
+        "avg_market_price": 19.73,
+        "rainfall_mm": 32.6,
+        "temperature_c": 20.7,
+        "festival_flag": 0,
+        "demand_kg": 2905
+      },
+      "5": {
+        "avg_market_price": 17.99,
+        "rainfall_mm": 70.9,
+        "temperature_c": 21.7,
+        "festival_flag": 0,
+        "demand_kg": 2210
+      },
+      "6": {
+        "avg_market_price": 20.48,
+        "rainfall_mm": 155.8,
+        "temperature_c": 21.8,
+        "festival_flag": 0,
+        "demand_kg": 1580
+      },
+      "7": {
+        "avg_market_price": 21.6,
+        "rainfall_mm": 194.4,
+        "temperature_c": 24.9,
+        "festival_flag": 0,
+        "demand_kg": 1346
+      },
+      "8": {
+        "avg_market_price": 19.77,
+        "rainfall_mm": 200.6,
+        "temperature_c": 29.5,
+        "festival_flag": 0,
+        "demand_kg": 1317
+      },
+      "9": {
+        "avg_market_price": 19.6,
+        "rainfall_mm": 143.2,
+        "temperature_c": 35.8,
+        "festival_flag": 0,
+        "demand_kg": 1800
+      },
+      "10": {
+        "avg_market_price": 19.48,
+        "rainfall_mm": 68.4,
+        "temperature_c": 39.8,
+        "festival_flag": 1,
+        "demand_kg": 2901
+      },
+      "11": {
+        "avg_market_price": 19.43,
+        "rainfall_mm": 27.4,
+        "temperature_c": 41.3,
+        "festival_flag": 1,
+        "demand_kg": 3888
+      },
+      "12": {
+        "avg_market_price": 17.48,
+        "rainfall_mm": 19.3,
+        "temperature_c": 35.6,
+        "festival_flag": 0,
+        "demand_kg": 3870
+      }
+    },
+    "Cabbage|Chennai": {
+      "1": {
+        "avg_market_price": 18.03,
+        "rainfall_mm": 24.7,
+        "temperature_c": 34.0,
+        "festival_flag": 0,
+        "demand_kg": 3672
+      },
+      "2": {
+        "avg_market_price": 18.65,
+        "rainfall_mm": 12.8,
+        "temperature_c": 29.9,
+        "festival_flag": 0,
+        "demand_kg": 3740
+      },
+      "3": {
+        "avg_market_price": 16.48,
+        "rainfall_mm": 16.5,
+        "temperature_c": 26.0,
+        "festival_flag": 0,
+        "demand_kg": 3249
+      },
+      "4": {
+        "avg_market_price": 18.43,
+        "rainfall_mm": 19.4,
+        "temperature_c": 21.3,
+        "festival_flag": 0,
+        "demand_kg": 2696
+      },
+      "5": {
+        "avg_market_price": 19.35,
+        "rainfall_mm": 60.8,
+        "temperature_c": 19.8,
+        "festival_flag": 0,
+        "demand_kg": 1903
+      },
+      "6": {
+        "avg_market_price": 20.95,
+        "rainfall_mm": 140.6,
+        "temperature_c": 21.7,
+        "festival_flag": 0,
+        "demand_kg": 1278
+      },
+      "7": {
+        "avg_market_price": 20.05,
+        "rainfall_mm": 204.3,
+        "temperature_c": 25.2,
+        "festival_flag": 0,
+        "demand_kg": 1108
+      },
+      "8": {
+        "avg_market_price": 19.1,
+        "rainfall_mm": 183.6,
+        "temperature_c": 31.0,
+        "festival_flag": 0,
+        "demand_kg": 1058
+      },
+      "9": {
+        "avg_market_price": 19.65,
+        "rainfall_mm": 130.0,
+        "temperature_c": 35.1,
+        "festival_flag": 0,
+        "demand_kg": 1578
+      },
+      "10": {
+        "avg_market_price": 19.05,
+        "rainfall_mm": 64.5,
+        "temperature_c": 37.6,
+        "festival_flag": 1,
+        "demand_kg": 2598
+      },
+      "11": {
+        "avg_market_price": 19.27,
+        "rainfall_mm": 14.7,
+        "temperature_c": 40.0,
+        "festival_flag": 1,
+        "demand_kg": 3461
+      },
+      "12": {
+        "avg_market_price": 19.28,
+        "rainfall_mm": 20.4,
+        "temperature_c": 37.8,
+        "festival_flag": 0,
+        "demand_kg": 3497
+      }
+    },
+    "Cabbage|Delhi": {
+      "1": {
+        "avg_market_price": 19.14,
+        "rainfall_mm": 33.2,
+        "temperature_c": 34.3,
+        "festival_flag": 0,
+        "demand_kg": 4711
+      },
+      "2": {
+        "avg_market_price": 17.79,
+        "rainfall_mm": 27.1,
+        "temperature_c": 31.1,
+        "festival_flag": 0,
+        "demand_kg": 4625
+      },
+      "3": {
+        "avg_market_price": 19.17,
+        "rainfall_mm": 17.8,
+        "temperature_c": 24.6,
+        "festival_flag": 0,
+        "demand_kg": 4155
+      },
+      "4": {
+        "avg_market_price": 20.41,
+        "rainfall_mm": 20.1,
+        "temperature_c": 23.1,
+        "festival_flag": 0,
+        "demand_kg": 3408
+      },
+      "5": {
+        "avg_market_price": 20.09,
+        "rainfall_mm": 58.6,
+        "temperature_c": 21.4,
+        "festival_flag": 0,
+        "demand_kg": 2625
+      },
+      "6": {
+        "avg_market_price": 19.54,
+        "rainfall_mm": 141.4,
+        "temperature_c": 20.8,
+        "festival_flag": 0,
+        "demand_kg": 1833
+      },
+      "7": {
+        "avg_market_price": 20.31,
+        "rainfall_mm": 200.2,
+        "temperature_c": 25.8,
+        "festival_flag": 0,
+        "demand_kg": 1195
+      },
+      "8": {
+        "avg_market_price": 20.7,
+        "rainfall_mm": 198.8,
+        "temperature_c": 31.1,
+        "festival_flag": 0,
+        "demand_kg": 1411
+      },
+      "9": {
+        "avg_market_price": 19.54,
+        "rainfall_mm": 146.6,
+        "temperature_c": 34.8,
+        "festival_flag": 0,
+        "demand_kg": 2091
+      },
+      "10": {
+        "avg_market_price": 19.18,
+        "rainfall_mm": 95.2,
+        "temperature_c": 38.9,
+        "festival_flag": 1,
+        "demand_kg": 3395
+      },
+      "11": {
+        "avg_market_price": 19.54,
+        "rainfall_mm": 23.3,
+        "temperature_c": 39.1,
+        "festival_flag": 1,
+        "demand_kg": 4519
+      },
+      "12": {
+        "avg_market_price": 17.23,
+        "rainfall_mm": 21.9,
+        "temperature_c": 36.7,
+        "festival_flag": 0,
+        "demand_kg": 4464
+      }
+    },
+    "Cabbage|Hyderabad": {
+      "1": {
+        "avg_market_price": 18.89,
+        "rainfall_mm": 18.1,
+        "temperature_c": 34.2,
+        "festival_flag": 0,
+        "demand_kg": 3659
+      },
+      "2": {
+        "avg_market_price": 19.07,
+        "rainfall_mm": 18.9,
+        "temperature_c": 28.3,
+        "festival_flag": 0,
+        "demand_kg": 3767
+      },
+      "3": {
+        "avg_market_price": 18.36,
+        "rainfall_mm": 29.8,
+        "temperature_c": 23.2,
+        "festival_flag": 0,
+        "demand_kg": 3322
+      },
+      "4": {
+        "avg_market_price": 20.09,
+        "rainfall_mm": 15.4,
+        "temperature_c": 20.8,
+        "festival_flag": 0,
+        "demand_kg": 2706
+      },
+      "5": {
+        "avg_market_price": 18.96,
+        "rainfall_mm": 85.8,
+        "temperature_c": 22.3,
+        "festival_flag": 0,
+        "demand_kg": 1942
+      },
+      "6": {
+        "avg_market_price": 19.05,
+        "rainfall_mm": 131.3,
+        "temperature_c": 23.2,
+        "festival_flag": 0,
+        "demand_kg": 1463
+      },
+      "7": {
+        "avg_market_price": 20.25,
+        "rainfall_mm": 190.2,
+        "temperature_c": 24.6,
+        "festival_flag": 0,
+        "demand_kg": 1184
+      },
+      "8": {
+        "avg_market_price": 19.92,
+        "rainfall_mm": 185.7,
+        "temperature_c": 30.1,
+        "festival_flag": 0,
+        "demand_kg": 1350
+      },
+      "9": {
+        "avg_market_price": 19.86,
+        "rainfall_mm": 136.2,
+        "temperature_c": 34.7,
+        "festival_flag": 0,
+        "demand_kg": 1579
+      },
+      "10": {
+        "avg_market_price": 19.18,
+        "rainfall_mm": 78.2,
+        "temperature_c": 39.2,
+        "festival_flag": 1,
+        "demand_kg": 2774
+      },
+      "11": {
+        "avg_market_price": 17.74,
+        "rainfall_mm": 21.8,
+        "temperature_c": 38.3,
+        "festival_flag": 1,
+        "demand_kg": 3718
+      },
+      "12": {
+        "avg_market_price": 18.05,
+        "rainfall_mm": 15.5,
+        "temperature_c": 37.1,
+        "festival_flag": 0,
+        "demand_kg": 3757
+      }
+    },
+    "Cabbage|Kolkata": {
+      "1": {
+        "avg_market_price": 19.44,
+        "rainfall_mm": 23.5,
+        "temperature_c": 35.6,
+        "festival_flag": 0,
+        "demand_kg": 3855
+      },
+      "2": {
+        "avg_market_price": 18.77,
+        "rainfall_mm": 20.6,
+        "temperature_c": 30.3,
+        "festival_flag": 0,
+        "demand_kg": 3852
+      },
+      "3": {
+        "avg_market_price": 20.18,
+        "rainfall_mm": 20.0,
+        "temperature_c": 26.2,
+        "festival_flag": 0,
+        "demand_kg": 3436
+      },
+      "4": {
+        "avg_market_price": 19.53,
+        "rainfall_mm": 29.2,
+        "temperature_c": 22.4,
+        "festival_flag": 0,
+        "demand_kg": 2812
+      },
+      "5": {
+        "avg_market_price": 20.73,
+        "rainfall_mm": 80.1,
+        "temperature_c": 21.0,
+        "festival_flag": 0,
+        "demand_kg": 2024
+      },
+      "6": {
+        "avg_market_price": 20.34,
+        "rainfall_mm": 148.8,
+        "temperature_c": 23.2,
+        "festival_flag": 0,
+        "demand_kg": 1385
+      },
+      "7": {
+        "avg_market_price": 20.68,
+        "rainfall_mm": 194.2,
+        "temperature_c": 26.2,
+        "festival_flag": 0,
+        "demand_kg": 1192
+      },
+      "8": {
+        "avg_market_price": 19.94,
+        "rainfall_mm": 192.7,
+        "temperature_c": 30.2,
+        "festival_flag": 0,
+        "demand_kg": 1184
+      },
+      "9": {
+        "avg_market_price": 21.11,
+        "rainfall_mm": 149.7,
+        "temperature_c": 34.6,
+        "festival_flag": 0,
+        "demand_kg": 1777
+      },
+      "10": {
+        "avg_market_price": 17.86,
+        "rainfall_mm": 77.1,
+        "temperature_c": 38.9,
+        "festival_flag": 1,
+        "demand_kg": 2933
+      },
+      "11": {
+        "avg_market_price": 18.33,
+        "rainfall_mm": 13.9,
+        "temperature_c": 39.6,
+        "festival_flag": 1,
+        "demand_kg": 3729
+      },
+      "12": {
+        "avg_market_price": 17.81,
+        "rainfall_mm": 24.0,
+        "temperature_c": 36.2,
+        "festival_flag": 0,
+        "demand_kg": 3811
+      }
+    },
+    "Cabbage|Mumbai": {
+      "1": {
+        "avg_market_price": 18.33,
+        "rainfall_mm": 23.1,
+        "temperature_c": 34.5,
+        "festival_flag": 0,
+        "demand_kg": 4826
+      },
+      "2": {
+        "avg_market_price": 17.76,
+        "rainfall_mm": 12.3,
+        "temperature_c": 31.4,
+        "festival_flag": 0,
+        "demand_kg": 4820
+      },
+      "3": {
+        "avg_market_price": 18.76,
+        "rainfall_mm": 19.9,
+        "temperature_c": 24.9,
+        "festival_flag": 0,
+        "demand_kg": 4366
+      },
+      "4": {
+        "avg_market_price": 18.51,
+        "rainfall_mm": 33.7,
+        "temperature_c": 22.9,
+        "festival_flag": 0,
+        "demand_kg": 3426
+      },
+      "5": {
+        "avg_market_price": 21.59,
+        "rainfall_mm": 71.1,
+        "temperature_c": 21.9,
+        "festival_flag": 0,
+        "demand_kg": 2479
+      },
+      "6": {
+        "avg_market_price": 20.51,
+        "rainfall_mm": 139.5,
+        "temperature_c": 20.8,
+        "festival_flag": 0,
+        "demand_kg": 1924
+      },
+      "7": {
+        "avg_market_price": 20.19,
+        "rainfall_mm": 188.1,
+        "temperature_c": 25.6,
+        "festival_flag": 0,
+        "demand_kg": 1304
+      },
+      "8": {
+        "avg_market_price": 19.34,
+        "rainfall_mm": 193.2,
+        "temperature_c": 29.6,
+        "festival_flag": 0,
+        "demand_kg": 1594
+      },
+      "9": {
+        "avg_market_price": 19.52,
+        "rainfall_mm": 136.5,
+        "temperature_c": 35.4,
+        "festival_flag": 0,
+        "demand_kg": 2083
+      },
+      "10": {
+        "avg_market_price": 18.02,
+        "rainfall_mm": 56.8,
+        "temperature_c": 37.1,
+        "festival_flag": 1,
+        "demand_kg": 3462
+      },
+      "11": {
+        "avg_market_price": 17.85,
+        "rainfall_mm": 38.0,
+        "temperature_c": 37.9,
+        "festival_flag": 1,
+        "demand_kg": 4444
+      },
+      "12": {
+        "avg_market_price": 17.59,
+        "rainfall_mm": 30.2,
+        "temperature_c": 40.2,
+        "festival_flag": 0,
+        "demand_kg": 4646
+      }
+    },
+    "Cabbage|Patna": {
+      "1": {
+        "avg_market_price": 16.96,
+        "rainfall_mm": 28.2,
+        "temperature_c": 32.1,
+        "festival_flag": 0,
+        "demand_kg": 2787
+      },
+      "2": {
+        "avg_market_price": 17.51,
+        "rainfall_mm": 22.4,
+        "temperature_c": 30.3,
+        "festival_flag": 0,
+        "demand_kg": 2773
+      },
+      "3": {
+        "avg_market_price": 19.3,
+        "rainfall_mm": 9.6,
+        "temperature_c": 24.4,
+        "festival_flag": 0,
+        "demand_kg": 2387
+      },
+      "4": {
+        "avg_market_price": 19.63,
+        "rainfall_mm": 4.6,
+        "temperature_c": 22.5,
+        "festival_flag": 0,
+        "demand_kg": 1953
+      },
+      "5": {
+        "avg_market_price": 19.53,
+        "rainfall_mm": 68.2,
+        "temperature_c": 22.0,
+        "festival_flag": 0,
+        "demand_kg": 1561
+      },
+      "6": {
+        "avg_market_price": 20.85,
+        "rainfall_mm": 138.2,
+        "temperature_c": 22.4,
+        "festival_flag": 0,
+        "demand_kg": 1067
+      },
+      "7": {
+        "avg_market_price": 19.89,
+        "rainfall_mm": 197.8,
+        "temperature_c": 25.8,
+        "festival_flag": 0,
+        "demand_kg": 805
+      },
+      "8": {
+        "avg_market_price": 19.43,
+        "rainfall_mm": 197.4,
+        "temperature_c": 29.4,
+        "festival_flag": 0,
+        "demand_kg": 801
+      },
+      "9": {
+        "avg_market_price": 17.77,
+        "rainfall_mm": 152.4,
+        "temperature_c": 33.3,
+        "festival_flag": 0,
+        "demand_kg": 1050
+      },
+      "10": {
+        "avg_market_price": 20.61,
+        "rainfall_mm": 66.9,
+        "temperature_c": 37.7,
+        "festival_flag": 1,
+        "demand_kg": 1893
+      },
+      "11": {
+        "avg_market_price": 19.22,
+        "rainfall_mm": 23.9,
+        "temperature_c": 38.7,
+        "festival_flag": 1,
+        "demand_kg": 2622
+      },
+      "12": {
+        "avg_market_price": 19.02,
+        "rainfall_mm": 27.8,
+        "temperature_c": 37.2,
+        "festival_flag": 0,
+        "demand_kg": 2671
+      }
+    },
+    "Cabbage|Pune": {
+      "1": {
+        "avg_market_price": 17.88,
+        "rainfall_mm": 33.9,
+        "temperature_c": 33.8,
+        "festival_flag": 0,
+        "demand_kg": 3554
+      },
+      "2": {
+        "avg_market_price": 17.54,
+        "rainfall_mm": 5.7,
+        "temperature_c": 31.3,
+        "festival_flag": 0,
+        "demand_kg": 3644
+      },
+      "3": {
+        "avg_market_price": 19.13,
+        "rainfall_mm": 12.9,
+        "temperature_c": 25.0,
+        "festival_flag": 0,
+        "demand_kg": 3470
+      },
+      "4": {
+        "avg_market_price": 18.54,
+        "rainfall_mm": 17.3,
+        "temperature_c": 21.2,
+        "festival_flag": 0,
+        "demand_kg": 2721
+      },
+      "5": {
+        "avg_market_price": 20.16,
+        "rainfall_mm": 77.0,
+        "temperature_c": 20.5,
+        "festival_flag": 0,
+        "demand_kg": 2028
+      },
+      "6": {
+        "avg_market_price": 19.6,
+        "rainfall_mm": 143.0,
+        "temperature_c": 21.4,
+        "festival_flag": 0,
+        "demand_kg": 1186
+      },
+      "7": {
+        "avg_market_price": 21.26,
+        "rainfall_mm": 207.5,
+        "temperature_c": 27.2,
+        "festival_flag": 0,
+        "demand_kg": 769
+      },
+      "8": {
+        "avg_market_price": 22.14,
+        "rainfall_mm": 201.2,
+        "temperature_c": 28.2,
+        "festival_flag": 0,
+        "demand_kg": 982
+      },
+      "9": {
+        "avg_market_price": 18.51,
+        "rainfall_mm": 145.8,
+        "temperature_c": 33.3,
+        "festival_flag": 0,
+        "demand_kg": 1424
+      },
+      "10": {
+        "avg_market_price": 18.88,
+        "rainfall_mm": 65.9,
+        "temperature_c": 36.8,
+        "festival_flag": 1,
+        "demand_kg": 2591
+      },
+      "11": {
+        "avg_market_price": 18.69,
+        "rainfall_mm": 28.8,
+        "temperature_c": 36.9,
+        "festival_flag": 1,
+        "demand_kg": 3475
+      },
+      "12": {
+        "avg_market_price": 19.2,
+        "rainfall_mm": 35.3,
+        "temperature_c": 37.6,
+        "festival_flag": 0,
+        "demand_kg": 3613
+      }
+    },
+    "Carrot|Bangalore": {
+      "1": {
+        "avg_market_price": 35.23,
+        "rainfall_mm": 20.7,
+        "temperature_c": 34.1,
+        "festival_flag": 0,
+        "demand_kg": 4285
+      },
+      "2": {
+        "avg_market_price": 37.12,
+        "rainfall_mm": 19.9,
+        "temperature_c": 28.8,
+        "festival_flag": 0,
+        "demand_kg": 3740
+      },
+      "3": {
+        "avg_market_price": 38.75,
+        "rainfall_mm": 18.0,
+        "temperature_c": 26.0,
+        "festival_flag": 0,
+        "demand_kg": 2972
+      },
+      "4": {
+        "avg_market_price": 37.89,
+        "rainfall_mm": 28.0,
+        "temperature_c": 22.4,
+        "festival_flag": 0,
+        "demand_kg": 2426
+      },
+      "5": {
+        "avg_market_price": 39.43,
+        "rainfall_mm": 59.4,
+        "temperature_c": 22.5,
+        "festival_flag": 0,
+        "demand_kg": 1734
+      },
+      "6": {
+        "avg_market_price": 40.51,
+        "rainfall_mm": 145.4,
+        "temperature_c": 21.8,
+        "festival_flag": 0,
+        "demand_kg": 1547
+      },
+      "7": {
+        "avg_market_price": 39.4,
+        "rainfall_mm": 193.8,
+        "temperature_c": 26.1,
+        "festival_flag": 0,
+        "demand_kg": 1515
+      },
+      "8": {
+        "avg_market_price": 38.96,
+        "rainfall_mm": 194.5,
+        "temperature_c": 30.1,
+        "festival_flag": 0,
+        "demand_kg": 1914
+      },
+      "9": {
+        "avg_market_price": 36.77,
+        "rainfall_mm": 153.3,
+        "temperature_c": 34.3,
+        "festival_flag": 0,
+        "demand_kg": 2746
+      },
+      "10": {
+        "avg_market_price": 36.5,
+        "rainfall_mm": 68.8,
+        "temperature_c": 39.2,
+        "festival_flag": 1,
+        "demand_kg": 3966
+      },
+      "11": {
+        "avg_market_price": 35.84,
+        "rainfall_mm": 10.5,
+        "temperature_c": 38.0,
+        "festival_flag": 1,
+        "demand_kg": 5067
+      },
+      "12": {
+        "avg_market_price": 35.45,
+        "rainfall_mm": 22.6,
+        "temperature_c": 38.3,
+        "festival_flag": 0,
+        "demand_kg": 4562
+      }
+    },
+    "Carrot|Chennai": {
+      "1": {
+        "avg_market_price": 36.47,
+        "rainfall_mm": 34.5,
+        "temperature_c": 34.0,
+        "festival_flag": 0,
+        "demand_kg": 3685
+      },
+      "2": {
+        "avg_market_price": 35.65,
+        "rainfall_mm": 38.7,
+        "temperature_c": 29.6,
+        "festival_flag": 0,
+        "demand_kg": 3253
+      },
+      "3": {
+        "avg_market_price": 37.73,
+        "rainfall_mm": 26.9,
+        "temperature_c": 26.3,
+        "festival_flag": 0,
+        "demand_kg": 2838
+      },
+      "4": {
+        "avg_market_price": 39.97,
+        "rainfall_mm": 28.1,
+        "temperature_c": 21.6,
+        "festival_flag": 0,
+        "demand_kg": 2119
+      },
+      "5": {
+        "avg_market_price": 40.43,
+        "rainfall_mm": 59.6,
+        "temperature_c": 20.4,
+        "festival_flag": 0,
+        "demand_kg": 1584
+      },
+      "6": {
+        "avg_market_price": 41.18,
+        "rainfall_mm": 154.8,
+        "temperature_c": 21.5,
+        "festival_flag": 0,
+        "demand_kg": 1255
+      },
+      "7": {
+        "avg_market_price": 40.57,
+        "rainfall_mm": 189.9,
+        "temperature_c": 25.7,
+        "festival_flag": 0,
+        "demand_kg": 1344
+      },
+      "8": {
+        "avg_market_price": 38.93,
+        "rainfall_mm": 186.9,
+        "temperature_c": 29.4,
+        "festival_flag": 0,
+        "demand_kg": 1661
+      },
+      "9": {
+        "avg_market_price": 37.37,
+        "rainfall_mm": 148.9,
+        "temperature_c": 33.3,
+        "festival_flag": 0,
+        "demand_kg": 2408
+      },
+      "10": {
+        "avg_market_price": 37.49,
+        "rainfall_mm": 58.0,
+        "temperature_c": 38.1,
+        "festival_flag": 1,
+        "demand_kg": 3672
+      },
+      "11": {
+        "avg_market_price": 37.44,
+        "rainfall_mm": 16.8,
+        "temperature_c": 40.0,
+        "festival_flag": 1,
+        "demand_kg": 4372
+      },
+      "12": {
+        "avg_market_price": 35.75,
+        "rainfall_mm": 16.6,
+        "temperature_c": 38.4,
+        "festival_flag": 0,
+        "demand_kg": 4030
+      }
+    },
+    "Carrot|Delhi": {
+      "1": {
+        "avg_market_price": 36.53,
+        "rainfall_mm": 27.1,
+        "temperature_c": 34.0,
+        "festival_flag": 0,
+        "demand_kg": 4635
+      },
+      "2": {
+        "avg_market_price": 36.98,
+        "rainfall_mm": 22.2,
+        "temperature_c": 29.0,
+        "festival_flag": 0,
+        "demand_kg": 3956
+      },
+      "3": {
+        "avg_market_price": 38.38,
+        "rainfall_mm": 22.9,
+        "temperature_c": 27.1,
+        "festival_flag": 0,
+        "demand_kg": 3215
+      },
+      "4": {
+        "avg_market_price": 38.86,
+        "rainfall_mm": 36.2,
+        "temperature_c": 23.5,
+        "festival_flag": 0,
+        "demand_kg": 2501
+      },
+      "5": {
+        "avg_market_price": 39.61,
+        "rainfall_mm": 70.9,
+        "temperature_c": 21.7,
+        "festival_flag": 0,
+        "demand_kg": 1894
+      },
+      "6": {
+        "avg_market_price": 40.75,
+        "rainfall_mm": 133.8,
+        "temperature_c": 22.9,
+        "festival_flag": 0,
+        "demand_kg": 1349
+      },
+      "7": {
+        "avg_market_price": 41.47,
+        "rainfall_mm": 185.4,
+        "temperature_c": 26.0,
+        "festival_flag": 0,
+        "demand_kg": 1540
+      },
+      "8": {
+        "avg_market_price": 39.84,
+        "rainfall_mm": 208.0,
+        "temperature_c": 31.7,
+        "festival_flag": 0,
+        "demand_kg": 2013
+      },
+      "9": {
+        "avg_market_price": 37.52,
+        "rainfall_mm": 153.9,
+        "temperature_c": 35.2,
+        "festival_flag": 0,
+        "demand_kg": 2792
+      },
+      "10": {
+        "avg_market_price": 37.65,
+        "rainfall_mm": 62.1,
+        "temperature_c": 37.8,
+        "festival_flag": 1,
+        "demand_kg": 4521
+      },
+      "11": {
+        "avg_market_price": 36.76,
+        "rainfall_mm": 32.7,
+        "temperature_c": 39.4,
+        "festival_flag": 1,
+        "demand_kg": 5665
+      },
+      "12": {
+        "avg_market_price": 35.12,
+        "rainfall_mm": 12.8,
+        "temperature_c": 38.4,
+        "festival_flag": 0,
+        "demand_kg": 5046
+      }
+    },
+    "Carrot|Hyderabad": {
+      "1": {
+        "avg_market_price": 35.04,
+        "rainfall_mm": 21.9,
+        "temperature_c": 35.1,
+        "festival_flag": 0,
+        "demand_kg": 3934
+      },
+      "2": {
+        "avg_market_price": 37.31,
+        "rainfall_mm": 15.4,
+        "temperature_c": 31.0,
+        "festival_flag": 0,
+        "demand_kg": 3386
+      },
+      "3": {
+        "avg_market_price": 38.88,
+        "rainfall_mm": 11.1,
+        "temperature_c": 24.9,
+        "festival_flag": 0,
+        "demand_kg": 2612
+      },
+      "4": {
+        "avg_market_price": 39.7,
+        "rainfall_mm": 36.4,
+        "temperature_c": 22.1,
+        "festival_flag": 0,
+        "demand_kg": 1918
+      },
+      "5": {
+        "avg_market_price": 40.8,
+        "rainfall_mm": 73.6,
+        "temperature_c": 20.8,
+        "festival_flag": 0,
+        "demand_kg": 1579
+      },
+      "6": {
+        "avg_market_price": 39.72,
+        "rainfall_mm": 126.8,
+        "temperature_c": 24.0,
+        "festival_flag": 0,
+        "demand_kg": 1305
+      },
+      "7": {
+        "avg_market_price": 39.05,
+        "rainfall_mm": 187.4,
+        "temperature_c": 24.1,
+        "festival_flag": 0,
+        "demand_kg": 1217
+      },
+      "8": {
+        "avg_market_price": 38.87,
+        "rainfall_mm": 196.8,
+        "temperature_c": 29.5,
+        "festival_flag": 0,
+        "demand_kg": 1610
+      },
+      "9": {
+        "avg_market_price": 37.0,
+        "rainfall_mm": 154.5,
+        "temperature_c": 33.5,
+        "festival_flag": 0,
+        "demand_kg": 2445
+      },
+      "10": {
+        "avg_market_price": 36.9,
+        "rainfall_mm": 63.7,
+        "temperature_c": 38.5,
+        "festival_flag": 1,
+        "demand_kg": 3996
+      },
+      "11": {
+        "avg_market_price": 36.51,
+        "rainfall_mm": 18.4,
+        "temperature_c": 38.2,
+        "festival_flag": 1,
+        "demand_kg": 4557
+      },
+      "12": {
+        "avg_market_price": 36.64,
+        "rainfall_mm": 19.0,
+        "temperature_c": 37.9,
+        "festival_flag": 0,
+        "demand_kg": 4118
+      }
+    },
+    "Carrot|Kolkata": {
+      "1": {
+        "avg_market_price": 36.46,
+        "rainfall_mm": 27.4,
+        "temperature_c": 34.7,
+        "festival_flag": 0,
+        "demand_kg": 3982
+      },
+      "2": {
+        "avg_market_price": 35.88,
+        "rainfall_mm": 37.9,
+        "temperature_c": 30.0,
+        "festival_flag": 0,
+        "demand_kg": 3544
+      },
+      "3": {
+        "avg_market_price": 38.74,
+        "rainfall_mm": 25.2,
+        "temperature_c": 25.9,
+        "festival_flag": 0,
+        "demand_kg": 2904
+      },
+      "4": {
+        "avg_market_price": 39.55,
+        "rainfall_mm": 10.6,
+        "temperature_c": 23.3,
+        "festival_flag": 0,
+        "demand_kg": 2087
+      },
+      "5": {
+        "avg_market_price": 40.69,
+        "rainfall_mm": 75.5,
+        "temperature_c": 20.5,
+        "festival_flag": 0,
+        "demand_kg": 1709
+      },
+      "6": {
+        "avg_market_price": 40.04,
+        "rainfall_mm": 151.5,
+        "temperature_c": 21.2,
+        "festival_flag": 0,
+        "demand_kg": 1589
+      },
+      "7": {
+        "avg_market_price": 38.85,
+        "rainfall_mm": 198.3,
+        "temperature_c": 25.8,
+        "festival_flag": 0,
+        "demand_kg": 1545
+      },
+      "8": {
+        "avg_market_price": 39.69,
+        "rainfall_mm": 204.2,
+        "temperature_c": 31.2,
+        "festival_flag": 0,
+        "demand_kg": 1896
+      },
+      "9": {
+        "avg_market_price": 37.65,
+        "rainfall_mm": 138.3,
+        "temperature_c": 34.3,
+        "festival_flag": 0,
+        "demand_kg": 2458
+      },
+      "10": {
+        "avg_market_price": 36.12,
+        "rainfall_mm": 70.6,
+        "temperature_c": 37.4,
+        "festival_flag": 1,
+        "demand_kg": 3803
+      },
+      "11": {
+        "avg_market_price": 35.75,
+        "rainfall_mm": 15.5,
+        "temperature_c": 40.3,
+        "festival_flag": 1,
+        "demand_kg": 4735
+      },
+      "12": {
+        "avg_market_price": 35.79,
+        "rainfall_mm": 17.4,
+        "temperature_c": 37.2,
+        "festival_flag": 0,
+        "demand_kg": 4345
+      }
+    },
+    "Carrot|Mumbai": {
+      "1": {
+        "avg_market_price": 35.81,
+        "rainfall_mm": 28.2,
+        "temperature_c": 35.7,
+        "festival_flag": 0,
+        "demand_kg": 4992
+      },
+      "2": {
+        "avg_market_price": 36.25,
+        "rainfall_mm": 24.4,
+        "temperature_c": 30.3,
+        "festival_flag": 0,
+        "demand_kg": 4614
+      },
+      "3": {
+        "avg_market_price": 37.95,
+        "rainfall_mm": 25.4,
+        "temperature_c": 26.3,
+        "festival_flag": 0,
+        "demand_kg": 3728
+      },
+      "4": {
+        "avg_market_price": 38.4,
+        "rainfall_mm": 16.5,
+        "temperature_c": 22.0,
+        "festival_flag": 0,
+        "demand_kg": 2970
+      },
+      "5": {
+        "avg_market_price": 39.83,
+        "rainfall_mm": 71.0,
+        "temperature_c": 19.9,
+        "festival_flag": 0,
+        "demand_kg": 1971
+      },
+      "6": {
+        "avg_market_price": 40.35,
+        "rainfall_mm": 144.1,
+        "temperature_c": 22.2,
+        "festival_flag": 0,
+        "demand_kg": 1810
+      },
+      "7": {
+        "avg_market_price": 39.85,
+        "rainfall_mm": 196.6,
+        "temperature_c": 25.9,
+        "festival_flag": 0,
+        "demand_kg": 1952
+      },
+      "8": {
+        "avg_market_price": 39.37,
+        "rainfall_mm": 194.3,
+        "temperature_c": 31.3,
+        "festival_flag": 0,
+        "demand_kg": 2484
+      },
+      "9": {
+        "avg_market_price": 37.8,
+        "rainfall_mm": 142.3,
+        "temperature_c": 34.8,
+        "festival_flag": 0,
+        "demand_kg": 3131
+      },
+      "10": {
+        "avg_market_price": 36.66,
+        "rainfall_mm": 74.2,
+        "temperature_c": 38.4,
+        "festival_flag": 1,
+        "demand_kg": 4722
+      },
+      "11": {
+        "avg_market_price": 36.27,
+        "rainfall_mm": 24.0,
+        "temperature_c": 41.3,
+        "festival_flag": 1,
+        "demand_kg": 5717
+      },
+      "12": {
+        "avg_market_price": 36.47,
+        "rainfall_mm": 5.3,
+        "temperature_c": 36.0,
+        "festival_flag": 0,
+        "demand_kg": 5346
+      }
+    },
+    "Carrot|Patna": {
+      "1": {
+        "avg_market_price": 35.68,
+        "rainfall_mm": 20.6,
+        "temperature_c": 35.8,
+        "festival_flag": 0,
+        "demand_kg": 2782
+      },
+      "2": {
+        "avg_market_price": 36.78,
+        "rainfall_mm": 26.5,
+        "temperature_c": 30.4,
+        "festival_flag": 0,
+        "demand_kg": 2592
+      },
+      "3": {
+        "avg_market_price": 39.29,
+        "rainfall_mm": 22.1,
+        "temperature_c": 25.1,
+        "festival_flag": 0,
+        "demand_kg": 2022
+      },
+      "4": {
+        "avg_market_price": 39.34,
+        "rainfall_mm": 15.3,
+        "temperature_c": 24.2,
+        "festival_flag": 0,
+        "demand_kg": 1548
+      },
+      "5": {
+        "avg_market_price": 39.93,
+        "rainfall_mm": 69.0,
+        "temperature_c": 20.3,
+        "festival_flag": 0,
+        "demand_kg": 990
+      },
+      "6": {
+        "avg_market_price": 39.5,
+        "rainfall_mm": 145.5,
+        "temperature_c": 22.0,
+        "festival_flag": 0,
+        "demand_kg": 927
+      },
+      "7": {
+        "avg_market_price": 40.94,
+        "rainfall_mm": 185.4,
+        "temperature_c": 24.9,
+        "festival_flag": 0,
+        "demand_kg": 973
+      },
+      "8": {
+        "avg_market_price": 38.54,
+        "rainfall_mm": 201.0,
+        "temperature_c": 29.5,
+        "festival_flag": 0,
+        "demand_kg": 1300
+      },
+      "9": {
+        "avg_market_price": 39.0,
+        "rainfall_mm": 144.2,
+        "temperature_c": 34.9,
+        "festival_flag": 0,
+        "demand_kg": 1787
+      },
+      "10": {
+        "avg_market_price": 36.96,
+        "rainfall_mm": 72.5,
+        "temperature_c": 37.1,
+        "festival_flag": 1,
+        "demand_kg": 2764
+      },
+      "11": {
+        "avg_market_price": 36.71,
+        "rainfall_mm": 22.9,
+        "temperature_c": 39.1,
+        "festival_flag": 1,
+        "demand_kg": 3241
+      },
+      "12": {
+        "avg_market_price": 36.49,
+        "rainfall_mm": 37.0,
+        "temperature_c": 37.7,
+        "festival_flag": 0,
+        "demand_kg": 3031
+      }
+    },
+    "Carrot|Pune": {
+      "1": {
+        "avg_market_price": 34.96,
+        "rainfall_mm": 25.5,
+        "temperature_c": 34.6,
+        "festival_flag": 0,
+        "demand_kg": 3877
+      },
+      "2": {
+        "avg_market_price": 37.29,
+        "rainfall_mm": 10.1,
+        "temperature_c": 28.9,
+        "festival_flag": 0,
+        "demand_kg": 3489
+      },
+      "3": {
+        "avg_market_price": 38.23,
+        "rainfall_mm": 21.8,
+        "temperature_c": 25.1,
+        "festival_flag": 0,
+        "demand_kg": 2720
+      },
+      "4": {
+        "avg_market_price": 39.08,
+        "rainfall_mm": 17.2,
+        "temperature_c": 20.1,
+        "festival_flag": 0,
+        "demand_kg": 1880
+      },
+      "5": {
+        "avg_market_price": 40.11,
+        "rainfall_mm": 58.1,
+        "temperature_c": 21.6,
+        "festival_flag": 0,
+        "demand_kg": 1501
+      },
+      "6": {
+        "avg_market_price": 40.73,
+        "rainfall_mm": 138.3,
+        "temperature_c": 23.0,
+        "festival_flag": 0,
+        "demand_kg": 1289
+      },
+      "7": {
+        "avg_market_price": 40.75,
+        "rainfall_mm": 189.6,
+        "temperature_c": 25.4,
+        "festival_flag": 0,
+        "demand_kg": 1283
+      },
+      "8": {
+        "avg_market_price": 39.73,
+        "rainfall_mm": 202.3,
+        "temperature_c": 31.1,
+        "festival_flag": 0,
+        "demand_kg": 1550
+      },
+      "9": {
+        "avg_market_price": 37.93,
+        "rainfall_mm": 138.6,
+        "temperature_c": 34.0,
+        "festival_flag": 0,
+        "demand_kg": 2220
+      },
+      "10": {
+        "avg_market_price": 35.58,
+        "rainfall_mm": 64.0,
+        "temperature_c": 36.5,
+        "festival_flag": 1,
+        "demand_kg": 3763
+      },
+      "11": {
+        "avg_market_price": 36.95,
+        "rainfall_mm": 25.8,
+        "temperature_c": 38.7,
+        "festival_flag": 1,
+        "demand_kg": 4427
+      },
+      "12": {
+        "avg_market_price": 35.17,
+        "rainfall_mm": 28.0,
+        "temperature_c": 37.5,
+        "festival_flag": 0,
+        "demand_kg": 4115
+      }
+    },
+    "Cauliflower|Bangalore": {
+      "1": {
+        "avg_market_price": 28.63,
+        "rainfall_mm": 32.8,
+        "temperature_c": 35.0,
+        "festival_flag": 0,
+        "demand_kg": 4107
+      },
+      "2": {
+        "avg_market_price": 28.65,
+        "rainfall_mm": 20.7,
+        "temperature_c": 31.3,
+        "festival_flag": 0,
+        "demand_kg": 3492
+      },
+      "3": {
+        "avg_market_price": 29.92,
+        "rainfall_mm": 14.8,
+        "temperature_c": 26.4,
+        "festival_flag": 0,
+        "demand_kg": 2599
+      },
+      "4": {
+        "avg_market_price": 30.75,
+        "rainfall_mm": 23.8,
+        "temperature_c": 22.0,
+        "festival_flag": 0,
+        "demand_kg": 1717
+      },
+      "5": {
+        "avg_market_price": 32.38,
+        "rainfall_mm": 68.3,
+        "temperature_c": 20.8,
+        "festival_flag": 0,
+        "demand_kg": 980
+      },
+      "6": {
+        "avg_market_price": 31.5,
+        "rainfall_mm": 128.8,
+        "temperature_c": 21.6,
+        "festival_flag": 0,
+        "demand_kg": 750
+      },
+      "7": {
+        "avg_market_price": 30.66,
+        "rainfall_mm": 185.7,
+        "temperature_c": 22.9,
+        "festival_flag": 0,
+        "demand_kg": 853
+      },
+      "8": {
+        "avg_market_price": 29.54,
+        "rainfall_mm": 197.0,
+        "temperature_c": 30.0,
+        "festival_flag": 0,
+        "demand_kg": 1564
+      },
+      "9": {
+        "avg_market_price": 30.48,
+        "rainfall_mm": 131.8,
+        "temperature_c": 35.2,
+        "festival_flag": 0,
+        "demand_kg": 2289
+      },
+      "10": {
+        "avg_market_price": 28.51,
+        "rainfall_mm": 58.1,
+        "temperature_c": 38.7,
+        "festival_flag": 1,
+        "demand_kg": 3677
+      },
+      "11": {
+        "avg_market_price": 28.76,
+        "rainfall_mm": 17.3,
+        "temperature_c": 41.1,
+        "festival_flag": 1,
+        "demand_kg": 4590
+      },
+      "12": {
+        "avg_market_price": 27.65,
+        "rainfall_mm": 28.9,
+        "temperature_c": 36.6,
+        "festival_flag": 0,
+        "demand_kg": 4338
+      }
+    },
+    "Cauliflower|Chennai": {
+      "1": {
+        "avg_market_price": 27.16,
+        "rainfall_mm": 30.1,
+        "temperature_c": 34.5,
+        "festival_flag": 0,
+        "demand_kg": 3459
+      },
+      "2": {
+        "avg_market_price": 29.45,
+        "rainfall_mm": 10.5,
+        "temperature_c": 29.7,
+        "festival_flag": 0,
+        "demand_kg": 3034
+      },
+      "3": {
+        "avg_market_price": 29.42,
+        "rainfall_mm": 19.0,
+        "temperature_c": 26.4,
+        "festival_flag": 0,
+        "demand_kg": 2468
+      },
+      "4": {
+        "avg_market_price": 30.26,
+        "rainfall_mm": 9.1,
+        "temperature_c": 22.5,
+        "festival_flag": 0,
+        "demand_kg": 1681
+      },
+      "5": {
+        "avg_market_price": 30.36,
+        "rainfall_mm": 52.3,
+        "temperature_c": 19.7,
+        "festival_flag": 0,
+        "demand_kg": 927
+      },
+      "6": {
+        "avg_market_price": 30.01,
+        "rainfall_mm": 153.9,
+        "temperature_c": 22.2,
+        "festival_flag": 0,
+        "demand_kg": 544
+      },
+      "7": {
+        "avg_market_price": 29.86,
+        "rainfall_mm": 191.5,
+        "temperature_c": 26.3,
+        "festival_flag": 0,
+        "demand_kg": 659
+      },
+      "8": {
+        "avg_market_price": 31.22,
+        "rainfall_mm": 194.6,
+        "temperature_c": 31.2,
+        "festival_flag": 0,
+        "demand_kg": 1083
+      },
+      "9": {
+        "avg_market_price": 30.0,
+        "rainfall_mm": 139.0,
+        "temperature_c": 34.4,
+        "festival_flag": 0,
+        "demand_kg": 1894
+      },
+      "10": {
+        "avg_market_price": 28.37,
+        "rainfall_mm": 65.7,
+        "temperature_c": 38.4,
+        "festival_flag": 1,
+        "demand_kg": 3330
+      },
+      "11": {
+        "avg_market_price": 29.21,
+        "rainfall_mm": 12.1,
+        "temperature_c": 39.2,
+        "festival_flag": 1,
+        "demand_kg": 3941
+      },
+      "12": {
+        "avg_market_price": 26.9,
+        "rainfall_mm": 26.0,
+        "temperature_c": 37.0,
+        "festival_flag": 0,
+        "demand_kg": 3843
+      }
+    },
+    "Cauliflower|Delhi": {
+      "1": {
+        "avg_market_price": 28.22,
+        "rainfall_mm": 16.2,
+        "temperature_c": 34.6,
+        "festival_flag": 0,
+        "demand_kg": 4280
+      },
+      "2": {
+        "avg_market_price": 28.96,
+        "rainfall_mm": 36.8,
+        "temperature_c": 30.7,
+        "festival_flag": 0,
+        "demand_kg": 3845
+      },
+      "3": {
+        "avg_market_price": 30.11,
+        "rainfall_mm": 7.9,
+        "temperature_c": 25.9,
+        "festival_flag": 0,
+        "demand_kg": 2846
+      },
+      "4": {
+        "avg_market_price": 31.62,
+        "rainfall_mm": 24.9,
+        "temperature_c": 22.1,
+        "festival_flag": 0,
+        "demand_kg": 2120
+      },
+      "5": {
+        "avg_market_price": 31.23,
+        "rainfall_mm": 63.8,
+        "temperature_c": 20.1,
+        "festival_flag": 0,
+        "demand_kg": 1307
+      },
+      "6": {
+        "avg_market_price": 32.34,
+        "rainfall_mm": 141.0,
+        "temperature_c": 20.9,
+        "festival_flag": 0,
+        "demand_kg": 952
+      },
+      "7": {
+        "avg_market_price": 32.73,
+        "rainfall_mm": 190.3,
+        "temperature_c": 25.0,
+        "festival_flag": 0,
+        "demand_kg": 1165
+      },
+      "8": {
+        "avg_market_price": 30.42,
+        "rainfall_mm": 203.5,
+        "temperature_c": 30.7,
+        "festival_flag": 0,
+        "demand_kg": 1653
+      },
+      "9": {
+        "avg_market_price": 30.17,
+        "rainfall_mm": 142.6,
+        "temperature_c": 33.9,
+        "festival_flag": 0,
+        "demand_kg": 2465
+      },
+      "10": {
+        "avg_market_price": 27.98,
+        "rainfall_mm": 75.8,
+        "temperature_c": 37.4,
+        "festival_flag": 1,
+        "demand_kg": 4085
+      },
+      "11": {
+        "avg_market_price": 28.95,
+        "rainfall_mm": 17.9,
+        "temperature_c": 37.8,
+        "festival_flag": 1,
+        "demand_kg": 4974
+      },
+      "12": {
+        "avg_market_price": 27.44,
+        "rainfall_mm": 18.8,
+        "temperature_c": 36.4,
+        "festival_flag": 0,
+        "demand_kg": 4782
+      }
+    },
+    "Cauliflower|Hyderabad": {
+      "1": {
+        "avg_market_price": 27.95,
+        "rainfall_mm": 24.6,
+        "temperature_c": 33.7,
+        "festival_flag": 0,
+        "demand_kg": 3521
+      },
+      "2": {
+        "avg_market_price": 28.61,
+        "rainfall_mm": 19.3,
+        "temperature_c": 30.3,
+        "festival_flag": 0,
+        "demand_kg": 3369
+      },
+      "3": {
+        "avg_market_price": 30.36,
+        "rainfall_mm": 22.3,
+        "temperature_c": 27.4,
+        "festival_flag": 0,
+        "demand_kg": 2447
+      },
+      "4": {
+        "avg_market_price": 30.93,
+        "rainfall_mm": 1.7,
+        "temperature_c": 22.3,
+        "festival_flag": 0,
+        "demand_kg": 1601
+      },
+      "5": {
+        "avg_market_price": 29.56,
+        "rainfall_mm": 62.8,
+        "temperature_c": 23.2,
+        "festival_flag": 0,
+        "demand_kg": 1059
+      },
+      "6": {
+        "avg_market_price": 33.04,
+        "rainfall_mm": 137.5,
+        "temperature_c": 21.9,
+        "festival_flag": 0,
+        "demand_kg": 883
+      },
+      "7": {
+        "avg_market_price": 30.81,
+        "rainfall_mm": 189.7,
+        "temperature_c": 25.0,
+        "festival_flag": 0,
+        "demand_kg": 667
+      },
+      "8": {
+        "avg_market_price": 30.87,
+        "rainfall_mm": 184.8,
+        "temperature_c": 32.1,
+        "festival_flag": 0,
+        "demand_kg": 1090
+      },
+      "9": {
+        "avg_market_price": 30.31,
+        "rainfall_mm": 143.5,
+        "temperature_c": 33.5,
+        "festival_flag": 0,
+        "demand_kg": 1850
+      },
+      "10": {
+        "avg_market_price": 29.58,
+        "rainfall_mm": 78.6,
+        "temperature_c": 39.3,
+        "festival_flag": 1,
+        "demand_kg": 3310
+      },
+      "11": {
+        "avg_market_price": 28.51,
+        "rainfall_mm": 16.4,
+        "temperature_c": 38.9,
+        "festival_flag": 1,
+        "demand_kg": 4174
+      },
+      "12": {
+        "avg_market_price": 28.85,
+        "rainfall_mm": 15.0,
+        "temperature_c": 36.8,
+        "festival_flag": 0,
+        "demand_kg": 3932
+      }
+    },
+    "Cauliflower|Kolkata": {
+      "1": {
+        "avg_market_price": 27.25,
+        "rainfall_mm": 26.5,
+        "temperature_c": 36.4,
+        "festival_flag": 0,
+        "demand_kg": 3729
+      },
+      "2": {
+        "avg_market_price": 28.45,
+        "rainfall_mm": 23.9,
+        "temperature_c": 29.6,
+        "festival_flag": 0,
+        "demand_kg": 3362
+      },
+      "3": {
+        "avg_market_price": 30.85,
+        "rainfall_mm": 19.7,
+        "temperature_c": 24.1,
+        "festival_flag": 0,
+        "demand_kg": 2616
+      },
+      "4": {
+        "avg_market_price": 29.11,
+        "rainfall_mm": 13.4,
+        "temperature_c": 19.9,
+        "festival_flag": 0,
+        "demand_kg": 1880
+      },
+      "5": {
+        "avg_market_price": 31.73,
+        "rainfall_mm": 67.8,
+        "temperature_c": 19.7,
+        "festival_flag": 0,
+        "demand_kg": 1151
+      },
+      "6": {
+        "avg_market_price": 30.66,
+        "rainfall_mm": 143.3,
+        "temperature_c": 22.7,
+        "festival_flag": 0,
+        "demand_kg": 741
+      },
+      "7": {
+        "avg_market_price": 31.19,
+        "rainfall_mm": 209.8,
+        "temperature_c": 24.3,
+        "festival_flag": 0,
+        "demand_kg": 842
+      },
+      "8": {
+        "avg_market_price": 31.73,
+        "rainfall_mm": 195.9,
+        "temperature_c": 30.9,
+        "festival_flag": 0,
+        "demand_kg": 1285
+      },
+      "9": {
+        "avg_market_price": 29.6,
+        "rainfall_mm": 144.8,
+        "temperature_c": 36.2,
+        "festival_flag": 0,
+        "demand_kg": 2109
+      },
+      "10": {
+        "avg_market_price": 28.04,
+        "rainfall_mm": 56.1,
+        "temperature_c": 37.2,
+        "festival_flag": 1,
+        "demand_kg": 3415
+      },
+      "11": {
+        "avg_market_price": 29.33,
+        "rainfall_mm": 25.5,
+        "temperature_c": 38.2,
+        "festival_flag": 1,
+        "demand_kg": 4365
+      },
+      "12": {
+        "avg_market_price": 27.35,
+        "rainfall_mm": 32.5,
+        "temperature_c": 38.1,
+        "festival_flag": 0,
+        "demand_kg": 3979
+      }
+    },
+    "Cauliflower|Mumbai": {
+      "1": {
+        "avg_market_price": 27.66,
+        "rainfall_mm": 11.6,
+        "temperature_c": 35.0,
+        "festival_flag": 0,
+        "demand_kg": 4724
+      },
+      "2": {
+        "avg_market_price": 27.61,
+        "rainfall_mm": 13.8,
+        "temperature_c": 29.6,
+        "festival_flag": 0,
+        "demand_kg": 4228
+      },
+      "3": {
+        "avg_market_price": 30.41,
+        "rainfall_mm": 19.3,
+        "temperature_c": 24.7,
+        "festival_flag": 0,
+        "demand_kg": 3220
+      },
+      "4": {
+        "avg_market_price": 31.26,
+        "rainfall_mm": 14.4,
+        "temperature_c": 21.0,
+        "festival_flag": 0,
+        "demand_kg": 2352
+      },
+      "5": {
+        "avg_market_price": 31.07,
+        "rainfall_mm": 88.4,
+        "temperature_c": 21.0,
+        "festival_flag": 0,
+        "demand_kg": 1352
+      },
+      "6": {
+        "avg_market_price": 31.8,
+        "rainfall_mm": 136.1,
+        "temperature_c": 22.4,
+        "festival_flag": 0,
+        "demand_kg": 961
+      },
+      "7": {
+        "avg_market_price": 30.33,
+        "rainfall_mm": 193.2,
+        "temperature_c": 25.9,
+        "festival_flag": 0,
+        "demand_kg": 1144
+      },
+      "8": {
+        "avg_market_price": 30.84,
+        "rainfall_mm": 206.5,
+        "temperature_c": 31.3,
+        "festival_flag": 0,
+        "demand_kg": 1683
+      },
+      "9": {
+        "avg_market_price": 29.05,
+        "rainfall_mm": 144.0,
+        "temperature_c": 34.2,
+        "festival_flag": 0,
+        "demand_kg": 2882
+      },
+      "10": {
+        "avg_market_price": 28.66,
+        "rainfall_mm": 70.9,
+        "temperature_c": 37.7,
+        "festival_flag": 1,
+        "demand_kg": 4225
+      },
+      "11": {
+        "avg_market_price": 26.93,
+        "rainfall_mm": 19.5,
+        "temperature_c": 39.4,
+        "festival_flag": 1,
+        "demand_kg": 5401
+      },
+      "12": {
+        "avg_market_price": 28.28,
+        "rainfall_mm": 18.7,
+        "temperature_c": 37.5,
+        "festival_flag": 0,
+        "demand_kg": 5124
+      }
+    },
+    "Cauliflower|Patna": {
+      "1": {
+        "avg_market_price": 27.98,
+        "rainfall_mm": 10.0,
+        "temperature_c": 35.4,
+        "festival_flag": 0,
+        "demand_kg": 2645
+      },
+      "2": {
+        "avg_market_price": 27.33,
+        "rainfall_mm": 16.5,
+        "temperature_c": 30.5,
+        "festival_flag": 0,
+        "demand_kg": 2392
+      },
+      "3": {
+        "avg_market_price": 29.4,
+        "rainfall_mm": 27.2,
+        "temperature_c": 24.8,
+        "festival_flag": 0,
+        "demand_kg": 1900
+      },
+      "4": {
+        "avg_market_price": 30.93,
+        "rainfall_mm": 26.3,
+        "temperature_c": 23.7,
+        "festival_flag": 0,
+        "demand_kg": 1169
+      },
+      "5": {
+        "avg_market_price": 31.57,
+        "rainfall_mm": 76.8,
+        "temperature_c": 22.8,
+        "festival_flag": 0,
+        "demand_kg": 683
+      },
+      "6": {
+        "avg_market_price": 31.25,
+        "rainfall_mm": 157.5,
+        "temperature_c": 22.0,
+        "festival_flag": 0,
+        "demand_kg": 421
+      },
+      "7": {
+        "avg_market_price": 31.16,
+        "rainfall_mm": 198.0,
+        "temperature_c": 26.3,
+        "festival_flag": 0,
+        "demand_kg": 445
+      },
+      "8": {
+        "avg_market_price": 31.53,
+        "rainfall_mm": 201.1,
+        "temperature_c": 29.6,
+        "festival_flag": 0,
+        "demand_kg": 694
+      },
+      "9": {
+        "avg_market_price": 30.75,
+        "rainfall_mm": 150.7,
+        "temperature_c": 34.1,
+        "festival_flag": 0,
+        "demand_kg": 1309
+      },
+      "10": {
+        "avg_market_price": 29.28,
+        "rainfall_mm": 70.6,
+        "temperature_c": 38.0,
+        "festival_flag": 1,
+        "demand_kg": 2349
+      },
+      "11": {
+        "avg_market_price": 28.68,
+        "rainfall_mm": 20.0,
+        "temperature_c": 39.0,
+        "festival_flag": 1,
+        "demand_kg": 2983
+      },
+      "12": {
+        "avg_market_price": 27.0,
+        "rainfall_mm": 8.8,
+        "temperature_c": 37.8,
+        "festival_flag": 0,
+        "demand_kg": 2817
+      }
+    },
+    "Cauliflower|Pune": {
+      "1": {
+        "avg_market_price": 28.19,
+        "rainfall_mm": 15.2,
+        "temperature_c": 35.4,
+        "festival_flag": 0,
+        "demand_kg": 3369
+      },
+      "2": {
+        "avg_market_price": 29.73,
+        "rainfall_mm": 9.1,
+        "temperature_c": 31.5,
+        "festival_flag": 0,
+        "demand_kg": 2972
+      },
+      "3": {
+        "avg_market_price": 29.94,
+        "rainfall_mm": 24.6,
+        "temperature_c": 25.1,
+        "festival_flag": 0,
+        "demand_kg": 2375
+      },
+      "4": {
+        "avg_market_price": 29.93,
+        "rainfall_mm": 14.7,
+        "temperature_c": 21.8,
+        "festival_flag": 0,
+        "demand_kg": 1582
+      },
+      "5": {
+        "avg_market_price": 31.46,
+        "rainfall_mm": 76.3,
+        "temperature_c": 20.7,
+        "festival_flag": 0,
+        "demand_kg": 925
+      },
+      "6": {
+        "avg_market_price": 31.58,
+        "rainfall_mm": 149.4,
+        "temperature_c": 23.0,
+        "festival_flag": 0,
+        "demand_kg": 713
+      },
+      "7": {
+        "avg_market_price": 31.27,
+        "rainfall_mm": 186.1,
+        "temperature_c": 26.3,
+        "festival_flag": 0,
+        "demand_kg": 748
+      },
+      "8": {
+        "avg_market_price": 30.63,
+        "rainfall_mm": 193.7,
+        "temperature_c": 31.6,
+        "festival_flag": 0,
+        "demand_kg": 1143
+      },
+      "9": {
+        "avg_market_price": 30.0,
+        "rainfall_mm": 141.6,
+        "temperature_c": 34.6,
+        "festival_flag": 0,
+        "demand_kg": 2036
+      },
+      "10": {
+        "avg_market_price": 29.07,
+        "rainfall_mm": 73.0,
+        "temperature_c": 38.5,
+        "festival_flag": 1,
+        "demand_kg": 3155
+      },
+      "11": {
+        "avg_market_price": 29.26,
+        "rainfall_mm": 10.6,
+        "temperature_c": 38.2,
+        "festival_flag": 1,
+        "demand_kg": 4061
+      },
+      "12": {
+        "avg_market_price": 27.92,
+        "rainfall_mm": 22.5,
+        "temperature_c": 38.7,
+        "festival_flag": 0,
+        "demand_kg": 3866
+      }
+    },
+    "Onion|Bangalore": {
+      "1": {
+        "avg_market_price": 33.18,
+        "rainfall_mm": 22.1,
+        "temperature_c": 33.9,
+        "festival_flag": 0,
+        "demand_kg": 6468
+      },
+      "2": {
+        "avg_market_price": 33.56,
+        "rainfall_mm": 15.6,
+        "temperature_c": 30.2,
+        "festival_flag": 0,
+        "demand_kg": 4554
+      },
+      "3": {
+        "avg_market_price": 34.63,
+        "rainfall_mm": 20.3,
+        "temperature_c": 26.3,
+        "festival_flag": 0,
+        "demand_kg": 3488
+      },
+      "4": {
+        "avg_market_price": 33.78,
+        "rainfall_mm": 18.6,
+        "temperature_c": 21.9,
+        "festival_flag": 0,
+        "demand_kg": 2623
+      },
+      "5": {
+        "avg_market_price": 34.2,
+        "rainfall_mm": 61.1,
+        "temperature_c": 22.1,
+        "festival_flag": 0,
+        "demand_kg": 2820
+      },
+      "6": {
+        "avg_market_price": 33.47,
+        "rainfall_mm": 153.0,
+        "temperature_c": 22.6,
+        "festival_flag": 0,
+        "demand_kg": 3914
+      },
+      "7": {
+        "avg_market_price": 31.1,
+        "rainfall_mm": 191.5,
+        "temperature_c": 24.1,
+        "festival_flag": 0,
+        "demand_kg": 5353
+      },
+      "8": {
+        "avg_market_price": 29.69,
+        "rainfall_mm": 181.7,
+        "temperature_c": 29.7,
+        "festival_flag": 0,
+        "demand_kg": 7521
+      },
+      "9": {
+        "avg_market_price": 31.28,
+        "rainfall_mm": 138.7,
+        "temperature_c": 34.7,
+        "festival_flag": 0,
+        "demand_kg": 8734
+      },
+      "10": {
+        "avg_market_price": 29.26,
+        "rainfall_mm": 58.0,
+        "temperature_c": 38.1,
+        "festival_flag": 1,
+        "demand_kg": 10706
+      },
+      "11": {
+        "avg_market_price": 31.37,
+        "rainfall_mm": 17.4,
+        "temperature_c": 37.8,
+        "festival_flag": 1,
+        "demand_kg": 10471
+      },
+      "12": {
+        "avg_market_price": 30.32,
+        "rainfall_mm": 14.3,
+        "temperature_c": 38.4,
+        "festival_flag": 0,
+        "demand_kg": 8579
+      }
+    },
+    "Onion|Chennai": {
+      "1": {
+        "avg_market_price": 31.38,
+        "rainfall_mm": 21.3,
+        "temperature_c": 33.4,
+        "festival_flag": 0,
+        "demand_kg": 5309
+      },
+      "2": {
+        "avg_market_price": 32.73,
+        "rainfall_mm": 22.3,
+        "temperature_c": 28.9,
+        "festival_flag": 0,
+        "demand_kg": 4141
+      },
+      "3": {
+        "avg_market_price": 33.38,
+        "rainfall_mm": 15.4,
+        "temperature_c": 25.9,
+        "festival_flag": 0,
+        "demand_kg": 3054
+      },
+      "4": {
+        "avg_market_price": 34.37,
+        "rainfall_mm": 17.9,
+        "temperature_c": 22.0,
+        "festival_flag": 0,
+        "demand_kg": 2259
+      },
+      "5": {
+        "avg_market_price": 33.09,
+        "rainfall_mm": 80.4,
+        "temperature_c": 20.9,
+        "festival_flag": 0,
+        "demand_kg": 2568
+      },
+      "6": {
+        "avg_market_price": 32.85,
+        "rainfall_mm": 148.4,
+        "temperature_c": 22.6,
+        "festival_flag": 0,
+        "demand_kg": 3431
+      },
+      "7": {
+        "avg_market_price": 30.69,
+        "rainfall_mm": 190.6,
+        "temperature_c": 26.0,
+        "festival_flag": 0,
+        "demand_kg": 4540
+      },
+      "8": {
+        "avg_market_price": 31.06,
+        "rainfall_mm": 181.1,
+        "temperature_c": 30.2,
+        "festival_flag": 0,
+        "demand_kg": 6115
+      },
+      "9": {
+        "avg_market_price": 30.66,
+        "rainfall_mm": 145.9,
+        "temperature_c": 33.9,
+        "festival_flag": 0,
+        "demand_kg": 7238
+      },
+      "10": {
+        "avg_market_price": 28.97,
+        "rainfall_mm": 70.3,
+        "temperature_c": 37.0,
+        "festival_flag": 1,
+        "demand_kg": 9233
+      },
+      "11": {
+        "avg_market_price": 29.01,
+        "rainfall_mm": 23.4,
+        "temperature_c": 39.0,
+        "festival_flag": 1,
+        "demand_kg": 9209
+      },
+      "12": {
+        "avg_market_price": 31.44,
+        "rainfall_mm": 19.9,
+        "temperature_c": 37.3,
+        "festival_flag": 0,
+        "demand_kg": 7291
+      }
+    },
+    "Onion|Delhi": {
+      "1": {
+        "avg_market_price": 32.28,
+        "rainfall_mm": 19.4,
+        "temperature_c": 34.9,
+        "festival_flag": 0,
+        "demand_kg": 6493
+      },
+      "2": {
+        "avg_market_price": 33.79,
+        "rainfall_mm": 22.9,
+        "temperature_c": 29.5,
+        "festival_flag": 0,
+        "demand_kg": 5249
+      },
+      "3": {
+        "avg_market_price": 33.01,
+        "rainfall_mm": 28.0,
+        "temperature_c": 24.8,
+        "festival_flag": 0,
+        "demand_kg": 4136
+      },
+      "4": {
+        "avg_market_price": 35.68,
+        "rainfall_mm": 24.6,
+        "temperature_c": 22.4,
+        "festival_flag": 0,
+        "demand_kg": 3184
+      },
+      "5": {
+        "avg_market_price": 33.66,
+        "rainfall_mm": 60.5,
+        "temperature_c": 21.7,
+        "festival_flag": 0,
+        "demand_kg": 2948
+      },
+      "6": {
+        "avg_market_price": 32.22,
+        "rainfall_mm": 125.5,
+        "temperature_c": 23.1,
+        "festival_flag": 0,
+        "demand_kg": 4042
+      },
+      "7": {
+        "avg_market_price": 32.38,
+        "rainfall_mm": 197.7,
+        "temperature_c": 26.2,
+        "festival_flag": 0,
+        "demand_kg": 5480
+      },
+      "8": {
+        "avg_market_price": 29.24,
+        "rainfall_mm": 193.7,
+        "temperature_c": 31.3,
+        "festival_flag": 0,
+        "demand_kg": 7625
+      },
+      "9": {
+        "avg_market_price": 29.87,
+        "rainfall_mm": 159.4,
+        "temperature_c": 34.7,
+        "festival_flag": 0,
+        "demand_kg": 9096
+      },
+      "10": {
+        "avg_market_price": 28.59,
+        "rainfall_mm": 74.7,
+        "temperature_c": 37.8,
+        "festival_flag": 1,
+        "demand_kg": 11491
+      },
+      "11": {
+        "avg_market_price": 29.29,
+        "rainfall_mm": 17.8,
+        "temperature_c": 39.0,
+        "festival_flag": 1,
+        "demand_kg": 11457
+      },
+      "12": {
+        "avg_market_price": 30.73,
+        "rainfall_mm": 29.4,
+        "temperature_c": 39.4,
+        "festival_flag": 0,
+        "demand_kg": 9109
+      }
+    },
+    "Onion|Hyderabad": {
+      "1": {
+        "avg_market_price": 32.06,
+        "rainfall_mm": 6.3,
+        "temperature_c": 34.7,
+        "festival_flag": 0,
+        "demand_kg": 5969
+      },
+      "2": {
+        "avg_market_price": 32.79,
+        "rainfall_mm": 30.4,
+        "temperature_c": 29.7,
+        "festival_flag": 0,
+        "demand_kg": 3960
+      },
+      "3": {
+        "avg_market_price": 32.33,
+        "rainfall_mm": 24.7,
+        "temperature_c": 25.1,
+        "festival_flag": 0,
+        "demand_kg": 3016
+      },
+      "4": {
+        "avg_market_price": 32.7,
+        "rainfall_mm": 22.9,
+        "temperature_c": 19.7,
+        "festival_flag": 0,
+        "demand_kg": 2745
+      },
+      "5": {
+        "avg_market_price": 32.41,
+        "rainfall_mm": 73.4,
+        "temperature_c": 21.1,
+        "festival_flag": 0,
+        "demand_kg": 2921
+      },
+      "6": {
+        "avg_market_price": 31.83,
+        "rainfall_mm": 147.3,
+        "temperature_c": 22.4,
+        "festival_flag": 0,
+        "demand_kg": 3556
+      },
+      "7": {
+        "avg_market_price": 31.76,
+        "rainfall_mm": 197.9,
+        "temperature_c": 24.0,
+        "festival_flag": 0,
+        "demand_kg": 5064
+      },
+      "8": {
+        "avg_market_price": 30.71,
+        "rainfall_mm": 187.3,
+        "temperature_c": 30.3,
+        "festival_flag": 0,
+        "demand_kg": 6277
+      },
+      "9": {
+        "avg_market_price": 30.43,
+        "rainfall_mm": 151.0,
+        "temperature_c": 35.1,
+        "festival_flag": 0,
+        "demand_kg": 7661
+      },
+      "10": {
+        "avg_market_price": 30.49,
+        "rainfall_mm": 64.4,
+        "temperature_c": 39.1,
+        "festival_flag": 1,
+        "demand_kg": 9730
+      },
+      "11": {
+        "avg_market_price": 30.08,
+        "rainfall_mm": 37.3,
+        "temperature_c": 39.8,
+        "festival_flag": 1,
+        "demand_kg": 9773
+      },
+      "12": {
+        "avg_market_price": 31.29,
+        "rainfall_mm": 19.0,
+        "temperature_c": 36.5,
+        "festival_flag": 0,
+        "demand_kg": 7879
+      }
+    },
+    "Onion|Kolkata": {
+      "1": {
+        "avg_market_price": 31.52,
+        "rainfall_mm": 10.9,
+        "temperature_c": 34.7,
+        "festival_flag": 0,
+        "demand_kg": 6538
+      },
+      "2": {
+        "avg_market_price": 32.5,
+        "rainfall_mm": 25.5,
+        "temperature_c": 31.5,
+        "festival_flag": 0,
+        "demand_kg": 4418
+      },
+      "3": {
+        "avg_market_price": 32.89,
+        "rainfall_mm": 4.7,
+        "temperature_c": 25.8,
+        "festival_flag": 0,
+        "demand_kg": 3447
+      },
+      "4": {
+        "avg_market_price": 33.6,
+        "rainfall_mm": 28.8,
+        "temperature_c": 23.2,
+        "festival_flag": 0,
+        "demand_kg": 2741
+      },
+      "5": {
+        "avg_market_price": 33.48,
+        "rainfall_mm": 70.5,
+        "temperature_c": 22.3,
+        "festival_flag": 0,
+        "demand_kg": 2915
+      },
+      "6": {
+        "avg_market_price": 33.01,
+        "rainfall_mm": 142.1,
+        "temperature_c": 23.3,
+        "festival_flag": 0,
+        "demand_kg": 3739
+      },
+      "7": {
+        "avg_market_price": 32.26,
+        "rainfall_mm": 196.6,
+        "temperature_c": 24.6,
+        "festival_flag": 0,
+        "demand_kg": 4821
+      },
+      "8": {
+        "avg_market_price": 29.84,
+        "rainfall_mm": 189.2,
+        "temperature_c": 30.1,
+        "festival_flag": 0,
+        "demand_kg": 7182
+      },
+      "9": {
+        "avg_market_price": 31.65,
+        "rainfall_mm": 139.6,
+        "temperature_c": 33.7,
+        "festival_flag": 0,
+        "demand_kg": 8095
+      },
+      "10": {
+        "avg_market_price": 30.64,
+        "rainfall_mm": 72.5,
+        "temperature_c": 38.0,
+        "festival_flag": 1,
+        "demand_kg": 9980
+      },
+      "11": {
+        "avg_market_price": 30.3,
+        "rainfall_mm": 23.4,
+        "temperature_c": 39.6,
+        "festival_flag": 1,
+        "demand_kg": 9827
+      },
+      "12": {
+        "avg_market_price": 31.52,
+        "rainfall_mm": 10.3,
+        "temperature_c": 38.7,
+        "festival_flag": 0,
+        "demand_kg": 7814
+      }
+    },
+    "Onion|Mumbai": {
+      "1": {
+        "avg_market_price": 31.15,
+        "rainfall_mm": 23.0,
+        "temperature_c": 33.6,
+        "festival_flag": 0,
+        "demand_kg": 7939
+      },
+      "2": {
+        "avg_market_price": 32.19,
+        "rainfall_mm": 18.8,
+        "temperature_c": 30.0,
+        "festival_flag": 0,
+        "demand_kg": 5828
+      },
+      "3": {
+        "avg_market_price": 33.39,
+        "rainfall_mm": 28.9,
+        "temperature_c": 24.6,
+        "festival_flag": 0,
+        "demand_kg": 3889
+      },
+      "4": {
+        "avg_market_price": 33.92,
+        "rainfall_mm": 11.6,
+        "temperature_c": 21.8,
+        "festival_flag": 0,
+        "demand_kg": 3562
+      },
+      "5": {
+        "avg_market_price": 33.83,
+        "rainfall_mm": 65.9,
+        "temperature_c": 21.0,
+        "festival_flag": 0,
+        "demand_kg": 3918
+      },
+      "6": {
+        "avg_market_price": 32.84,
+        "rainfall_mm": 156.3,
+        "temperature_c": 22.5,
+        "festival_flag": 0,
+        "demand_kg": 4480
+      },
+      "7": {
+        "avg_market_price": 32.34,
+        "rainfall_mm": 185.4,
+        "temperature_c": 26.9,
+        "festival_flag": 0,
+        "demand_kg": 6115
+      },
+      "8": {
+        "avg_market_price": 31.19,
+        "rainfall_mm": 200.6,
+        "temperature_c": 30.5,
+        "festival_flag": 0,
+        "demand_kg": 8087
+      },
+      "9": {
+        "avg_market_price": 31.47,
+        "rainfall_mm": 157.7,
+        "temperature_c": 33.3,
+        "festival_flag": 0,
+        "demand_kg": 9913
+      },
+      "10": {
+        "avg_market_price": 29.93,
+        "rainfall_mm": 62.4,
+        "temperature_c": 38.3,
+        "festival_flag": 1,
+        "demand_kg": 12637
+      },
+      "11": {
+        "avg_market_price": 30.95,
+        "rainfall_mm": 24.9,
+        "temperature_c": 38.7,
+        "festival_flag": 1,
+        "demand_kg": 12710
+      },
+      "12": {
+        "avg_market_price": 30.87,
+        "rainfall_mm": 27.8,
+        "temperature_c": 37.9,
+        "festival_flag": 0,
+        "demand_kg": 10537
+      }
+    },
+    "Onion|Patna": {
+      "1": {
+        "avg_market_price": 33.06,
+        "rainfall_mm": 14.1,
+        "temperature_c": 35.0,
+        "festival_flag": 0,
+        "demand_kg": 3893
+      },
+      "2": {
+        "avg_market_price": 32.05,
+        "rainfall_mm": 17.0,
+        "temperature_c": 29.5,
+        "festival_flag": 0,
+        "demand_kg": 3199
+      },
+      "3": {
+        "avg_market_price": 34.29,
+        "rainfall_mm": 7.9,
+        "temperature_c": 25.3,
+        "festival_flag": 0,
+        "demand_kg": 2156
+      },
+      "4": {
+        "avg_market_price": 32.42,
+        "rainfall_mm": 18.6,
+        "temperature_c": 22.2,
+        "festival_flag": 0,
+        "demand_kg": 1648
+      },
+      "5": {
+        "avg_market_price": 33.77,
+        "rainfall_mm": 80.0,
+        "temperature_c": 22.0,
+        "festival_flag": 0,
+        "demand_kg": 1906
+      },
+      "6": {
+        "avg_market_price": 33.67,
+        "rainfall_mm": 152.0,
+        "temperature_c": 23.1,
+        "festival_flag": 0,
+        "demand_kg": 2443
+      },
+      "7": {
+        "avg_market_price": 33.59,
+        "rainfall_mm": 203.0,
+        "temperature_c": 26.1,
+        "festival_flag": 0,
+        "demand_kg": 3334
+      },
+      "8": {
+        "avg_market_price": 31.18,
+        "rainfall_mm": 193.1,
+        "temperature_c": 29.8,
+        "festival_flag": 0,
+        "demand_kg": 4390
+      },
+      "9": {
+        "avg_market_price": 30.0,
+        "rainfall_mm": 146.8,
+        "temperature_c": 34.2,
+        "festival_flag": 0,
+        "demand_kg": 5290
+      },
+      "10": {
+        "avg_market_price": 30.58,
+        "rainfall_mm": 79.4,
+        "temperature_c": 37.4,
+        "festival_flag": 1,
+        "demand_kg": 6821
+      },
+      "11": {
+        "avg_market_price": 30.75,
+        "rainfall_mm": 26.3,
+        "temperature_c": 39.7,
+        "festival_flag": 1,
+        "demand_kg": 7043
+      },
+      "12": {
+        "avg_market_price": 30.51,
+        "rainfall_mm": 23.8,
+        "temperature_c": 37.5,
+        "festival_flag": 0,
+        "demand_kg": 5317
+      }
+    },
+    "Onion|Pune": {
+      "1": {
+        "avg_market_price": 30.0,
+        "rainfall_mm": 31.7,
+        "temperature_c": 33.9,
+        "festival_flag": 0,
+        "demand_kg": 5232
+      },
+      "2": {
+        "avg_market_price": 33.23,
+        "rainfall_mm": 33.1,
+        "temperature_c": 29.9,
+        "festival_flag": 0,
+        "demand_kg": 4199
+      },
+      "3": {
+        "avg_market_price": 33.01,
+        "rainfall_mm": 21.2,
+        "temperature_c": 27.5,
+        "festival_flag": 0,
+        "demand_kg": 2769
+      },
+      "4": {
+        "avg_market_price": 33.52,
+        "rainfall_mm": 36.6,
+        "temperature_c": 20.8,
+        "festival_flag": 0,
+        "demand_kg": 2421
+      },
+      "5": {
+        "avg_market_price": 32.68,
+        "rainfall_mm": 73.1,
+        "temperature_c": 19.8,
+        "festival_flag": 0,
+        "demand_kg": 2437
+      },
+      "6": {
+        "avg_market_price": 31.65,
+        "rainfall_mm": 140.7,
+        "temperature_c": 21.6,
+        "festival_flag": 0,
+        "demand_kg": 3253
+      },
+      "7": {
+        "avg_market_price": 31.19,
+        "rainfall_mm": 191.3,
+        "temperature_c": 25.5,
+        "festival_flag": 0,
+        "demand_kg": 4794
+      },
+      "8": {
+        "avg_market_price": 32.43,
+        "rainfall_mm": 190.9,
+        "temperature_c": 29.4,
+        "festival_flag": 0,
+        "demand_kg": 6080
+      },
+      "9": {
+        "avg_market_price": 29.95,
+        "rainfall_mm": 143.1,
+        "temperature_c": 35.3,
+        "festival_flag": 0,
+        "demand_kg": 7424
+      },
+      "10": {
+        "avg_market_price": 28.79,
+        "rainfall_mm": 67.4,
+        "temperature_c": 37.8,
+        "festival_flag": 1,
+        "demand_kg": 9119
+      },
+      "11": {
+        "avg_market_price": 30.69,
+        "rainfall_mm": 35.1,
+        "temperature_c": 38.3,
+        "festival_flag": 1,
+        "demand_kg": 9134
+      },
+      "12": {
+        "avg_market_price": 30.38,
+        "rainfall_mm": 20.3,
+        "temperature_c": 37.5,
+        "festival_flag": 0,
+        "demand_kg": 7082
+      }
+    },
+    "Peas|Bangalore": {
+      "1": {
+        "avg_market_price": 39.96,
+        "rainfall_mm": 4.5,
+        "temperature_c": 35.7,
+        "festival_flag": 0,
+        "demand_kg": 3781
+      },
+      "2": {
+        "avg_market_price": 41.53,
+        "rainfall_mm": 21.0,
+        "temperature_c": 31.3,
+        "festival_flag": 0,
+        "demand_kg": 3582
+      },
+      "3": {
+        "avg_market_price": 40.63,
+        "rainfall_mm": 24.0,
+        "temperature_c": 26.4,
+        "festival_flag": 0,
+        "demand_kg": 3215
+      },
+      "4": {
+        "avg_market_price": 42.43,
+        "rainfall_mm": 12.3,
+        "temperature_c": 23.0,
+        "festival_flag": 0,
+        "demand_kg": 2318
+      },
+      "5": {
+        "avg_market_price": 43.45,
+        "rainfall_mm": 62.9,
+        "temperature_c": 19.5,
+        "festival_flag": 0,
+        "demand_kg": 1476
+      },
+      "6": {
+        "avg_market_price": 44.03,
+        "rainfall_mm": 146.3,
+        "temperature_c": 22.1,
+        "festival_flag": 0,
+        "demand_kg": 452
+      },
+      "7": {
+        "avg_market_price": 44.96,
+        "rainfall_mm": 202.6,
+        "temperature_c": 25.6,
+        "festival_flag": 0,
+        "demand_kg": 198
+      },
+      "8": {
+        "avg_market_price": 43.67,
+        "rainfall_mm": 190.9,
+        "temperature_c": 29.8,
+        "festival_flag": 0,
+        "demand_kg": 416
+      },
+      "9": {
+        "avg_market_price": 42.46,
+        "rainfall_mm": 134.4,
+        "temperature_c": 35.9,
+        "festival_flag": 0,
+        "demand_kg": 880
+      },
+      "10": {
+        "avg_market_price": 42.61,
+        "rainfall_mm": 56.1,
+        "temperature_c": 36.9,
+        "festival_flag": 1,
+        "demand_kg": 1893
+      },
+      "11": {
+        "avg_market_price": 41.35,
+        "rainfall_mm": 42.1,
+        "temperature_c": 39.4,
+        "festival_flag": 1,
+        "demand_kg": 3243
+      },
+      "12": {
+        "avg_market_price": 39.69,
+        "rainfall_mm": 37.2,
+        "temperature_c": 39.9,
+        "festival_flag": 0,
+        "demand_kg": 3593
+      }
+    },
+    "Peas|Chennai": {
+      "1": {
+        "avg_market_price": 40.27,
+        "rainfall_mm": 15.5,
+        "temperature_c": 35.1,
+        "festival_flag": 0,
+        "demand_kg": 3217
+      },
+      "2": {
+        "avg_market_price": 40.21,
+        "rainfall_mm": 27.7,
+        "temperature_c": 29.2,
+        "festival_flag": 0,
+        "demand_kg": 3189
+      },
+      "3": {
+        "avg_market_price": 41.44,
+        "rainfall_mm": 18.6,
+        "temperature_c": 25.5,
+        "festival_flag": 0,
+        "demand_kg": 2664
+      },
+      "4": {
+        "avg_market_price": 43.31,
+        "rainfall_mm": 26.2,
+        "temperature_c": 23.3,
+        "festival_flag": 0,
+        "demand_kg": 1941
+      },
+      "5": {
+        "avg_market_price": 43.77,
+        "rainfall_mm": 59.2,
+        "temperature_c": 20.9,
+        "festival_flag": 0,
+        "demand_kg": 1115
+      },
+      "6": {
+        "avg_market_price": 45.32,
+        "rainfall_mm": 162.3,
+        "temperature_c": 20.7,
+        "festival_flag": 0,
+        "demand_kg": 407
+      },
+      "7": {
+        "avg_market_price": 43.63,
+        "rainfall_mm": 184.2,
+        "temperature_c": 24.9,
+        "festival_flag": 0,
+        "demand_kg": 126
+      },
+      "8": {
+        "avg_market_price": 43.74,
+        "rainfall_mm": 215.3,
+        "temperature_c": 31.2,
+        "festival_flag": 0,
+        "demand_kg": 171
+      },
+      "9": {
+        "avg_market_price": 43.43,
+        "rainfall_mm": 136.1,
+        "temperature_c": 35.6,
+        "festival_flag": 0,
+        "demand_kg": 648
+      },
+      "10": {
+        "avg_market_price": 42.78,
+        "rainfall_mm": 41.2,
+        "temperature_c": 38.3,
+        "festival_flag": 1,
+        "demand_kg": 1736
+      },
+      "11": {
+        "avg_market_price": 40.58,
+        "rainfall_mm": 14.2,
+        "temperature_c": 39.0,
+        "festival_flag": 1,
+        "demand_kg": 2772
+      },
+      "12": {
+        "avg_market_price": 40.42,
+        "rainfall_mm": 17.1,
+        "temperature_c": 39.0,
+        "festival_flag": 0,
+        "demand_kg": 3038
+      }
+    },
+    "Peas|Delhi": {
+      "1": {
+        "avg_market_price": 39.47,
+        "rainfall_mm": 20.0,
+        "temperature_c": 34.2,
+        "festival_flag": 0,
+        "demand_kg": 3944
+      },
+      "2": {
+        "avg_market_price": 40.68,
+        "rainfall_mm": 9.6,
+        "temperature_c": 29.6,
+        "festival_flag": 0,
+        "demand_kg": 3762
+      },
+      "3": {
+        "avg_market_price": 39.82,
+        "rainfall_mm": 18.6,
+        "temperature_c": 24.4,
+        "festival_flag": 0,
+        "demand_kg": 3354
+      },
+      "4": {
+        "avg_market_price": 42.14,
+        "rainfall_mm": 24.2,
+        "temperature_c": 22.4,
+        "festival_flag": 0,
+        "demand_kg": 2475
+      },
+      "5": {
+        "avg_market_price": 43.81,
+        "rainfall_mm": 60.8,
+        "temperature_c": 19.3,
+        "festival_flag": 0,
+        "demand_kg": 1345
+      },
+      "6": {
+        "avg_market_price": 44.79,
+        "rainfall_mm": 159.2,
+        "temperature_c": 22.4,
+        "festival_flag": 0,
+        "demand_kg": 472
+      },
+      "7": {
+        "avg_market_price": 43.41,
+        "rainfall_mm": 194.3,
+        "temperature_c": 25.4,
+        "festival_flag": 0,
+        "demand_kg": 268
+      },
+      "8": {
+        "avg_market_price": 43.75,
+        "rainfall_mm": 179.7,
+        "temperature_c": 29.0,
+        "festival_flag": 0,
+        "demand_kg": 330
+      },
+      "9": {
+        "avg_market_price": 43.38,
+        "rainfall_mm": 151.4,
+        "temperature_c": 36.6,
+        "festival_flag": 0,
+        "demand_kg": 925
+      },
+      "10": {
+        "avg_market_price": 42.89,
+        "rainfall_mm": 67.8,
+        "temperature_c": 37.4,
+        "festival_flag": 1,
+        "demand_kg": 2196
+      },
+      "11": {
+        "avg_market_price": 39.91,
+        "rainfall_mm": 14.7,
+        "temperature_c": 39.5,
+        "festival_flag": 1,
+        "demand_kg": 3448
+      },
+      "12": {
+        "avg_market_price": 41.2,
+        "rainfall_mm": 19.2,
+        "temperature_c": 36.5,
+        "festival_flag": 0,
+        "demand_kg": 3658
+      }
+    },
+    "Peas|Hyderabad": {
+      "1": {
+        "avg_market_price": 41.28,
+        "rainfall_mm": 18.5,
+        "temperature_c": 34.9,
+        "festival_flag": 0,
+        "demand_kg": 3236
+      },
+      "2": {
+        "avg_market_price": 40.6,
+        "rainfall_mm": 18.6,
+        "temperature_c": 28.5,
+        "festival_flag": 0,
+        "demand_kg": 3299
+      },
+      "3": {
+        "avg_market_price": 41.08,
+        "rainfall_mm": 2.4,
+        "temperature_c": 24.8,
+        "festival_flag": 0,
+        "demand_kg": 2784
+      },
+      "4": {
+        "avg_market_price": 42.67,
+        "rainfall_mm": 25.3,
+        "temperature_c": 22.4,
+        "festival_flag": 0,
+        "demand_kg": 2121
+      },
+      "5": {
+        "avg_market_price": 44.57,
+        "rainfall_mm": 70.4,
+        "temperature_c": 20.8,
+        "festival_flag": 0,
+        "demand_kg": 1294
+      },
+      "6": {
+        "avg_market_price": 44.03,
+        "rainfall_mm": 148.0,
+        "temperature_c": 21.6,
+        "festival_flag": 0,
+        "demand_kg": 485
+      },
+      "7": {
+        "avg_market_price": 44.72,
+        "rainfall_mm": 193.4,
+        "temperature_c": 25.5,
+        "festival_flag": 0,
+        "demand_kg": 134
+      },
+      "8": {
+        "avg_market_price": 45.39,
+        "rainfall_mm": 207.1,
+        "temperature_c": 30.0,
+        "festival_flag": 0,
+        "demand_kg": 254
+      },
+      "9": {
+        "avg_market_price": 42.6,
+        "rainfall_mm": 141.3,
+        "temperature_c": 33.7,
+        "festival_flag": 0,
+        "demand_kg": 626
+      },
+      "10": {
+        "avg_market_price": 43.37,
+        "rainfall_mm": 74.0,
+        "temperature_c": 37.2,
+        "festival_flag": 1,
+        "demand_kg": 1803
+      },
+      "11": {
+        "avg_market_price": 41.01,
+        "rainfall_mm": 15.2,
+        "temperature_c": 37.7,
+        "festival_flag": 1,
+        "demand_kg": 2937
+      },
+      "12": {
+        "avg_market_price": 40.11,
+        "rainfall_mm": 21.0,
+        "temperature_c": 36.7,
+        "festival_flag": 0,
+        "demand_kg": 3157
+      }
+    },
+    "Peas|Kolkata": {
+      "1": {
+        "avg_market_price": 39.17,
+        "rainfall_mm": 6.9,
+        "temperature_c": 33.1,
+        "festival_flag": 0,
+        "demand_kg": 3570
+      },
+      "2": {
+        "avg_market_price": 41.49,
+        "rainfall_mm": 16.3,
+        "temperature_c": 30.4,
+        "festival_flag": 0,
+        "demand_kg": 3468
+      },
+      "3": {
+        "avg_market_price": 42.26,
+        "rainfall_mm": 14.2,
+        "temperature_c": 24.8,
+        "festival_flag": 0,
+        "demand_kg": 2819
+      },
+      "4": {
+        "avg_market_price": 42.96,
+        "rainfall_mm": 12.3,
+        "temperature_c": 21.9,
+        "festival_flag": 0,
+        "demand_kg": 2137
+      },
+      "5": {
+        "avg_market_price": 42.9,
+        "rainfall_mm": 59.0,
+        "temperature_c": 19.7,
+        "festival_flag": 0,
+        "demand_kg": 1286
+      },
+      "6": {
+        "avg_market_price": 44.6,
+        "rainfall_mm": 133.4,
+        "temperature_c": 21.2,
+        "festival_flag": 0,
+        "demand_kg": 559
+      },
+      "7": {
+        "avg_market_price": 43.95,
+        "rainfall_mm": 201.3,
+        "temperature_c": 25.8,
+        "festival_flag": 0,
+        "demand_kg": 184
+      },
+      "8": {
+        "avg_market_price": 43.48,
+        "rainfall_mm": 185.5,
+        "temperature_c": 28.9,
+        "festival_flag": 0,
+        "demand_kg": 372
+      },
+      "9": {
+        "avg_market_price": 42.92,
+        "rainfall_mm": 159.5,
+        "temperature_c": 36.8,
+        "festival_flag": 0,
+        "demand_kg": 778
+      },
+      "10": {
+        "avg_market_price": 41.65,
+        "rainfall_mm": 58.6,
+        "temperature_c": 36.9,
+        "festival_flag": 1,
+        "demand_kg": 2130
+      },
+      "11": {
+        "avg_market_price": 39.98,
+        "rainfall_mm": 28.1,
+        "temperature_c": 39.1,
+        "festival_flag": 1,
+        "demand_kg": 3095
+      },
+      "12": {
+        "avg_market_price": 40.2,
+        "rainfall_mm": 17.8,
+        "temperature_c": 37.0,
+        "festival_flag": 0,
+        "demand_kg": 3454
+      }
+    },
+    "Peas|Mumbai": {
+      "1": {
+        "avg_market_price": 40.73,
+        "rainfall_mm": 23.7,
+        "temperature_c": 33.7,
+        "festival_flag": 0,
+        "demand_kg": 4327
+      },
+      "2": {
+        "avg_market_price": 41.69,
+        "rainfall_mm": 12.4,
+        "temperature_c": 28.6,
+        "festival_flag": 0,
+        "demand_kg": 4322
+      },
+      "3": {
+        "avg_market_price": 41.79,
+        "rainfall_mm": 9.0,
+        "temperature_c": 27.0,
+        "festival_flag": 0,
+        "demand_kg": 3584
+      },
+      "4": {
+        "avg_market_price": 43.01,
+        "rainfall_mm": 10.8,
+        "temperature_c": 21.3,
+        "festival_flag": 0,
+        "demand_kg": 2633
+      },
+      "5": {
+        "avg_market_price": 43.86,
+        "rainfall_mm": 58.2,
+        "temperature_c": 22.5,
+        "festival_flag": 0,
+        "demand_kg": 1574
+      },
+      "6": {
+        "avg_market_price": 45.4,
+        "rainfall_mm": 139.3,
+        "temperature_c": 21.6,
+        "festival_flag": 0,
+        "demand_kg": 674
+      },
+      "7": {
+        "avg_market_price": 45.23,
+        "rainfall_mm": 195.0,
+        "temperature_c": 25.1,
+        "festival_flag": 0,
+        "demand_kg": 159
+      },
+      "8": {
+        "avg_market_price": 44.35,
+        "rainfall_mm": 189.3,
+        "temperature_c": 30.0,
+        "festival_flag": 0,
+        "demand_kg": 430
+      },
+      "9": {
+        "avg_market_price": 43.0,
+        "rainfall_mm": 140.9,
+        "temperature_c": 33.7,
+        "festival_flag": 0,
+        "demand_kg": 985
+      },
+      "10": {
+        "avg_market_price": 40.87,
+        "rainfall_mm": 76.8,
+        "temperature_c": 37.7,
+        "festival_flag": 1,
+        "demand_kg": 2485
+      },
+      "11": {
+        "avg_market_price": 41.67,
+        "rainfall_mm": 10.4,
+        "temperature_c": 39.9,
+        "festival_flag": 1,
+        "demand_kg": 3729
+      },
+      "12": {
+        "avg_market_price": 40.25,
+        "rainfall_mm": 17.1,
+        "temperature_c": 37.2,
+        "festival_flag": 0,
+        "demand_kg": 4160
+      }
+    },
+    "Peas|Patna": {
+      "1": {
+        "avg_market_price": 39.93,
+        "rainfall_mm": 27.3,
+        "temperature_c": 36.4,
+        "festival_flag": 0,
+        "demand_kg": 2315
+      },
+      "2": {
+        "avg_market_price": 39.45,
+        "rainfall_mm": 21.2,
+        "temperature_c": 29.9,
+        "festival_flag": 0,
+        "demand_kg": 2293
+      },
+      "3": {
+        "avg_market_price": 40.15,
+        "rainfall_mm": 25.0,
+        "temperature_c": 26.6,
+        "festival_flag": 0,
+        "demand_kg": 2111
+      },
+      "4": {
+        "avg_market_price": 43.34,
+        "rainfall_mm": 23.8,
+        "temperature_c": 21.2,
+        "festival_flag": 0,
+        "demand_kg": 1414
+      },
+      "5": {
+        "avg_market_price": 41.57,
+        "rainfall_mm": 67.7,
+        "temperature_c": 22.2,
+        "festival_flag": 0,
+        "demand_kg": 914
+      },
+      "6": {
+        "avg_market_price": 45.27,
+        "rainfall_mm": 148.7,
+        "temperature_c": 23.5,
+        "festival_flag": 0,
+        "demand_kg": 222
+      },
+      "7": {
+        "avg_market_price": 45.13,
+        "rainfall_mm": 181.3,
+        "temperature_c": 25.1,
+        "festival_flag": 0,
+        "demand_kg": 81
+      },
+      "8": {
+        "avg_market_price": 43.31,
+        "rainfall_mm": 197.2,
+        "temperature_c": 29.8,
+        "festival_flag": 0,
+        "demand_kg": 128
+      },
+      "9": {
+        "avg_market_price": 43.29,
+        "rainfall_mm": 142.0,
+        "temperature_c": 35.8,
+        "festival_flag": 0,
+        "demand_kg": 496
+      },
+      "10": {
+        "avg_market_price": 42.68,
+        "rainfall_mm": 65.3,
+        "temperature_c": 38.1,
+        "festival_flag": 1,
+        "demand_kg": 1268
+      },
+      "11": {
+        "avg_market_price": 40.53,
+        "rainfall_mm": 27.4,
+        "temperature_c": 37.5,
+        "festival_flag": 1,
+        "demand_kg": 1935
+      },
+      "12": {
+        "avg_market_price": 40.2,
+        "rainfall_mm": 18.7,
+        "temperature_c": 39.4,
+        "festival_flag": 0,
+        "demand_kg": 2270
+      }
+    },
+    "Peas|Pune": {
+      "1": {
+        "avg_market_price": 40.06,
+        "rainfall_mm": 33.2,
+        "temperature_c": 35.1,
+        "festival_flag": 0,
+        "demand_kg": 3188
+      },
+      "2": {
+        "avg_market_price": 40.79,
+        "rainfall_mm": 21.2,
+        "temperature_c": 30.9,
+        "festival_flag": 0,
+        "demand_kg": 3039
+      },
+      "3": {
+        "avg_market_price": 40.96,
+        "rainfall_mm": 36.5,
+        "temperature_c": 25.2,
+        "festival_flag": 0,
+        "demand_kg": 2588
+      },
+      "4": {
+        "avg_market_price": 42.07,
+        "rainfall_mm": 20.8,
+        "temperature_c": 22.9,
+        "festival_flag": 0,
+        "demand_kg": 1947
+      },
+      "5": {
+        "avg_market_price": 43.6,
+        "rainfall_mm": 70.0,
+        "temperature_c": 20.8,
+        "festival_flag": 0,
+        "demand_kg": 1107
+      },
+      "6": {
+        "avg_market_price": 44.91,
+        "rainfall_mm": 142.1,
+        "temperature_c": 22.5,
+        "festival_flag": 0,
+        "demand_kg": 480
+      },
+      "7": {
+        "avg_market_price": 43.46,
+        "rainfall_mm": 197.6,
+        "temperature_c": 26.1,
+        "festival_flag": 0,
+        "demand_kg": 184
+      },
+      "8": {
+        "avg_market_price": 45.09,
+        "rainfall_mm": 189.5,
+        "temperature_c": 29.4,
+        "festival_flag": 0,
+        "demand_kg": 267
+      },
+      "9": {
+        "avg_market_price": 45.45,
+        "rainfall_mm": 150.4,
+        "temperature_c": 34.9,
+        "festival_flag": 0,
+        "demand_kg": 668
+      },
+      "10": {
+        "avg_market_price": 41.57,
+        "rainfall_mm": 59.1,
+        "temperature_c": 37.5,
+        "festival_flag": 1,
+        "demand_kg": 1765
+      },
+      "11": {
+        "avg_market_price": 41.22,
+        "rainfall_mm": 19.6,
+        "temperature_c": 39.3,
+        "festival_flag": 1,
+        "demand_kg": 2725
+      },
+      "12": {
+        "avg_market_price": 39.78,
+        "rainfall_mm": 27.8,
+        "temperature_c": 36.8,
+        "festival_flag": 0,
+        "demand_kg": 3065
+      }
+    },
+    "Potato|Bangalore": {
+      "1": {
+        "avg_market_price": 20.96,
+        "rainfall_mm": 13.5,
+        "temperature_c": 33.2,
+        "festival_flag": 0,
+        "demand_kg": 9639
+      },
+      "2": {
+        "avg_market_price": 21.77,
+        "rainfall_mm": 5.2,
+        "temperature_c": 30.6,
+        "festival_flag": 0,
+        "demand_kg": 8436
+      },
+      "3": {
+        "avg_market_price": 22.12,
+        "rainfall_mm": 11.8,
+        "temperature_c": 25.8,
+        "festival_flag": 0,
+        "demand_kg": 7217
+      },
+      "4": {
+        "avg_market_price": 24.08,
+        "rainfall_mm": 8.3,
+        "temperature_c": 22.1,
+        "festival_flag": 0,
+        "demand_kg": 5973
+      },
+      "5": {
+        "avg_market_price": 24.0,
+        "rainfall_mm": 63.1,
+        "temperature_c": 22.4,
+        "festival_flag": 0,
+        "demand_kg": 4843
+      },
+      "6": {
+        "avg_market_price": 24.83,
+        "rainfall_mm": 142.8,
+        "temperature_c": 22.4,
+        "festival_flag": 0,
+        "demand_kg": 3743
+      },
+      "7": {
+        "avg_market_price": 24.74,
+        "rainfall_mm": 195.9,
+        "temperature_c": 25.4,
+        "festival_flag": 0,
+        "demand_kg": 4263
+      },
+      "8": {
+        "avg_market_price": 23.35,
+        "rainfall_mm": 210.7,
+        "temperature_c": 29.4,
+        "festival_flag": 0,
+        "demand_kg": 5164
+      },
+      "9": {
+        "avg_market_price": 23.1,
+        "rainfall_mm": 171.0,
+        "temperature_c": 33.2,
+        "festival_flag": 0,
+        "demand_kg": 6344
+      },
+      "10": {
+        "avg_market_price": 23.26,
+        "rainfall_mm": 67.9,
+        "temperature_c": 37.2,
+        "festival_flag": 1,
+        "demand_kg": 8956
+      },
+      "11": {
+        "avg_market_price": 20.67,
+        "rainfall_mm": 26.9,
+        "temperature_c": 39.1,
+        "festival_flag": 1,
+        "demand_kg": 11060
+      },
+      "12": {
+        "avg_market_price": 20.65,
+        "rainfall_mm": 32.4,
+        "temperature_c": 38.5,
+        "festival_flag": 0,
+        "demand_kg": 9810
+      }
+    },
+    "Potato|Chennai": {
+      "1": {
+        "avg_market_price": 23.66,
+        "rainfall_mm": 22.1,
+        "temperature_c": 33.9,
+        "festival_flag": 0,
+        "demand_kg": 8207
+      },
+      "2": {
+        "avg_market_price": 23.63,
+        "rainfall_mm": 22.8,
+        "temperature_c": 31.1,
+        "festival_flag": 0,
+        "demand_kg": 7192
+      },
+      "3": {
+        "avg_market_price": 22.9,
+        "rainfall_mm": 18.8,
+        "temperature_c": 25.6,
+        "festival_flag": 0,
+        "demand_kg": 5947
+      },
+      "4": {
+        "avg_market_price": 24.37,
+        "rainfall_mm": 12.3,
+        "temperature_c": 21.0,
+        "festival_flag": 0,
+        "demand_kg": 4819
+      },
+      "5": {
+        "avg_market_price": 24.87,
+        "rainfall_mm": 66.7,
+        "temperature_c": 21.9,
+        "festival_flag": 0,
+        "demand_kg": 3746
+      },
+      "6": {
+        "avg_market_price": 23.74,
+        "rainfall_mm": 162.4,
+        "temperature_c": 23.4,
+        "festival_flag": 0,
+        "demand_kg": 3103
+      },
+      "7": {
+        "avg_market_price": 24.49,
+        "rainfall_mm": 184.9,
+        "temperature_c": 26.3,
+        "festival_flag": 0,
+        "demand_kg": 3503
+      },
+      "8": {
+        "avg_market_price": 24.23,
+        "rainfall_mm": 206.0,
+        "temperature_c": 30.4,
+        "festival_flag": 0,
+        "demand_kg": 4535
+      },
+      "9": {
+        "avg_market_price": 22.96,
+        "rainfall_mm": 153.3,
+        "temperature_c": 33.3,
+        "festival_flag": 0,
+        "demand_kg": 5634
+      },
+      "10": {
+        "avg_market_price": 22.36,
+        "rainfall_mm": 74.2,
+        "temperature_c": 37.3,
+        "festival_flag": 1,
+        "demand_kg": 7968
+      },
+      "11": {
+        "avg_market_price": 21.5,
+        "rainfall_mm": 29.9,
+        "temperature_c": 39.1,
+        "festival_flag": 1,
+        "demand_kg": 9447
+      },
+      "12": {
+        "avg_market_price": 20.98,
+        "rainfall_mm": 26.3,
+        "temperature_c": 36.0,
+        "festival_flag": 0,
+        "demand_kg": 8541
+      }
+    },
+    "Potato|Delhi": {
+      "1": {
+        "avg_market_price": 23.15,
+        "rainfall_mm": 13.9,
+        "temperature_c": 33.2,
+        "festival_flag": 0,
+        "demand_kg": 10116
+      },
+      "2": {
+        "avg_market_price": 20.84,
+        "rainfall_mm": 12.7,
+        "temperature_c": 30.6,
+        "festival_flag": 0,
+        "demand_kg": 8863
+      },
+      "3": {
+        "avg_market_price": 24.43,
+        "rainfall_mm": 29.3,
+        "temperature_c": 25.4,
+        "festival_flag": 0,
+        "demand_kg": 7420
+      },
+      "4": {
+        "avg_market_price": 24.26,
+        "rainfall_mm": 19.1,
+        "temperature_c": 21.5,
+        "festival_flag": 0,
+        "demand_kg": 6306
+      },
+      "5": {
+        "avg_market_price": 22.98,
+        "rainfall_mm": 55.2,
+        "temperature_c": 19.6,
+        "festival_flag": 0,
+        "demand_kg": 5245
+      },
+      "6": {
+        "avg_market_price": 25.51,
+        "rainfall_mm": 149.7,
+        "temperature_c": 22.6,
+        "festival_flag": 0,
+        "demand_kg": 4703
+      },
+      "7": {
+        "avg_market_price": 24.68,
+        "rainfall_mm": 183.7,
+        "temperature_c": 26.0,
+        "festival_flag": 0,
+        "demand_kg": 4762
+      },
+      "8": {
+        "avg_market_price": 23.52,
+        "rainfall_mm": 187.1,
+        "temperature_c": 31.5,
+        "festival_flag": 0,
+        "demand_kg": 5537
+      },
+      "9": {
+        "avg_market_price": 22.39,
+        "rainfall_mm": 147.3,
+        "temperature_c": 32.7,
+        "festival_flag": 0,
+        "demand_kg": 7050
+      },
+      "10": {
+        "avg_market_price": 23.04,
+        "rainfall_mm": 70.1,
+        "temperature_c": 38.2,
+        "festival_flag": 1,
+        "demand_kg": 10425
+      },
+      "11": {
+        "avg_market_price": 23.94,
+        "rainfall_mm": 35.2,
+        "temperature_c": 39.3,
+        "festival_flag": 1,
+        "demand_kg": 11990
+      },
+      "12": {
+        "avg_market_price": 22.62,
+        "rainfall_mm": 17.1,
+        "temperature_c": 36.3,
+        "festival_flag": 0,
+        "demand_kg": 10557
+      }
+    },
+    "Potato|Hyderabad": {
+      "1": {
+        "avg_market_price": 23.13,
+        "rainfall_mm": 22.9,
+        "temperature_c": 34.2,
+        "festival_flag": 0,
+        "demand_kg": 8415
+      },
+      "2": {
+        "avg_market_price": 22.66,
+        "rainfall_mm": 23.0,
+        "temperature_c": 29.6,
+        "festival_flag": 0,
+        "demand_kg": 7672
+      },
+      "3": {
+        "avg_market_price": 23.23,
+        "rainfall_mm": 9.4,
+        "temperature_c": 24.7,
+        "festival_flag": 0,
+        "demand_kg": 6137
+      },
+      "4": {
+        "avg_market_price": 24.61,
+        "rainfall_mm": 20.7,
+        "temperature_c": 22.1,
+        "festival_flag": 0,
+        "demand_kg": 5018
+      },
+      "5": {
+        "avg_market_price": 24.02,
+        "rainfall_mm": 74.0,
+        "temperature_c": 21.5,
+        "festival_flag": 0,
+        "demand_kg": 4710
+      },
+      "6": {
+        "avg_market_price": 23.76,
+        "rainfall_mm": 148.2,
+        "temperature_c": 23.3,
+        "festival_flag": 0,
+        "demand_kg": 3904
+      },
+      "7": {
+        "avg_market_price": 25.6,
+        "rainfall_mm": 196.6,
+        "temperature_c": 26.5,
+        "festival_flag": 0,
+        "demand_kg": 4115
+      },
+      "8": {
+        "avg_market_price": 25.59,
+        "rainfall_mm": 187.1,
+        "temperature_c": 29.7,
+        "festival_flag": 0,
+        "demand_kg": 4931
+      },
+      "9": {
+        "avg_market_price": 22.39,
+        "rainfall_mm": 148.5,
+        "temperature_c": 33.2,
+        "festival_flag": 0,
+        "demand_kg": 6101
+      },
+      "10": {
+        "avg_market_price": 22.47,
+        "rainfall_mm": 71.8,
+        "temperature_c": 38.4,
+        "festival_flag": 1,
+        "demand_kg": 8753
+      },
+      "11": {
+        "avg_market_price": 22.66,
+        "rainfall_mm": 11.9,
+        "temperature_c": 37.3,
+        "festival_flag": 1,
+        "demand_kg": 9772
+      },
+      "12": {
+        "avg_market_price": 22.63,
+        "rainfall_mm": 11.0,
+        "temperature_c": 38.4,
+        "festival_flag": 0,
+        "demand_kg": 9062
+      }
+    },
+    "Potato|Kolkata": {
+      "1": {
+        "avg_market_price": 22.01,
+        "rainfall_mm": 9.3,
+        "temperature_c": 35.0,
+        "festival_flag": 0,
+        "demand_kg": 9221
+      },
+      "2": {
+        "avg_market_price": 21.63,
+        "rainfall_mm": 18.6,
+        "temperature_c": 29.2,
+        "festival_flag": 0,
+        "demand_kg": 8251
+      },
+      "3": {
+        "avg_market_price": 23.72,
+        "rainfall_mm": 11.2,
+        "temperature_c": 26.2,
+        "festival_flag": 0,
+        "demand_kg": 6795
+      },
+      "4": {
+        "avg_market_price": 24.13,
+        "rainfall_mm": 20.7,
+        "temperature_c": 23.3,
+        "festival_flag": 0,
+        "demand_kg": 5323
+      },
+      "5": {
+        "avg_market_price": 23.74,
+        "rainfall_mm": 68.4,
+        "temperature_c": 20.4,
+        "festival_flag": 0,
+        "demand_kg": 4332
+      },
+      "6": {
+        "avg_market_price": 24.03,
+        "rainfall_mm": 136.6,
+        "temperature_c": 21.5,
+        "festival_flag": 0,
+        "demand_kg": 3720
+      },
+      "7": {
+        "avg_market_price": 24.54,
+        "rainfall_mm": 188.5,
+        "temperature_c": 25.8,
+        "festival_flag": 0,
+        "demand_kg": 4157
+      },
+      "8": {
+        "avg_market_price": 23.94,
+        "rainfall_mm": 201.4,
+        "temperature_c": 30.5,
+        "festival_flag": 0,
+        "demand_kg": 4858
+      },
+      "9": {
+        "avg_market_price": 22.3,
+        "rainfall_mm": 140.7,
+        "temperature_c": 35.1,
+        "festival_flag": 0,
+        "demand_kg": 5569
+      },
+      "10": {
+        "avg_market_price": 22.83,
+        "rainfall_mm": 66.0,
+        "temperature_c": 37.2,
+        "festival_flag": 1,
+        "demand_kg": 8867
+      },
+      "11": {
+        "avg_market_price": 22.09,
+        "rainfall_mm": 20.2,
+        "temperature_c": 40.9,
+        "festival_flag": 1,
+        "demand_kg": 10441
+      },
+      "12": {
+        "avg_market_price": 23.5,
+        "rainfall_mm": 5.0,
+        "temperature_c": 39.1,
+        "festival_flag": 0,
+        "demand_kg": 9560
+      }
+    },
+    "Potato|Mumbai": {
+      "1": {
+        "avg_market_price": 20.91,
+        "rainfall_mm": 5.5,
+        "temperature_c": 35.6,
+        "festival_flag": 0,
+        "demand_kg": 10880
+      },
+      "2": {
+        "avg_market_price": 23.1,
+        "rainfall_mm": 27.8,
+        "temperature_c": 28.8,
+        "festival_flag": 0,
+        "demand_kg": 9973
+      },
+      "3": {
+        "avg_market_price": 23.65,
+        "rainfall_mm": 18.2,
+        "temperature_c": 24.3,
+        "festival_flag": 0,
+        "demand_kg": 8731
+      },
+      "4": {
+        "avg_market_price": 23.36,
+        "rainfall_mm": 8.6,
+        "temperature_c": 22.1,
+        "festival_flag": 0,
+        "demand_kg": 7211
+      },
+      "5": {
+        "avg_market_price": 23.72,
+        "rainfall_mm": 61.3,
+        "temperature_c": 21.9,
+        "festival_flag": 0,
+        "demand_kg": 6537
+      },
+      "6": {
+        "avg_market_price": 24.06,
+        "rainfall_mm": 136.5,
+        "temperature_c": 23.2,
+        "festival_flag": 0,
+        "demand_kg": 5504
+      },
+      "7": {
+        "avg_market_price": 24.2,
+        "rainfall_mm": 207.5,
+        "temperature_c": 26.2,
+        "festival_flag": 0,
+        "demand_kg": 5167
+      },
+      "8": {
+        "avg_market_price": 24.29,
+        "rainfall_mm": 195.9,
+        "temperature_c": 29.6,
+        "festival_flag": 0,
+        "demand_kg": 6115
+      },
+      "9": {
+        "avg_market_price": 22.96,
+        "rainfall_mm": 150.3,
+        "temperature_c": 34.5,
+        "festival_flag": 0,
+        "demand_kg": 7791
+      },
+      "10": {
+        "avg_market_price": 22.58,
+        "rainfall_mm": 80.4,
+        "temperature_c": 36.9,
+        "festival_flag": 1,
+        "demand_kg": 11027
+      },
+      "11": {
+        "avg_market_price": 24.14,
+        "rainfall_mm": 11.3,
+        "temperature_c": 38.5,
+        "festival_flag": 1,
+        "demand_kg": 12506
+      },
+      "12": {
+        "avg_market_price": 21.31,
+        "rainfall_mm": 15.5,
+        "temperature_c": 36.1,
+        "festival_flag": 0,
+        "demand_kg": 11981
+      }
+    },
+    "Potato|Patna": {
+      "1": {
+        "avg_market_price": 20.67,
+        "rainfall_mm": 9.3,
+        "temperature_c": 34.8,
+        "festival_flag": 0,
+        "demand_kg": 5884
+      },
+      "2": {
+        "avg_market_price": 22.43,
+        "rainfall_mm": 23.9,
+        "temperature_c": 31.1,
+        "festival_flag": 0,
+        "demand_kg": 5344
+      },
+      "3": {
+        "avg_market_price": 23.04,
+        "rainfall_mm": 21.3,
+        "temperature_c": 26.7,
+        "festival_flag": 0,
+        "demand_kg": 4707
+      },
+      "4": {
+        "avg_market_price": 22.87,
+        "rainfall_mm": 9.9,
+        "temperature_c": 22.7,
+        "festival_flag": 0,
+        "demand_kg": 3999
+      },
+      "5": {
+        "avg_market_price": 24.71,
+        "rainfall_mm": 54.7,
+        "temperature_c": 20.6,
+        "festival_flag": 0,
+        "demand_kg": 2940
+      },
+      "6": {
+        "avg_market_price": 24.13,
+        "rainfall_mm": 131.2,
+        "temperature_c": 20.5,
+        "festival_flag": 0,
+        "demand_kg": 2515
+      },
+      "7": {
+        "avg_market_price": 23.94,
+        "rainfall_mm": 185.4,
+        "temperature_c": 25.3,
+        "festival_flag": 0,
+        "demand_kg": 2636
+      },
+      "8": {
+        "avg_market_price": 24.04,
+        "rainfall_mm": 188.2,
+        "temperature_c": 31.5,
+        "festival_flag": 0,
+        "demand_kg": 3511
+      },
+      "9": {
+        "avg_market_price": 23.64,
+        "rainfall_mm": 139.2,
+        "temperature_c": 33.3,
+        "festival_flag": 0,
+        "demand_kg": 4159
+      },
+      "10": {
+        "avg_market_price": 22.12,
+        "rainfall_mm": 61.7,
+        "temperature_c": 38.0,
+        "festival_flag": 1,
+        "demand_kg": 5912
+      },
+      "11": {
+        "avg_market_price": 22.02,
+        "rainfall_mm": 29.5,
+        "temperature_c": 37.5,
+        "festival_flag": 1,
+        "demand_kg": 6907
+      },
+      "12": {
+        "avg_market_price": 22.71,
+        "rainfall_mm": 16.6,
+        "temperature_c": 38.5,
+        "festival_flag": 0,
+        "demand_kg": 6312
+      }
+    },
+    "Potato|Pune": {
+      "1": {
+        "avg_market_price": 20.8,
+        "rainfall_mm": 22.0,
+        "temperature_c": 33.9,
+        "festival_flag": 0,
+        "demand_kg": 8309
+      },
+      "2": {
+        "avg_market_price": 23.69,
+        "rainfall_mm": 14.9,
+        "temperature_c": 30.0,
+        "festival_flag": 0,
+        "demand_kg": 7480
+      },
+      "3": {
+        "avg_market_price": 22.67,
+        "rainfall_mm": 26.9,
+        "temperature_c": 24.5,
+        "festival_flag": 0,
+        "demand_kg": 6180
+      },
+      "4": {
+        "avg_market_price": 24.55,
+        "rainfall_mm": 19.4,
+        "temperature_c": 21.9,
+        "festival_flag": 0,
+        "demand_kg": 5033
+      },
+      "5": {
+        "avg_market_price": 23.67,
+        "rainfall_mm": 74.1,
+        "temperature_c": 21.1,
+        "festival_flag": 0,
+        "demand_kg": 4128
+      },
+      "6": {
+        "avg_market_price": 24.65,
+        "rainfall_mm": 158.4,
+        "temperature_c": 22.3,
+        "festival_flag": 0,
+        "demand_kg": 3773
+      },
+      "7": {
+        "avg_market_price": 22.7,
+        "rainfall_mm": 201.3,
+        "temperature_c": 24.6,
+        "festival_flag": 0,
+        "demand_kg": 3574
+      },
+      "8": {
+        "avg_market_price": 23.34,
+        "rainfall_mm": 178.5,
+        "temperature_c": 29.4,
+        "festival_flag": 0,
+        "demand_kg": 4375
+      },
+      "9": {
+        "avg_market_price": 23.13,
+        "rainfall_mm": 144.5,
+        "temperature_c": 31.2,
+        "festival_flag": 0,
+        "demand_kg": 5496
+      },
+      "10": {
+        "avg_market_price": 22.36,
+        "rainfall_mm": 76.6,
+        "temperature_c": 37.6,
+        "festival_flag": 1,
+        "demand_kg": 8042
+      },
+      "11": {
+        "avg_market_price": 21.45,
+        "rainfall_mm": 15.7,
+        "temperature_c": 40.1,
+        "festival_flag": 1,
+        "demand_kg": 9559
+      },
+      "12": {
+        "avg_market_price": 23.6,
+        "rainfall_mm": 34.7,
+        "temperature_c": 36.7,
+        "festival_flag": 0,
+        "demand_kg": 8294
+      }
+    },
+    "Spinach|Bangalore": {
+      "1": {
+        "avg_market_price": 20.21,
+        "rainfall_mm": 15.4,
+        "temperature_c": 35.3,
+        "festival_flag": 0,
+        "demand_kg": 2728
+      },
+      "2": {
+        "avg_market_price": 21.03,
+        "rainfall_mm": 5.8,
+        "temperature_c": 29.3,
+        "festival_flag": 0,
+        "demand_kg": 2426
+      },
+      "3": {
+        "avg_market_price": 21.69,
+        "rainfall_mm": 18.7,
+        "temperature_c": 27.2,
+        "festival_flag": 0,
+        "demand_kg": 1817
+      },
+      "4": {
+        "avg_market_price": 23.06,
+        "rainfall_mm": 21.1,
+        "temperature_c": 22.0,
+        "festival_flag": 0,
+        "demand_kg": 1216
+      },
+      "5": {
+        "avg_market_price": 23.0,
+        "rainfall_mm": 65.6,
+        "temperature_c": 21.1,
+        "festival_flag": 0,
+        "demand_kg": 686
+      },
+      "6": {
+        "avg_market_price": 21.57,
+        "rainfall_mm": 137.5,
+        "temperature_c": 23.1,
+        "festival_flag": 0,
+        "demand_kg": 390
+      },
+      "7": {
+        "avg_market_price": 22.77,
+        "rainfall_mm": 192.2,
+        "temperature_c": 25.3,
+        "festival_flag": 0,
+        "demand_kg": 528
+      },
+      "8": {
+        "avg_market_price": 20.37,
+        "rainfall_mm": 190.0,
+        "temperature_c": 30.2,
+        "festival_flag": 0,
+        "demand_kg": 876
+      },
+      "9": {
+        "avg_market_price": 21.96,
+        "rainfall_mm": 162.8,
+        "temperature_c": 34.8,
+        "festival_flag": 0,
+        "demand_kg": 1444
+      },
+      "10": {
+        "avg_market_price": 22.18,
+        "rainfall_mm": 63.9,
+        "temperature_c": 38.1,
+        "festival_flag": 1,
+        "demand_kg": 2507
+      },
+      "11": {
+        "avg_market_price": 18.96,
+        "rainfall_mm": 27.0,
+        "temperature_c": 39.4,
+        "festival_flag": 1,
+        "demand_kg": 3187
+      },
+      "12": {
+        "avg_market_price": 19.26,
+        "rainfall_mm": 20.3,
+        "temperature_c": 37.7,
+        "festival_flag": 0,
+        "demand_kg": 3118
+      }
+    },
+    "Spinach|Chennai": {
+      "1": {
+        "avg_market_price": 19.62,
+        "rainfall_mm": 26.4,
+        "temperature_c": 35.7,
+        "festival_flag": 0,
+        "demand_kg": 2392
+      },
+      "2": {
+        "avg_market_price": 21.13,
+        "rainfall_mm": 29.4,
+        "temperature_c": 30.1,
+        "festival_flag": 0,
+        "demand_kg": 2093
+      },
+      "3": {
+        "avg_market_price": 21.24,
+        "rainfall_mm": 18.5,
+        "temperature_c": 26.3,
+        "festival_flag": 0,
+        "demand_kg": 1577
+      },
+      "4": {
+        "avg_market_price": 20.18,
+        "rainfall_mm": 17.5,
+        "temperature_c": 23.5,
+        "festival_flag": 0,
+        "demand_kg": 1159
+      },
+      "5": {
+        "avg_market_price": 21.05,
+        "rainfall_mm": 55.8,
+        "temperature_c": 21.7,
+        "festival_flag": 0,
+        "demand_kg": 588
+      },
+      "6": {
+        "avg_market_price": 23.13,
+        "rainfall_mm": 151.4,
+        "temperature_c": 21.9,
+        "festival_flag": 0,
+        "demand_kg": 376
+      },
+      "7": {
+        "avg_market_price": 22.58,
+        "rainfall_mm": 197.1,
+        "temperature_c": 24.5,
+        "festival_flag": 0,
+        "demand_kg": 482
+      },
+      "8": {
+        "avg_market_price": 21.67,
+        "rainfall_mm": 202.0,
+        "temperature_c": 30.3,
+        "festival_flag": 0,
+        "demand_kg": 805
+      },
+      "9": {
+        "avg_market_price": 20.25,
+        "rainfall_mm": 143.2,
+        "temperature_c": 34.8,
+        "festival_flag": 0,
+        "demand_kg": 1161
+      },
+      "10": {
+        "avg_market_price": 20.8,
+        "rainfall_mm": 65.4,
+        "temperature_c": 38.6,
+        "festival_flag": 1,
+        "demand_kg": 2164
+      },
+      "11": {
+        "avg_market_price": 20.23,
+        "rainfall_mm": 14.0,
+        "temperature_c": 39.5,
+        "festival_flag": 1,
+        "demand_kg": 2801
+      },
+      "12": {
+        "avg_market_price": 20.43,
+        "rainfall_mm": 18.5,
+        "temperature_c": 37.4,
+        "festival_flag": 0,
+        "demand_kg": 2456
+      }
+    },
+    "Spinach|Delhi": {
+      "1": {
+        "avg_market_price": 20.11,
+        "rainfall_mm": 13.6,
+        "temperature_c": 34.6,
+        "festival_flag": 0,
+        "demand_kg": 3039
+      },
+      "2": {
+        "avg_market_price": 20.81,
+        "rainfall_mm": 7.2,
+        "temperature_c": 29.8,
+        "festival_flag": 0,
+        "demand_kg": 2684
+      },
+      "3": {
+        "avg_market_price": 22.81,
+        "rainfall_mm": 31.5,
+        "temperature_c": 25.0,
+        "festival_flag": 0,
+        "demand_kg": 2146
+      },
+      "4": {
+        "avg_market_price": 20.77,
+        "rainfall_mm": 28.1,
+        "temperature_c": 21.6,
+        "festival_flag": 0,
+        "demand_kg": 1435
+      },
+      "5": {
+        "avg_market_price": 22.09,
+        "rainfall_mm": 64.9,
+        "temperature_c": 20.8,
+        "festival_flag": 0,
+        "demand_kg": 904
+      },
+      "6": {
+        "avg_market_price": 20.99,
+        "rainfall_mm": 146.9,
+        "temperature_c": 22.7,
+        "festival_flag": 0,
+        "demand_kg": 426
+      },
+      "7": {
+        "avg_market_price": 22.02,
+        "rainfall_mm": 199.1,
+        "temperature_c": 24.8,
+        "festival_flag": 0,
+        "demand_kg": 449
+      },
+      "8": {
+        "avg_market_price": 20.8,
+        "rainfall_mm": 186.1,
+        "temperature_c": 28.0,
+        "festival_flag": 0,
+        "demand_kg": 861
+      },
+      "9": {
+        "avg_market_price": 22.51,
+        "rainfall_mm": 150.0,
+        "temperature_c": 34.3,
+        "festival_flag": 0,
+        "demand_kg": 1567
+      },
+      "10": {
+        "avg_market_price": 20.47,
+        "rainfall_mm": 66.4,
+        "temperature_c": 36.9,
+        "festival_flag": 1,
+        "demand_kg": 2718
+      },
+      "11": {
+        "avg_market_price": 20.57,
+        "rainfall_mm": 23.5,
+        "temperature_c": 39.0,
+        "festival_flag": 1,
+        "demand_kg": 3459
+      },
+      "12": {
+        "avg_market_price": 19.62,
+        "rainfall_mm": 20.8,
+        "temperature_c": 36.5,
+        "festival_flag": 0,
+        "demand_kg": 3325
+      }
+    },
+    "Spinach|Hyderabad": {
+      "1": {
+        "avg_market_price": 20.31,
+        "rainfall_mm": 25.1,
+        "temperature_c": 34.7,
+        "festival_flag": 0,
+        "demand_kg": 2479
+      },
+      "2": {
+        "avg_market_price": 21.75,
+        "rainfall_mm": 8.1,
+        "temperature_c": 29.9,
+        "festival_flag": 0,
+        "demand_kg": 2179
+      },
+      "3": {
+        "avg_market_price": 20.48,
+        "rainfall_mm": 24.3,
+        "temperature_c": 25.0,
+        "festival_flag": 0,
+        "demand_kg": 1815
+      },
+      "4": {
+        "avg_market_price": 23.56,
+        "rainfall_mm": 25.7,
+        "temperature_c": 22.9,
+        "festival_flag": 0,
+        "demand_kg": 1053
+      },
+      "5": {
+        "avg_market_price": 22.12,
+        "rainfall_mm": 54.4,
+        "temperature_c": 19.6,
+        "festival_flag": 0,
+        "demand_kg": 573
+      },
+      "6": {
+        "avg_market_price": 23.08,
+        "rainfall_mm": 146.0,
+        "temperature_c": 21.6,
+        "festival_flag": 0,
+        "demand_kg": 368
+      },
+      "7": {
+        "avg_market_price": 23.59,
+        "rainfall_mm": 195.2,
+        "temperature_c": 26.8,
+        "festival_flag": 0,
+        "demand_kg": 426
+      },
+      "8": {
+        "avg_market_price": 21.76,
+        "rainfall_mm": 192.1,
+        "temperature_c": 28.0,
+        "festival_flag": 0,
+        "demand_kg": 733
+      },
+      "9": {
+        "avg_market_price": 21.18,
+        "rainfall_mm": 158.9,
+        "temperature_c": 34.4,
+        "festival_flag": 0,
+        "demand_kg": 1295
+      },
+      "10": {
+        "avg_market_price": 20.42,
+        "rainfall_mm": 68.3,
+        "temperature_c": 37.6,
+        "festival_flag": 1,
+        "demand_kg": 2254
+      },
+      "11": {
+        "avg_market_price": 20.61,
+        "rainfall_mm": 22.6,
+        "temperature_c": 40.2,
+        "festival_flag": 1,
+        "demand_kg": 2828
+      },
+      "12": {
+        "avg_market_price": 21.37,
+        "rainfall_mm": 13.1,
+        "temperature_c": 39.5,
+        "festival_flag": 0,
+        "demand_kg": 2651
+      }
+    },
+    "Spinach|Kolkata": {
+      "1": {
+        "avg_market_price": 19.69,
+        "rainfall_mm": 5.2,
+        "temperature_c": 35.8,
+        "festival_flag": 0,
+        "demand_kg": 2673
+      },
+      "2": {
+        "avg_market_price": 19.87,
+        "rainfall_mm": 17.7,
+        "temperature_c": 29.8,
+        "festival_flag": 0,
+        "demand_kg": 2347
+      },
+      "3": {
+        "avg_market_price": 22.45,
+        "rainfall_mm": 30.5,
+        "temperature_c": 26.4,
+        "festival_flag": 0,
+        "demand_kg": 1814
+      },
+      "4": {
+        "avg_market_price": 23.08,
+        "rainfall_mm": 27.3,
+        "temperature_c": 22.9,
+        "festival_flag": 0,
+        "demand_kg": 1263
+      },
+      "5": {
+        "avg_market_price": 22.04,
+        "rainfall_mm": 65.8,
+        "temperature_c": 20.3,
+        "festival_flag": 0,
+        "demand_kg": 756
+      },
+      "6": {
+        "avg_market_price": 22.54,
+        "rainfall_mm": 143.7,
+        "temperature_c": 22.4,
+        "festival_flag": 0,
+        "demand_kg": 425
+      },
+      "7": {
+        "avg_market_price": 21.78,
+        "rainfall_mm": 201.9,
+        "temperature_c": 25.1,
+        "festival_flag": 0,
+        "demand_kg": 490
+      },
+      "8": {
+        "avg_market_price": 21.83,
+        "rainfall_mm": 200.5,
+        "temperature_c": 30.6,
+        "festival_flag": 0,
+        "demand_kg": 777
+      },
+      "9": {
+        "avg_market_price": 20.9,
+        "rainfall_mm": 140.9,
+        "temperature_c": 34.9,
+        "festival_flag": 0,
+        "demand_kg": 1391
+      },
+      "10": {
+        "avg_market_price": 20.74,
+        "rainfall_mm": 78.7,
+        "temperature_c": 37.1,
+        "festival_flag": 1,
+        "demand_kg": 2464
+      },
+      "11": {
+        "avg_market_price": 19.57,
+        "rainfall_mm": 25.4,
+        "temperature_c": 38.7,
+        "festival_flag": 1,
+        "demand_kg": 2987
+      },
+      "12": {
+        "avg_market_price": 21.14,
+        "rainfall_mm": 22.5,
+        "temperature_c": 38.2,
+        "festival_flag": 0,
+        "demand_kg": 2859
+      }
+    },
+    "Spinach|Mumbai": {
+      "1": {
+        "avg_market_price": 20.84,
+        "rainfall_mm": 19.0,
+        "temperature_c": 34.1,
+        "festival_flag": 0,
+        "demand_kg": 3237
+      },
+      "2": {
+        "avg_market_price": 20.95,
+        "rainfall_mm": 28.7,
+        "temperature_c": 28.9,
+        "festival_flag": 0,
+        "demand_kg": 2872
+      },
+      "3": {
+        "avg_market_price": 21.13,
+        "rainfall_mm": 11.4,
+        "temperature_c": 26.6,
+        "festival_flag": 0,
+        "demand_kg": 2259
+      },
+      "4": {
+        "avg_market_price": 21.73,
+        "rainfall_mm": 19.3,
+        "temperature_c": 22.7,
+        "festival_flag": 0,
+        "demand_kg": 1467
+      },
+      "5": {
+        "avg_market_price": 22.18,
+        "rainfall_mm": 64.1,
+        "temperature_c": 21.8,
+        "festival_flag": 0,
+        "demand_kg": 709
+      },
+      "6": {
+        "avg_market_price": 22.42,
+        "rainfall_mm": 154.0,
+        "temperature_c": 22.2,
+        "festival_flag": 0,
+        "demand_kg": 531
+      },
+      "7": {
+        "avg_market_price": 21.51,
+        "rainfall_mm": 186.6,
+        "temperature_c": 23.9,
+        "festival_flag": 0,
+        "demand_kg": 586
+      },
+      "8": {
+        "avg_market_price": 21.04,
+        "rainfall_mm": 203.2,
+        "temperature_c": 30.0,
+        "festival_flag": 0,
+        "demand_kg": 919
+      },
+      "9": {
+        "avg_market_price": 19.54,
+        "rainfall_mm": 139.5,
+        "temperature_c": 33.5,
+        "festival_flag": 0,
+        "demand_kg": 1701
+      },
+      "10": {
+        "avg_market_price": 20.46,
+        "rainfall_mm": 68.6,
+        "temperature_c": 37.4,
+        "festival_flag": 1,
+        "demand_kg": 2913
+      },
+      "11": {
+        "avg_market_price": 20.24,
+        "rainfall_mm": 23.7,
+        "temperature_c": 39.1,
+        "festival_flag": 1,
+        "demand_kg": 3605
+      },
+      "12": {
+        "avg_market_price": 19.81,
+        "rainfall_mm": 16.1,
+        "temperature_c": 38.2,
+        "festival_flag": 0,
+        "demand_kg": 3541
+      }
+    },
+    "Spinach|Patna": {
+      "1": {
+        "avg_market_price": 19.91,
+        "rainfall_mm": 26.1,
+        "temperature_c": 34.3,
+        "festival_flag": 0,
+        "demand_kg": 1844
+      },
+      "2": {
+        "avg_market_price": 20.1,
+        "rainfall_mm": 32.7,
+        "temperature_c": 31.6,
+        "festival_flag": 0,
+        "demand_kg": 1604
+      },
+      "3": {
+        "avg_market_price": 20.32,
+        "rainfall_mm": 26.2,
+        "temperature_c": 27.0,
+        "festival_flag": 0,
+        "demand_kg": 1244
+      },
+      "4": {
+        "avg_market_price": 22.76,
+        "rainfall_mm": 13.3,
+        "temperature_c": 22.1,
+        "festival_flag": 0,
+        "demand_kg": 735
+      },
+      "5": {
+        "avg_market_price": 22.16,
+        "rainfall_mm": 58.1,
+        "temperature_c": 19.6,
+        "festival_flag": 0,
+        "demand_kg": 502
+      },
+      "6": {
+        "avg_market_price": 20.57,
+        "rainfall_mm": 157.8,
+        "temperature_c": 22.4,
+        "festival_flag": 0,
+        "demand_kg": 346
+      },
+      "7": {
+        "avg_market_price": 21.53,
+        "rainfall_mm": 203.7,
+        "temperature_c": 25.5,
+        "festival_flag": 0,
+        "demand_kg": 307
+      },
+      "8": {
+        "avg_market_price": 20.52,
+        "rainfall_mm": 194.1,
+        "temperature_c": 30.0,
+        "festival_flag": 0,
+        "demand_kg": 558
+      },
+      "9": {
+        "avg_market_price": 22.75,
+        "rainfall_mm": 130.1,
+        "temperature_c": 35.5,
+        "festival_flag": 0,
+        "demand_kg": 973
+      },
+      "10": {
+        "avg_market_price": 20.48,
+        "rainfall_mm": 68.2,
+        "temperature_c": 39.2,
+        "festival_flag": 1,
+        "demand_kg": 1648
+      },
+      "11": {
+        "avg_market_price": 20.77,
+        "rainfall_mm": 18.2,
+        "temperature_c": 40.6,
+        "festival_flag": 1,
+        "demand_kg": 2091
+      },
+      "12": {
+        "avg_market_price": 19.81,
+        "rainfall_mm": 26.2,
+        "temperature_c": 37.4,
+        "festival_flag": 0,
+        "demand_kg": 1997
+      }
+    },
+    "Spinach|Pune": {
+      "1": {
+        "avg_market_price": 21.15,
+        "rainfall_mm": 19.4,
+        "temperature_c": 35.7,
+        "festival_flag": 0,
+        "demand_kg": 2414
+      },
+      "2": {
+        "avg_market_price": 21.16,
+        "rainfall_mm": 11.5,
+        "temperature_c": 30.9,
+        "festival_flag": 0,
+        "demand_kg": 2076
+      },
+      "3": {
+        "avg_market_price": 21.76,
+        "rainfall_mm": 28.8,
+        "temperature_c": 25.1,
+        "festival_flag": 0,
+        "demand_kg": 1662
+      },
+      "4": {
+        "avg_market_price": 20.95,
+        "rainfall_mm": 19.0,
+        "temperature_c": 20.3,
+        "festival_flag": 0,
+        "demand_kg": 1113
+      },
+      "5": {
+        "avg_market_price": 23.28,
+        "rainfall_mm": 61.0,
+        "temperature_c": 20.9,
+        "festival_flag": 0,
+        "demand_kg": 587
+      },
+      "6": {
+        "avg_market_price": 22.5,
+        "rainfall_mm": 128.3,
+        "temperature_c": 23.1,
+        "festival_flag": 0,
+        "demand_kg": 384
+      },
+      "7": {
+        "avg_market_price": 21.69,
+        "rainfall_mm": 185.9,
+        "temperature_c": 25.8,
+        "festival_flag": 0,
+        "demand_kg": 375
+      },
+      "8": {
+        "avg_market_price": 21.96,
+        "rainfall_mm": 187.8,
+        "temperature_c": 29.7,
+        "festival_flag": 0,
+        "demand_kg": 684
+      },
+      "9": {
+        "avg_market_price": 21.99,
+        "rainfall_mm": 153.4,
+        "temperature_c": 34.0,
+        "festival_flag": 0,
+        "demand_kg": 1185
+      },
+      "10": {
+        "avg_market_price": 20.16,
+        "rainfall_mm": 82.3,
+        "temperature_c": 37.2,
+        "festival_flag": 1,
+        "demand_kg": 2237
+      },
+      "11": {
+        "avg_market_price": 21.15,
+        "rainfall_mm": 20.9,
+        "temperature_c": 38.3,
+        "festival_flag": 1,
+        "demand_kg": 2714
+      },
+      "12": {
+        "avg_market_price": 18.38,
+        "rainfall_mm": 23.0,
+        "temperature_c": 37.5,
+        "festival_flag": 0,
+        "demand_kg": 2596
+      }
+    },
+    "Tomato|Bangalore": {
+      "1": {
+        "avg_market_price": 26.31,
+        "rainfall_mm": 21.7,
+        "temperature_c": 35.1,
+        "festival_flag": 0,
+        "demand_kg": 7366
+      },
+      "2": {
+        "avg_market_price": 24.81,
+        "rainfall_mm": 14.8,
+        "temperature_c": 29.6,
+        "festival_flag": 0,
+        "demand_kg": 7529
+      },
+      "3": {
+        "avg_market_price": 26.34,
+        "rainfall_mm": 12.1,
+        "temperature_c": 26.6,
+        "festival_flag": 0,
+        "demand_kg": 6668
+      },
+      "4": {
+        "avg_market_price": 28.03,
+        "rainfall_mm": 10.2,
+        "temperature_c": 21.3,
+        "festival_flag": 0,
+        "demand_kg": 5266
+      },
+      "5": {
+        "avg_market_price": 27.44,
+        "rainfall_mm": 61.7,
+        "temperature_c": 21.0,
+        "festival_flag": 0,
+        "demand_kg": 3598
+      },
+      "6": {
+        "avg_market_price": 28.79,
+        "rainfall_mm": 167.4,
+        "temperature_c": 24.0,
+        "festival_flag": 0,
+        "demand_kg": 2446
+      },
+      "7": {
+        "avg_market_price": 30.36,
+        "rainfall_mm": 185.9,
+        "temperature_c": 25.8,
+        "festival_flag": 0,
+        "demand_kg": 1891
+      },
+      "8": {
+        "avg_market_price": 26.86,
+        "rainfall_mm": 188.9,
+        "temperature_c": 29.3,
+        "festival_flag": 0,
+        "demand_kg": 1829
+      },
+      "9": {
+        "avg_market_price": 28.6,
+        "rainfall_mm": 141.8,
+        "temperature_c": 34.4,
+        "festival_flag": 0,
+        "demand_kg": 3044
+      },
+      "10": {
+        "avg_market_price": 28.07,
+        "rainfall_mm": 80.0,
+        "temperature_c": 37.4,
+        "festival_flag": 1,
+        "demand_kg": 5242
+      },
+      "11": {
+        "avg_market_price": 27.02,
+        "rainfall_mm": 16.4,
+        "temperature_c": 38.8,
+        "festival_flag": 1,
+        "demand_kg": 6994
+      },
+      "12": {
+        "avg_market_price": 26.98,
+        "rainfall_mm": 33.7,
+        "temperature_c": 36.5,
+        "festival_flag": 0,
+        "demand_kg": 7345
+      }
+    },
+    "Tomato|Chennai": {
+      "1": {
+        "avg_market_price": 24.85,
+        "rainfall_mm": 19.0,
+        "temperature_c": 35.3,
+        "festival_flag": 0,
+        "demand_kg": 6626
+      },
+      "2": {
+        "avg_market_price": 26.2,
+        "rainfall_mm": 23.3,
+        "temperature_c": 30.3,
+        "festival_flag": 0,
+        "demand_kg": 6423
+      },
+      "3": {
+        "avg_market_price": 26.17,
+        "rainfall_mm": 11.3,
+        "temperature_c": 25.2,
+        "festival_flag": 0,
+        "demand_kg": 5792
+      },
+      "4": {
+        "avg_market_price": 27.82,
+        "rainfall_mm": 34.6,
+        "temperature_c": 22.2,
+        "festival_flag": 0,
+        "demand_kg": 4415
+      },
+      "5": {
+        "avg_market_price": 26.55,
+        "rainfall_mm": 57.1,
+        "temperature_c": 20.0,
+        "festival_flag": 0,
+        "demand_kg": 3294
+      },
+      "6": {
+        "avg_market_price": 30.02,
+        "rainfall_mm": 152.9,
+        "temperature_c": 24.0,
+        "festival_flag": 0,
+        "demand_kg": 2317
+      },
+      "7": {
+        "avg_market_price": 28.66,
+        "rainfall_mm": 191.4,
+        "temperature_c": 24.6,
+        "festival_flag": 0,
+        "demand_kg": 1694
+      },
+      "8": {
+        "avg_market_price": 28.56,
+        "rainfall_mm": 195.9,
+        "temperature_c": 30.2,
+        "festival_flag": 0,
+        "demand_kg": 1845
+      },
+      "9": {
+        "avg_market_price": 28.35,
+        "rainfall_mm": 146.1,
+        "temperature_c": 34.9,
+        "festival_flag": 0,
+        "demand_kg": 2585
+      },
+      "10": {
+        "avg_market_price": 26.07,
+        "rainfall_mm": 75.4,
+        "temperature_c": 36.3,
+        "festival_flag": 1,
+        "demand_kg": 4653
+      },
+      "11": {
+        "avg_market_price": 26.88,
+        "rainfall_mm": 23.2,
+        "temperature_c": 39.8,
+        "festival_flag": 1,
+        "demand_kg": 6211
+      },
+      "12": {
+        "avg_market_price": 25.93,
+        "rainfall_mm": 31.3,
+        "temperature_c": 39.8,
+        "festival_flag": 0,
+        "demand_kg": 6590
+      }
+    },
+    "Tomato|Delhi": {
+      "1": {
+        "avg_market_price": 26.67,
+        "rainfall_mm": 18.3,
+        "temperature_c": 33.5,
+        "festival_flag": 0,
+        "demand_kg": 8078
+      },
+      "2": {
+        "avg_market_price": 25.88,
+        "rainfall_mm": 4.8,
+        "temperature_c": 29.8,
+        "festival_flag": 0,
+        "demand_kg": 7984
+      },
+      "3": {
+        "avg_market_price": 26.34,
+        "rainfall_mm": 13.9,
+        "temperature_c": 25.7,
+        "festival_flag": 0,
+        "demand_kg": 7251
+      },
+      "4": {
+        "avg_market_price": 28.06,
+        "rainfall_mm": 17.9,
+        "temperature_c": 21.7,
+        "festival_flag": 0,
+        "demand_kg": 5681
+      },
+      "5": {
+        "avg_market_price": 28.62,
+        "rainfall_mm": 69.0,
+        "temperature_c": 20.2,
+        "festival_flag": 0,
+        "demand_kg": 3983
+      },
+      "6": {
+        "avg_market_price": 29.64,
+        "rainfall_mm": 151.8,
+        "temperature_c": 21.8,
+        "festival_flag": 0,
+        "demand_kg": 2592
+      },
+      "7": {
+        "avg_market_price": 29.54,
+        "rainfall_mm": 182.0,
+        "temperature_c": 25.7,
+        "festival_flag": 0,
+        "demand_kg": 2326
+      },
+      "8": {
+        "avg_market_price": 30.89,
+        "rainfall_mm": 198.0,
+        "temperature_c": 30.4,
+        "festival_flag": 0,
+        "demand_kg": 2070
+      },
+      "9": {
+        "avg_market_price": 28.27,
+        "rainfall_mm": 143.8,
+        "temperature_c": 33.3,
+        "festival_flag": 0,
+        "demand_kg": 3121
+      },
+      "10": {
+        "avg_market_price": 26.27,
+        "rainfall_mm": 63.2,
+        "temperature_c": 37.5,
+        "festival_flag": 1,
+        "demand_kg": 5617
+      },
+      "11": {
+        "avg_market_price": 27.71,
+        "rainfall_mm": 27.7,
+        "temperature_c": 39.9,
+        "festival_flag": 1,
+        "demand_kg": 7946
+      },
+      "12": {
+        "avg_market_price": 24.83,
+        "rainfall_mm": 20.6,
+        "temperature_c": 37.4,
+        "festival_flag": 0,
+        "demand_kg": 7907
+      }
+    },
+    "Tomato|Hyderabad": {
+      "1": {
+        "avg_market_price": 25.37,
+        "rainfall_mm": 27.4,
+        "temperature_c": 34.7,
+        "festival_flag": 0,
+        "demand_kg": 6867
+      },
+      "2": {
+        "avg_market_price": 26.86,
+        "rainfall_mm": 24.1,
+        "temperature_c": 29.6,
+        "festival_flag": 0,
+        "demand_kg": 6395
+      },
+      "3": {
+        "avg_market_price": 25.82,
+        "rainfall_mm": 26.7,
+        "temperature_c": 25.1,
+        "festival_flag": 0,
+        "demand_kg": 5672
+      },
+      "4": {
+        "avg_market_price": 26.97,
+        "rainfall_mm": 20.2,
+        "temperature_c": 23.3,
+        "festival_flag": 0,
+        "demand_kg": 4637
+      },
+      "5": {
+        "avg_market_price": 27.16,
+        "rainfall_mm": 72.1,
+        "temperature_c": 21.3,
+        "festival_flag": 0,
+        "demand_kg": 3413
+      },
+      "6": {
+        "avg_market_price": 29.74,
+        "rainfall_mm": 150.0,
+        "temperature_c": 22.4,
+        "festival_flag": 0,
+        "demand_kg": 2383
+      },
+      "7": {
+        "avg_market_price": 28.52,
+        "rainfall_mm": 177.5,
+        "temperature_c": 24.9,
+        "festival_flag": 0,
+        "demand_kg": 1860
+      },
+      "8": {
+        "avg_market_price": 29.4,
+        "rainfall_mm": 191.3,
+        "temperature_c": 30.2,
+        "festival_flag": 0,
+        "demand_kg": 2231
+      },
+      "9": {
+        "avg_market_price": 28.67,
+        "rainfall_mm": 154.3,
+        "temperature_c": 34.6,
+        "festival_flag": 0,
+        "demand_kg": 2404
+      },
+      "10": {
+        "avg_market_price": 26.75,
+        "rainfall_mm": 74.3,
+        "temperature_c": 36.1,
+        "festival_flag": 1,
+        "demand_kg": 4931
+      },
+      "11": {
+        "avg_market_price": 26.15,
+        "rainfall_mm": 19.0,
+        "temperature_c": 39.1,
+        "festival_flag": 1,
+        "demand_kg": 6564
+      },
+      "12": {
+        "avg_market_price": 26.17,
+        "rainfall_mm": 17.9,
+        "temperature_c": 38.6,
+        "festival_flag": 0,
+        "demand_kg": 6699
+      }
+    },
+    "Tomato|Kolkata": {
+      "1": {
+        "avg_market_price": 26.08,
+        "rainfall_mm": 25.5,
+        "temperature_c": 34.2,
+        "festival_flag": 0,
+        "demand_kg": 7278
+      },
+      "2": {
+        "avg_market_price": 27.0,
+        "rainfall_mm": 20.0,
+        "temperature_c": 28.4,
+        "festival_flag": 0,
+        "demand_kg": 7174
+      },
+      "3": {
+        "avg_market_price": 26.67,
+        "rainfall_mm": 25.6,
+        "temperature_c": 25.8,
+        "festival_flag": 0,
+        "demand_kg": 6124
+      },
+      "4": {
+        "avg_market_price": 27.63,
+        "rainfall_mm": 18.1,
+        "temperature_c": 22.2,
+        "festival_flag": 0,
+        "demand_kg": 5154
+      },
+      "5": {
+        "avg_market_price": 28.85,
+        "rainfall_mm": 65.9,
+        "temperature_c": 20.3,
+        "festival_flag": 0,
+        "demand_kg": 3577
+      },
+      "6": {
+        "avg_market_price": 28.92,
+        "rainfall_mm": 147.8,
+        "temperature_c": 21.4,
+        "festival_flag": 0,
+        "demand_kg": 2053
+      },
+      "7": {
+        "avg_market_price": 30.15,
+        "rainfall_mm": 185.7,
+        "temperature_c": 24.5,
+        "festival_flag": 0,
+        "demand_kg": 1634
+      },
+      "8": {
+        "avg_market_price": 29.06,
+        "rainfall_mm": 204.6,
+        "temperature_c": 29.6,
+        "festival_flag": 0,
+        "demand_kg": 1990
+      },
+      "9": {
+        "avg_market_price": 28.0,
+        "rainfall_mm": 139.7,
+        "temperature_c": 34.4,
+        "festival_flag": 0,
+        "demand_kg": 2890
+      },
+      "10": {
+        "avg_market_price": 26.76,
+        "rainfall_mm": 49.9,
+        "temperature_c": 38.4,
+        "festival_flag": 1,
+        "demand_kg": 4910
+      },
+      "11": {
+        "avg_market_price": 25.64,
+        "rainfall_mm": 18.0,
+        "temperature_c": 38.3,
+        "festival_flag": 1,
+        "demand_kg": 6828
+      },
+      "12": {
+        "avg_market_price": 26.54,
+        "rainfall_mm": 8.5,
+        "temperature_c": 36.8,
+        "festival_flag": 0,
+        "demand_kg": 6829
+      }
+    },
+    "Tomato|Mumbai": {
+      "1": {
+        "avg_market_price": 24.38,
+        "rainfall_mm": 9.6,
+        "temperature_c": 35.0,
+        "festival_flag": 0,
+        "demand_kg": 8435
+      },
+      "2": {
+        "avg_market_price": 25.62,
+        "rainfall_mm": 39.2,
+        "temperature_c": 29.2,
+        "festival_flag": 0,
+        "demand_kg": 8655
+      },
+      "3": {
+        "avg_market_price": 26.63,
+        "rainfall_mm": 29.6,
+        "temperature_c": 25.4,
+        "festival_flag": 0,
+        "demand_kg": 7984
+      },
+      "4": {
+        "avg_market_price": 26.82,
+        "rainfall_mm": 22.6,
+        "temperature_c": 22.2,
+        "festival_flag": 0,
+        "demand_kg": 6038
+      },
+      "5": {
+        "avg_market_price": 29.7,
+        "rainfall_mm": 59.5,
+        "temperature_c": 20.3,
+        "festival_flag": 0,
+        "demand_kg": 3968
+      },
+      "6": {
+        "avg_market_price": 29.3,
+        "rainfall_mm": 150.4,
+        "temperature_c": 21.4,
+        "festival_flag": 0,
+        "demand_kg": 3005
+      },
+      "7": {
+        "avg_market_price": 28.81,
+        "rainfall_mm": 198.1,
+        "temperature_c": 26.6,
+        "festival_flag": 0,
+        "demand_kg": 2327
+      },
+      "8": {
+        "avg_market_price": 28.06,
+        "rainfall_mm": 190.7,
+        "temperature_c": 29.5,
+        "festival_flag": 0,
+        "demand_kg": 2449
+      },
+      "9": {
+        "avg_market_price": 30.19,
+        "rainfall_mm": 155.1,
+        "temperature_c": 35.7,
+        "festival_flag": 0,
+        "demand_kg": 3723
+      },
+      "10": {
+        "avg_market_price": 27.24,
+        "rainfall_mm": 65.0,
+        "temperature_c": 37.2,
+        "festival_flag": 1,
+        "demand_kg": 6252
+      },
+      "11": {
+        "avg_market_price": 26.96,
+        "rainfall_mm": 26.1,
+        "temperature_c": 39.5,
+        "festival_flag": 1,
+        "demand_kg": 8149
+      },
+      "12": {
+        "avg_market_price": 26.64,
+        "rainfall_mm": 1.1,
+        "temperature_c": 38.3,
+        "festival_flag": 0,
+        "demand_kg": 8404
+      }
+    },
+    "Tomato|Patna": {
+      "1": {
+        "avg_market_price": 25.87,
+        "rainfall_mm": 11.1,
+        "temperature_c": 36.0,
+        "festival_flag": 0,
+        "demand_kg": 4754
+      },
+      "2": {
+        "avg_market_price": 25.81,
+        "rainfall_mm": 14.3,
+        "temperature_c": 32.1,
+        "festival_flag": 0,
+        "demand_kg": 4713
+      },
+      "3": {
+        "avg_market_price": 27.03,
+        "rainfall_mm": 2.2,
+        "temperature_c": 25.1,
+        "festival_flag": 0,
+        "demand_kg": 4131
+      },
+      "4": {
+        "avg_market_price": 28.71,
+        "rainfall_mm": 28.5,
+        "temperature_c": 20.7,
+        "festival_flag": 0,
+        "demand_kg": 3473
+      },
+      "5": {
+        "avg_market_price": 27.25,
+        "rainfall_mm": 64.9,
+        "temperature_c": 21.3,
+        "festival_flag": 0,
+        "demand_kg": 2271
+      },
+      "6": {
+        "avg_market_price": 28.94,
+        "rainfall_mm": 145.2,
+        "temperature_c": 23.4,
+        "festival_flag": 0,
+        "demand_kg": 1376
+      },
+      "7": {
+        "avg_market_price": 29.94,
+        "rainfall_mm": 206.4,
+        "temperature_c": 26.2,
+        "festival_flag": 0,
+        "demand_kg": 1130
+      },
+      "8": {
+        "avg_market_price": 30.88,
+        "rainfall_mm": 197.6,
+        "temperature_c": 30.3,
+        "festival_flag": 0,
+        "demand_kg": 1252
+      },
+      "9": {
+        "avg_market_price": 29.16,
+        "rainfall_mm": 134.5,
+        "temperature_c": 35.5,
+        "festival_flag": 0,
+        "demand_kg": 1922
+      },
+      "10": {
+        "avg_market_price": 27.93,
+        "rainfall_mm": 73.0,
+        "temperature_c": 38.8,
+        "festival_flag": 1,
+        "demand_kg": 3298
+      },
+      "11": {
+        "avg_market_price": 26.13,
+        "rainfall_mm": 26.3,
+        "temperature_c": 39.6,
+        "festival_flag": 1,
+        "demand_kg": 4632
+      },
+      "12": {
+        "avg_market_price": 25.93,
+        "rainfall_mm": 18.1,
+        "temperature_c": 35.9,
+        "festival_flag": 0,
+        "demand_kg": 4740
+      }
+    },
+    "Tomato|Pune": {
+      "1": {
+        "avg_market_price": 26.63,
+        "rainfall_mm": 8.5,
+        "temperature_c": 34.2,
+        "festival_flag": 0,
+        "demand_kg": 6488
+      },
+      "2": {
+        "avg_market_price": 25.05,
+        "rainfall_mm": 22.1,
+        "temperature_c": 28.2,
+        "festival_flag": 0,
+        "demand_kg": 6493
+      },
+      "3": {
+        "avg_market_price": 26.01,
+        "rainfall_mm": 27.2,
+        "temperature_c": 24.5,
+        "festival_flag": 0,
+        "demand_kg": 5807
+      },
+      "4": {
+        "avg_market_price": 28.38,
+        "rainfall_mm": 25.8,
+        "temperature_c": 22.3,
+        "festival_flag": 0,
+        "demand_kg": 4510
+      },
+      "5": {
+        "avg_market_price": 29.07,
+        "rainfall_mm": 62.5,
+        "temperature_c": 21.0,
+        "festival_flag": 0,
+        "demand_kg": 3330
+      },
+      "6": {
+        "avg_market_price": 29.0,
+        "rainfall_mm": 154.0,
+        "temperature_c": 23.1,
+        "festival_flag": 0,
+        "demand_kg": 2323
+      },
+      "7": {
+        "avg_market_price": 29.28,
+        "rainfall_mm": 191.9,
+        "temperature_c": 25.3,
+        "festival_flag": 0,
+        "demand_kg": 1383
+      },
+      "8": {
+        "avg_market_price": 28.89,
+        "rainfall_mm": 190.2,
+        "temperature_c": 30.8,
+        "festival_flag": 0,
+        "demand_kg": 1573
+      },
+      "9": {
+        "avg_market_price": 28.86,
+        "rainfall_mm": 157.6,
+        "temperature_c": 35.5,
+        "festival_flag": 0,
+        "demand_kg": 2772
+      },
+      "10": {
+        "avg_market_price": 26.81,
+        "rainfall_mm": 80.4,
+        "temperature_c": 38.2,
+        "festival_flag": 1,
+        "demand_kg": 4639
+      },
+      "11": {
+        "avg_market_price": 28.61,
+        "rainfall_mm": 8.7,
+        "temperature_c": 37.6,
+        "festival_flag": 1,
+        "demand_kg": 6257
+      },
+      "12": {
+        "avg_market_price": 24.99,
+        "rainfall_mm": 10.4,
+        "temperature_c": 38.2,
+        "festival_flag": 0,
+        "demand_kg": 6216
+      }
+    }
+  },
+  "levels": {
+    "Beans": {
+      "q20": 805,
+      "q40": 1401,
+      "q60": 2028,
+      "q80": 2475
+    },
+    "Brinjal": {
+      "q20": 1277,
+      "q40": 1732,
+      "q60": 2349,
+      "q80": 3116
+    },
+    "Cabbage": {
+      "q20": 1396,
+      "q40": 2129,
+      "q60": 3194,
+      "q80": 3735
+    },
+    "Carrot": {
+      "q20": 1619,
+      "q40": 2237,
+      "q60": 3138,
+      "q80": 4077
+    },
+    "Cauliflower": {
+      "q20": 1002,
+      "q40": 1796,
+      "q60": 2868,
+      "q80": 3814
+    },
+    "Onion": {
+      "q20": 3197,
+      "q40": 4412,
+      "q60": 6379,
+      "q80": 8632
+    },
+    "Peas": {
+      "q20": 480,
+      "q40": 1356,
+      "q60": 2365,
+      "q80": 3223
+    },
+    "Potato": {
+      "q20": 4325,
+      "q40": 5552,
+      "q60": 7272,
+      "q80": 9132
+    },
+    "Spinach": {
+      "q20": 612,
+      "q40": 1174,
+      "q60": 1966,
+      "q80": 2641
+    },
+    "Tomato": {
+      "q20": 2279,
+      "q40": 3588,
+      "q60": 5541,
+      "q80": 6790
+    }
+  }
+}

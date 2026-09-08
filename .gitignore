@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+
+# Environment variables - never commit real secrets
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Build files
+dist/
+build/
+
+# start-all.ps1 runtime state
+.farmlink-pids.json
+
+# IDE
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db

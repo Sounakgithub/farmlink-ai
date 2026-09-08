@@ -1,0 +1,13 @@
+# Normalise line endings so the repo is identical on Windows, macOS and Linux.
+* text=auto eol=lf
+
+# Binary assets - never touch these.
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary
+*.pkl  binary
+
+# Keep CRLF for PowerShell scripts.
+*.ps1 text eol=crlf
