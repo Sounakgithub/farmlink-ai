@@ -84,6 +84,27 @@ const orderSchema = new mongoose.Schema(
       default: "",
     },
 
+    deliveryInstructions: {
+      type: String,
+      default: "",
+      maxlength: 500,
+      trim: true,
+    },
+
+    paymentMethod: {
+      type: String,
+      enum: ["Cash on Delivery", "UPI", "Card", "Net Banking"],
+      default: "Cash on Delivery",
+    },
+
+    // "Pending" until a COD order is delivered; prepaid methods flip to "Paid"
+    // as soon as the order is placed. "Refunded" once a prepaid order is voided.
+    paymentStatus: {
+      type: String,
+      enum: ["Pending", "Paid", "Refunded"],
+      default: "Pending",
+    },
+
     products: {
       type: [orderItemSchema],
       validate: [
@@ -137,3 +158,9 @@ const Order = mongoose.model("Order", orderSchema);
 
 module.exports = Order;
 module.exports.ORDER_STATUSES = ORDER_STATUSES;
+module.exports.PAYMENT_METHODS = [
+  "Cash on Delivery",
+  "UPI",
+  "Card",
+  "Net Banking",
+];

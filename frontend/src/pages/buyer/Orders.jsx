@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import AppShell from "../../components/AppShell";
+import StartChatButton from "../../components/StartChatButton";
 import {
   Badge,
   Button,
@@ -13,6 +14,7 @@ import {
 } from "../../components/ui";
 import { api } from "../../lib/api";
 import { useAsyncData } from "../../lib/useAsyncData";
+import { useCart } from "../../context/CartContext";
 import { useToast } from "../../context/ToastContext";
 import {
   currency,
@@ -30,9 +32,25 @@ const driverIcon = L.divIcon({
   iconAnchor: [17, 17],
 });
 
+function paymentBadge(order) {
+  const method = order.paymentMethod || "Cash on Delivery";
+  if (order.paymentStatus === "Paid")
+    return {
+      text: `✓ Paid · ${method}`,
+      cls: "bg-green-100 text-green-700",
+    };
+  if (order.paymentStatus === "Refunded")
+    return { text: "↩ Refunded", cls: "bg-slate-100 text-slate-600" };
+  return {
+    text: `${method} · due on delivery`,
+    cls: "bg-amber-100 text-amber-700",
+  };
+}
+
 export default function Orders() {
   const navigate = useNavigate();
   const toast = useToast();
+  const { addToCart } = useCart();
 
   const {
     data: orders,
@@ -67,6 +85,26 @@ export default function Orders() {
     }
   };
 
+  const reorder = (order) => {
+    order.products.forEach((line) => {
+      addToCart(
+        {
+          _id: line.productId,
+          cropName: line.cropName,
+          farmerName: line.farmerName,
+          farmerId: line.farmerId,
+          location: line.location,
+          pricePerKg: line.pricePerKg,
+          unit: "kg",
+          quantity: line.quantity,
+        },
+        line.quantity
+      );
+    });
+    toast.success("Items added to your cart.");
+    navigate("/cart");
+  };
+
   return (
     <AppShell
       title="My orders"
@@ -98,6 +136,15 @@ export default function Orders() {
             const canCancel = ["Pending", "Accepted", "Confirmed"].includes(
               order.status
             );
+            const closed = ["Delivered", "Cancelled", "Rejected"].includes(
+              order.status
+            );
+            const pay = paymentBadge(order);
+            const uniqueFarmers = [
+              ...new Map(
+                order.products.map((l) => [String(l.farmerId), l])
+              ).values(),
+            ];
 
             return (
               <article
@@ -114,9 +161,12 @@ export default function Orders() {
                     </p>
                   </div>
 
-                  <Badge className={statusStyle(order.status)}>
-                    {statusLabel(order.status)}
-                  </Badge>
+                  <div className="flex flex-wrap gap-2">
+                    <Badge className={pay.cls}>{pay.text}</Badge>
+                    <Badge className={statusStyle(order.status)}>
+                      {statusLabel(order.status)}
+                    </Badge>
+                  </div>
                 </header>
 
                 <div className="px-5 py-4">
@@ -161,6 +211,36 @@ export default function Orders() {
                     ))}
                   </div>
 
+                  {order.deliveryInstructions && (
+                    <p className="mt-3 rounded-xl bg-slate-50 p-3 text-xs text-slate-600">
+                      📝 Delivery note: {order.deliveryInstructions}
+                    </p>
+                  )}
+
+                  {/* Talk to the people on this order */}
+                  {!closed && (
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {uniqueFarmers.map((line) => (
+                        <StartChatButton
+                          key={String(line.farmerId)}
+                          kind="buyer-farmer"
+                          orderId={order._id}
+                          label={`💬 ${line.farmerName}`}
+                          variant="outline"
+                        />
+                      ))}
+
+                      {order.driver && order.status === "In Transit" && (
+                        <StartChatButton
+                          kind="buyer-driver"
+                          orderId={order._id}
+                          label={`💬 ${order.driver.name} (driver)`}
+                          variant="outline"
+                        />
+                      )}
+                    </div>
+                  )}
+
                   {/* Live driver tracking */}
                   {order.status === "In Transit" && order.driverLocation?.latitude && (
                     <div className="mt-5 border-t border-slate-100 pt-5">
@@ -172,6 +252,11 @@ export default function Orders() {
                           <h4 className="mt-0.5 font-bold text-slate-900">
                             🚚 Track your driver
                           </h4>
+                          {order.driver?.phone && (
+                            <p className="text-xs text-slate-500">
+                              📞 {order.driver.phone}
+                            </p>
+                          )}
                         </div>
                         <Badge className="bg-indigo-100 text-indigo-700">
                           ● Updated {formatDate(order.driverLocation.updatedAt)}
@@ -212,11 +297,21 @@ export default function Orders() {
                       </p>
                     </div>
 
-                    {canCancel && (
-                      <Button variant="danger" onClick={() => setCancelling(order)}>
-                        ✕ Cancel order
-                      </Button>
-                    )}
+                    <div className="flex flex-wrap gap-2">
+                      {closed && (
+                        <Button variant="secondary" onClick={() => reorder(order)}>
+                          ↻ Reorder
+                        </Button>
+                      )}
+                      {canCancel && (
+                        <Button
+                          variant="danger"
+                          onClick={() => setCancelling(order)}
+                        >
+                          ✕ Cancel order
+                        </Button>
+                      )}
+                    </div>
                   </div>
                 </div>
               </article>
@@ -229,7 +324,7 @@ export default function Orders() {
         open={!!cancelling}
         busy={cancelBusy}
         title="Cancel this order?"
-        message="The farmer will be notified and the stock returned to the marketplace."
+        message="The farmer will be notified and the stock returned to the marketplace. Prepaid orders are refunded."
         confirmLabel="Cancel order"
         onConfirm={handleCancel}
         onCancel={() => setCancelling(null)}

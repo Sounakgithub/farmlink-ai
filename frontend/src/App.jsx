@@ -20,6 +20,7 @@ import DriverDashboard from "./pages/driver/DriverDashboard";
 
 import Insights from "./pages/shared/Insights";
 import Profile from "./pages/shared/Profile";
+import Messages from "./pages/shared/Messages";
 
 export default function App() {
   return (
@@ -66,6 +67,16 @@ export default function App() {
           }
         />
 
+        {/* Farmer-only AI planning tools */}
+        <Route
+          path="/insights"
+          element={
+            <ProtectedRoute roles={["farmer"]}>
+              <Insights />
+            </ProtectedRoute>
+          }
+        />
+
         {/* Buyer */}
         <Route
           path="/buyer"
@@ -102,23 +113,35 @@ export default function App() {
           }
         />
 
-        {/* Shared by every role */}
+        {/* Marketplace — buyers shop here, farmers can see how their crops compare */}
         <Route
           path="/market"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute roles={["buyer", "farmer"]}>
               <BuyerMarketplace />
             </ProtectedRoute>
           }
         />
+
+        {/* Messaging — every role */}
         <Route
-          path="/insights"
+          path="/messages"
           element={
             <ProtectedRoute>
-              <Insights />
+              <Messages />
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/messages/:id"
+          element={
+            <ProtectedRoute>
+              <Messages />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Profile — every role */}
         <Route
           path="/profile"
           element={

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import AppShell from "../../components/AppShell";
+import StartChatButton from "../../components/StartChatButton";
 import { Badge, Button, EmptyState, ErrorNote, Spinner } from "../../components/ui";
 import { api } from "../../lib/api";
 import { useAsyncData } from "../../lib/useAsyncData";
@@ -155,36 +156,47 @@ export default function FarmerOrders() {
                     </p>
                   </div>
 
-                  {order.status === "Pending" && (
-                    <div className="flex flex-col gap-2 sm:flex-row">
-                      <Button
-                        variant="danger"
-                        disabled={busyId === order._id}
-                        onClick={() => updateStatus(order._id, "Rejected")}
-                      >
-                        ✕ Reject
-                      </Button>
+                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                    {!["Rejected", "Cancelled"].includes(order.status) && (
+                      <StartChatButton
+                        kind="buyer-farmer"
+                        orderId={order._id}
+                        label={`💬 ${order.buyerName}`}
+                        variant="outline"
+                      />
+                    )}
 
-                      <Button
-                        disabled={busyId === order._id}
-                        onClick={() => updateStatus(order._id, "Accepted")}
-                      >
-                        {busyId === order._id ? "Working…" : "✓ Accept order"}
-                      </Button>
-                    </div>
-                  )}
+                    {order.status === "Pending" && (
+                      <>
+                        <Button
+                          variant="danger"
+                          disabled={busyId === order._id}
+                          onClick={() => updateStatus(order._id, "Rejected")}
+                        >
+                          ✕ Reject
+                        </Button>
 
-                  {order.status === "Accepted" && (
-                    <p className="text-sm text-slate-500">
-                      Waiting for a driver to pick it up.
-                    </p>
-                  )}
+                        <Button
+                          disabled={busyId === order._id}
+                          onClick={() => updateStatus(order._id, "Accepted")}
+                        >
+                          {busyId === order._id ? "Working…" : "✓ Accept order"}
+                        </Button>
+                      </>
+                    )}
 
-                  {order.status === "In Transit" && (
-                    <p className="text-sm text-indigo-600">
-                      🚚 On the way to the buyer.
-                    </p>
-                  )}
+                    {order.status === "Accepted" && (
+                      <p className="text-sm text-slate-500">
+                        Waiting for a driver to pick it up.
+                      </p>
+                    )}
+
+                    {order.status === "In Transit" && (
+                      <p className="text-sm text-indigo-600">
+                        🚚 On the way to the buyer.
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
             </article>

@@ -1,12 +1,12 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AppShell from "../../components/AppShell";
+import BuyModal from "../../components/BuyModal";
 import { Badge, Button, EmptyState, ErrorNote, Spinner } from "../../components/ui";
 import { api } from "../../lib/api";
 import { useAsyncData } from "../../lib/useAsyncData";
 import { useAuth } from "../../context/AuthContext";
 import { useCart } from "../../context/CartContext";
-import { useToast } from "../../context/ToastContext";
 import { currency, cropIcon } from "../../lib/format";
 
 const SORTS = {
@@ -19,8 +19,7 @@ const SORTS = {
 export default function BuyerMarketplace() {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { addToCart, isInCart, itemCount } = useCart();
-  const toast = useToast();
+  const { isInCart, itemCount } = useCart();
 
   const {
     data: products,
@@ -34,6 +33,7 @@ export default function BuyerMarketplace() {
   const [search, setSearch] = useState("");
   const [crop, setCrop] = useState("All");
   const [sort, setSort] = useState("newest");
+  const [buying, setBuying] = useState(null);
 
   const isBuyer = user?.role === "buyer";
 
@@ -60,23 +60,14 @@ export default function BuyerMarketplace() {
       .sort(SORTS[sort].fn);
   }, [products, search, crop, sort]);
 
-  const handleAdd = (product) => {
-    if (!isBuyer) {
-      toast.info("Only a buyer account can add items to a cart.");
-      return;
-    }
-    if (product.quantity <= 0) {
-      toast.error(`${product.cropName} is sold out.`);
-      return;
-    }
-    addToCart(product, 1);
-    toast.success(`${product.cropName} added to your cart.`);
-  };
-
   return (
     <AppShell
       title="Marketplace"
-      subtitle="Fresh produce, direct from farmers"
+      subtitle={
+        isBuyer
+          ? "Fresh produce, direct from farmers"
+          : "See how your crops compare with other farms"
+      }
       actions={
         isBuyer && (
           <Button onClick={() => navigate("/cart")} className="whitespace-nowrap">
@@ -201,18 +192,24 @@ export default function BuyerMarketplace() {
                       </span>
                     </p>
 
-                    <Button
-                      onClick={() => handleAdd(product)}
-                      disabled={soldOut}
-                      variant={inCart ? "outline" : "primary"}
-                      className="mt-4 w-full py-3"
-                    >
-                      {soldOut
-                        ? "Sold out"
-                        : inCart
-                        ? "✓ In cart — add another"
-                        : "🛒 Add to cart"}
-                    </Button>
+                    {isBuyer ? (
+                      <Button
+                        onClick={() => setBuying(product)}
+                        disabled={soldOut}
+                        variant={inCart ? "outline" : "primary"}
+                        className="mt-4 w-full py-3"
+                      >
+                        {soldOut
+                          ? "Sold out"
+                          : inCart
+                          ? "✓ In cart — buy more"
+                          : "Choose quantity"}
+                      </Button>
+                    ) : (
+                      <p className="mt-4 text-center text-xs text-slate-400">
+                        Sign in as a buyer to order
+                      </p>
+                    )}
                   </div>
                 </div>
               </article>
@@ -220,6 +217,8 @@ export default function BuyerMarketplace() {
           })}
         </div>
       )}
+
+      <BuyModal product={buying} open={!!buying} onClose={() => setBuying(null)} />
     </AppShell>
   );
 }

@@ -8,13 +8,42 @@ A direct farmer-to-buyer marketplace with AI assistance and role-based dashboard
 
 ## Roles
 
-Each role logs in and lands on its own dashboard, and can only reach its own pages.
+Each role logs in and lands on its own dashboard, sees only its own navigation,
+and is blocked (redirected home) from other roles' pages.
 
 | | Farmer 👨‍🌾 | Buyer 🧑‍🍳 | Driver 🚚 |
 | --- | --- | --- | --- |
 | Lands on | `/farmer` | `/buyer` | `/driver` |
-| Own pages | My Crops (add/edit/delete), Incoming Orders (accept/reject) | Cart, My Orders (cancel, live tracking) | Optimised delivery route, start/complete deliveries |
-| Shared pages | Marketplace · AI Insights · Profile · Log out | | |
+| Own pages | My Crops (add / edit / delete), Incoming Orders (accept / reject), **AI Insights** (price advisor + demand forecast) | Marketplace, Cart, My Orders (cancel, reorder, live tracking) | Optimised delivery route, start / complete deliveries |
+| Everyone | Messages · Profile · Log out | | |
+| Marketplace | ✅ (compare prices) | ✅ (shop) | — |
+
+The AI planning tools (price advisor, demand forecasting) are farmer-only. A
+buyer or driver never sees them.
+
+## Messaging
+
+Every role has a **Messages** page (`/messages`) with an unread badge in the nav.
+
+| Thread | Started from | Purpose |
+| --- | --- | --- |
+| Buyer ↔ Farmer | a crop in the marketplace, or an order | ask about freshness / harvest date, negotiate price |
+| Buyer ↔ Driver | an order that is out for delivery | delivery instructions (gate code, call on arrival, …) |
+
+A buyer↔driver thread only opens once a driver has picked the order up. Quick-reply
+chips speed up the common messages. Backend: `models/Conversation.js`,
+`routes/conversationRoutes.js`.
+
+## Ordering
+
+- **Choose quantity** — the buyer picks how many kg (stepper, presets, live
+  subtotal) in a modal before the crop enters the cart.
+- **Payment method** — Cash on Delivery, UPI, Card or Net Banking, chosen at
+  checkout. Non-COD is a mock "instant" prepaid transaction (`paymentStatus`
+  flips to `Paid`); COD settles on delivery. Cancelling a prepaid order refunds it.
+- **Delivery instructions** — a free-text note on the order, editable until it
+  ships, plus the driver chat.
+- **Reorder** — one click re-adds a past order's items to the cart.
 
 ## AI / algorithms
 
@@ -89,9 +118,10 @@ With the backend running:
 cd backend
 node smoke-test.js           # 38 checks: auth, ownership rules, order state machine
 node smoke-test-journey.js   # 39 checks: replays every screen's API calls for all 3 roles
+node smoke-test-chat.js      # 26 checks: messaging access rules, payment method, delivery notes
 ```
 
-Both create their own users and delete everything they made afterwards.
+Each creates its own users and deletes everything it made afterwards.
 
 ## API
 
@@ -115,12 +145,22 @@ Both create their own users and delete everything they made afterwards.
 ### Orders
 | Method | Path | Who |
 | --- | --- | --- |
-| POST | `/api/orders` | buyer — `{items:[{productId, quantity}], deliveryAddress}`; prices and totals are read from the DB, stock is reserved |
-| GET | `/api/orders` | scoped: buyer→own, farmer→orders containing their crops, driver→delivery pool |
+| POST | `/api/orders` | buyer — `{items:[{productId, quantity}], deliveryAddress, deliveryInstructions?, paymentMethod?}`; prices and totals are read from the DB, stock is reserved |
+| GET | `/api/orders` | scoped: buyer→own, farmer→orders containing their crops, driver→delivery pool. Includes the assigned driver's contact for the buyer |
 | GET | `/api/orders/stats` | role-aware totals |
 | PATCH | `/api/orders/:id/status` | guarded state machine (see below) |
-| PATCH | `/api/orders/:id/cancel` | buyer, before it ships |
+| PATCH | `/api/orders/:id/instructions` | buyer — edit the delivery note until it ships |
+| PATCH | `/api/orders/:id/cancel` | buyer, before it ships (prepaid → refunded) |
 | PATCH | `/api/orders/:id/location` | driver GPS ping |
+
+### Conversations
+| Method | Path | Who |
+| --- | --- | --- |
+| GET | `/api/conversations` | participant — list, newest first, with unread counts |
+| GET | `/api/conversations/unread-count` | participant — nav badge |
+| POST | `/api/conversations` | `{kind:"buyer-farmer"\|"buyer-driver", productId?, orderId?}` → opens or reuses a thread |
+| GET | `/api/conversations/:id` | participant only — full thread, marks it read |
+| POST | `/api/conversations/:id/messages` | `{body}` |
 
 Order lifecycle — each arrow is enforced by role on the server:
 

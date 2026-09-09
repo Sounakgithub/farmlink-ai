@@ -7,6 +7,7 @@ import { useAuth } from "../../context/AuthContext";
 import { useCart } from "../../context/CartContext";
 import { useToast } from "../../context/ToastContext";
 import { currency, cropIcon } from "../../lib/format";
+import { PAYMENT_METHODS } from "../../lib/constants";
 
 export default function Cart() {
   const navigate = useNavigate();
@@ -16,10 +17,19 @@ export default function Cart() {
     useCart();
 
   const [address, setAddress] = useState(user?.location || "");
+  const [instructions, setInstructions] = useState("");
+  const [payment, setPayment] = useState("Cash on Delivery");
   const [placing, setPlacing] = useState(false);
+
+  const chosen = PAYMENT_METHODS.find((m) => m.value === payment);
+  const prepaid = !!chosen?.prepaid;
 
   const handleCheckout = async () => {
     if (cart.length === 0) return;
+    if (!address.trim()) {
+      toast.error("Add a delivery address first.");
+      return;
+    }
 
     setPlacing(true);
     try {
@@ -29,10 +39,16 @@ export default function Cart() {
           quantity: item.cartQuantity,
         })),
         deliveryAddress: address.trim(),
+        deliveryInstructions: instructions.trim(),
+        paymentMethod: payment,
       });
 
       clearCart();
-      toast.success("Order placed! The farmer will confirm it shortly.");
+      toast.success(
+        prepaid
+          ? "Payment received — the farmer will confirm your order shortly."
+          : "Order placed! Pay cash when it arrives."
+      );
       navigate("/orders");
     } catch (error) {
       toast.error(error.message);
@@ -44,7 +60,9 @@ export default function Cart() {
   return (
     <AppShell
       title="Your cart"
-      subtitle={`${itemCount} item${itemCount === 1 ? "" : "s"} ready to order`}
+      subtitle={`${itemCount} kg across ${cart.length} product${
+        cart.length === 1 ? "" : "s"
+      }`}
       actions={
         <Button
           variant="secondary"
@@ -154,58 +172,132 @@ export default function Cart() {
             </button>
           </section>
 
-          {/* Summary */}
+          {/* Summary + checkout */}
           <aside>
-            <div className="sticky top-24 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-              <h3 className="text-lg font-bold text-slate-900">Order summary</h3>
+            <div className="sticky top-24 space-y-4">
+              <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+                <h3 className="text-lg font-bold text-slate-900">Order summary</h3>
 
-              <div className="mt-5 space-y-3 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-slate-500">Products</span>
-                  <span className="font-medium">{cart.length}</span>
+                <div className="mt-5 space-y-3 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-slate-500">Products</span>
+                    <span className="font-medium">{cart.length}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-slate-500">Total quantity</span>
+                    <span className="font-medium">{itemCount} kg</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-slate-500">Delivery</span>
+                    <span className="font-semibold text-emerald-600">Free</span>
+                  </div>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-500">Total quantity</span>
-                  <span className="font-medium">{itemCount} kg</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-500">Delivery</span>
-                  <span className="font-semibold text-emerald-600">Free</span>
-                </div>
+
+                <label className="mt-5 block">
+                  <span className="text-sm font-medium text-slate-700">
+                    Delivery address
+                  </span>
+                  <textarea
+                    rows={2}
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    placeholder="Flat / house, street, area, city"
+                    className={`${inputClass} resize-none`}
+                  />
+                </label>
+
+                <label className="mt-4 block">
+                  <span className="text-sm font-medium text-slate-700">
+                    Delivery instructions{" "}
+                    <span className="text-slate-400">(optional)</span>
+                  </span>
+                  <textarea
+                    rows={2}
+                    value={instructions}
+                    onChange={(e) => setInstructions(e.target.value)}
+                    placeholder="e.g. call on arrival, gate code, landmark"
+                    className={`${inputClass} resize-none`}
+                  />
+                  <span className="mt-1 block text-xs text-slate-400">
+                    You can also chat with your delivery partner once one is
+                    assigned.
+                  </span>
+                </label>
               </div>
 
-              <label className="mt-5 block">
-                <span className="text-sm font-medium text-slate-700">
-                  Delivery address
-                </span>
-                <textarea
-                  rows={3}
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                  placeholder="Where should we deliver?"
-                  className={`${inputClass} resize-none`}
-                />
-              </label>
+              {/* Payment method */}
+              <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+                <h3 className="text-lg font-bold text-slate-900">Payment method</h3>
 
-              <div className="mt-5 flex items-center justify-between border-t border-slate-100 pt-5">
-                <span className="font-semibold text-slate-700">Total</span>
-                <span className="text-2xl font-bold text-emerald-600">
-                  {currency(totalPrice)}
-                </span>
+                <div className="mt-4 space-y-2">
+                  {PAYMENT_METHODS.map((method) => {
+                    const active = payment === method.value;
+                    return (
+                      <button
+                        key={method.value}
+                        type="button"
+                        onClick={() => setPayment(method.value)}
+                        aria-pressed={active}
+                        className={`flex w-full items-center gap-3 rounded-xl border-2 p-3 text-left transition ${
+                          active
+                            ? "border-emerald-500 bg-emerald-50"
+                            : "border-slate-200 hover:border-slate-300"
+                        }`}
+                      >
+                        <span className="text-xl">{method.icon}</span>
+                        <span className="min-w-0 flex-1">
+                          <span className="block text-sm font-semibold text-slate-900">
+                            {method.label}
+                          </span>
+                          <span className="block truncate text-xs text-slate-500">
+                            {method.hint}
+                          </span>
+                        </span>
+                        <span
+                          className={`h-4 w-4 shrink-0 rounded-full border-2 ${
+                            active
+                              ? "border-emerald-500 bg-emerald-500"
+                              : "border-slate-300"
+                          }`}
+                        />
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {prepaid && (
+                  <p className="mt-3 rounded-xl bg-blue-50 p-3 text-xs leading-5 text-blue-700">
+                    This is a demo checkout — no real payment is taken. Your order
+                    is marked paid immediately.
+                  </p>
+                )}
               </div>
 
-              <Button
-                onClick={handleCheckout}
-                disabled={placing}
-                className="mt-5 w-full py-3.5"
-              >
-                {placing ? "Placing order…" : "Place order →"}
-              </Button>
+              {/* Total + place */}
+              <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+                <div className="flex items-center justify-between">
+                  <span className="font-semibold text-slate-700">Total</span>
+                  <span className="text-2xl font-bold text-emerald-600">
+                    {currency(totalPrice)}
+                  </span>
+                </div>
 
-              <p className="mt-4 rounded-xl bg-emerald-50 p-3 text-xs leading-5 text-emerald-700">
-                🌱 Buying here supports farmers directly by cutting out
-                unnecessary middlemen.
-              </p>
+                <Button
+                  onClick={handleCheckout}
+                  disabled={placing}
+                  className="mt-4 w-full py-3.5"
+                >
+                  {placing
+                    ? "Placing order…"
+                    : prepaid
+                    ? `Pay ${currency(totalPrice)} & place order`
+                    : "Place order →"}
+                </Button>
+
+                <p className="mt-3 text-center text-xs text-slate-400">
+                  {chosen?.icon} Paying by {chosen?.label}
+                </p>
+              </div>
             </div>
           </aside>
         </div>

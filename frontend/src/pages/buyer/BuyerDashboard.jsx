@@ -1,12 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
 import AppShell from "../../components/AppShell";
-import DemandPanel from "../../components/DemandPanel";
+import BuyModal from "../../components/BuyModal";
+import { useState } from "react";
 import { Badge, Button, EmptyState, ErrorNote, Spinner, StatCard } from "../../components/ui";
 import { api } from "../../lib/api";
 import { useAsyncData } from "../../lib/useAsyncData";
 import { useAuth } from "../../context/AuthContext";
 import { useCart } from "../../context/CartContext";
-import { useToast } from "../../context/ToastContext";
 import {
   currency,
   cropIcon,
@@ -16,25 +16,33 @@ import {
   statusStyle,
 } from "../../lib/format";
 
+const ACTIVE = ["Pending", "Accepted", "Confirmed", "In Transit"];
+
 export default function BuyerDashboard() {
   const { user } = useAuth();
-  const { addToCart, itemCount } = useCart();
-  const toast = useToast();
+  const { itemCount } = useCart();
   const navigate = useNavigate();
+
+  const [buying, setBuying] = useState(null);
 
   const { data, loading, error, reload } = useAsyncData(
     async () => {
-      const [stats, orders, products] = await Promise.all([
+      const [stats, orders, products, chats] = await Promise.all([
         api.get("/orders/stats"),
         api.get("/orders"),
         api.get("/products?inStock=true", { auth: false }),
+        api.get("/conversations"),
       ]);
-      return { stats, orders, products };
+      return { stats, orders, products, chats };
     },
-    { initialData: { stats: null, orders: [], products: [] } }
+    { initialData: { stats: null, orders: [], products: [], chats: [] } }
   );
 
-  const { stats, orders, products } = data;
+  const { stats, orders, products, chats } = data;
+
+  const liveOrders = orders.filter((o) => ACTIVE.includes(o.status));
+  const inTransit = orders.find((o) => o.status === "In Transit");
+  const unreadChats = chats.filter((c) => c.unread > 0);
 
   return (
     <AppShell
@@ -91,9 +99,7 @@ export default function BuyerDashboard() {
                   <h2 className="text-lg font-bold text-slate-900 sm:text-xl">
                     Recent orders
                   </h2>
-                  <p className="mt-1 text-sm text-slate-500">
-                    Your latest purchases
-                  </p>
+                  <p className="mt-1 text-sm text-slate-500">Your latest purchases</p>
                 </div>
 
                 <Link
@@ -134,7 +140,8 @@ export default function BuyerDashboard() {
                             {order.products.map((p) => p.cropName).join(", ")}
                           </p>
                           <p className="text-xs text-slate-500">
-                            {shortId(order._id)} · {formatDate(order.createdAt)}
+                            {shortId(order._id)} · {formatDate(order.createdAt)} ·{" "}
+                            {order.paymentMethod || "Cash on Delivery"}
                           </p>
                         </div>
                       </div>
@@ -153,9 +160,102 @@ export default function BuyerDashboard() {
               )}
             </section>
 
-            {/* Shared AI feature */}
-            <div className="xl:col-span-1">
-              <DemandPanel defaultLocation={user?.location || "Delhi"} limit={6} />
+            {/* Deliveries + messages */}
+            <div className="space-y-6 xl:col-span-1">
+              <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+                <h2 className="text-lg font-bold text-slate-900 sm:text-xl">
+                  Your deliveries
+                </h2>
+
+                {liveOrders.length === 0 ? (
+                  <p className="mt-3 text-sm text-slate-500">
+                    Nothing on the way right now.
+                  </p>
+                ) : (
+                  <div className="mt-4 space-y-3">
+                    {liveOrders.slice(0, 3).map((order) => (
+                      <Link
+                        key={order._id}
+                        to="/orders"
+                        className="block rounded-xl border border-slate-100 bg-slate-50 p-3 transition hover:bg-slate-100"
+                      >
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="truncate text-sm font-semibold text-slate-900">
+                            {order.products.map((p) => p.cropName).join(", ")}
+                          </span>
+                          <Badge className={statusStyle(order.status)}>
+                            {statusLabel(order.status)}
+                          </Badge>
+                        </div>
+                        <p className="mt-1 text-xs text-slate-500">
+                          {shortId(order._id)}
+                          {order.driver ? ` · driver ${order.driver.name}` : ""}
+                        </p>
+                      </Link>
+                    ))}
+                  </div>
+                )}
+
+                {inTransit && (
+                  <Button
+                    className="mt-4 w-full"
+                    onClick={() => navigate("/orders")}
+                  >
+                    🚚 Track live delivery
+                  </Button>
+                )}
+              </section>
+
+              <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-lg font-bold text-slate-900 sm:text-xl">
+                    Messages
+                  </h2>
+                  <Link
+                    to="/messages"
+                    className="text-sm font-semibold text-emerald-600 hover:text-emerald-700"
+                  >
+                    Open →
+                  </Link>
+                </div>
+
+                {chats.length === 0 ? (
+                  <p className="mt-3 text-sm text-slate-500">
+                    Chat with a farmer about freshness or price from any crop in
+                    the marketplace.
+                  </p>
+                ) : (
+                  <div className="mt-4 space-y-2">
+                    {chats.slice(0, 4).map((c) => (
+                      <Link
+                        key={c._id}
+                        to={`/messages/${c._id}`}
+                        className="flex items-center justify-between gap-2 rounded-xl border border-slate-100 bg-slate-50 p-3 transition hover:bg-slate-100"
+                      >
+                        <div className="min-w-0">
+                          <p className="truncate text-sm font-semibold text-slate-900">
+                            {c.other?.name}
+                          </p>
+                          <p className="truncate text-xs text-slate-500">
+                            {c.lastMessageText || c.subject}
+                          </p>
+                        </div>
+                        {c.unread > 0 && (
+                          <span className="shrink-0 rounded-full bg-emerald-600 px-2 py-0.5 text-xs font-bold text-white">
+                            {c.unread}
+                          </span>
+                        )}
+                      </Link>
+                    ))}
+                    {unreadChats.length > 0 && (
+                      <p className="pt-1 text-xs font-semibold text-emerald-600">
+                        {unreadChats.length} conversation
+                        {unreadChats.length === 1 ? "" : "s"} need a reply
+                      </p>
+                    )}
+                  </div>
+                )}
+              </section>
             </div>
           </div>
 
@@ -168,7 +268,7 @@ export default function BuyerDashboard() {
                 </h2>
                 <p className="mt-1 text-sm text-slate-500">
                   {itemCount > 0
-                    ? `${itemCount} item${itemCount === 1 ? "" : "s"} already in your cart`
+                    ? `${itemCount} kg already in your cart`
                     : "Newly listed produce"}
                 </p>
               </div>
@@ -209,14 +309,8 @@ export default function BuyerDashboard() {
                       <span className="text-xs font-normal text-slate-500"> / kg</span>
                     </p>
 
-                    <Button
-                      className="mt-3 w-full"
-                      onClick={() => {
-                        addToCart(product, 1);
-                        toast.success(`${product.cropName} added to your cart.`);
-                      }}
-                    >
-                      🛒 Add
+                    <Button className="mt-3 w-full" onClick={() => setBuying(product)}>
+                      Choose quantity
                     </Button>
                   </div>
                 ))}
@@ -225,6 +319,8 @@ export default function BuyerDashboard() {
           </section>
         </div>
       )}
+
+      <BuyModal product={buying} open={!!buying} onClose={() => setBuying(null)} />
     </AppShell>
   );
 }

@@ -2,13 +2,16 @@ import { useEffect, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
+import { useMessages } from "../context/MessagesContext";
 import { ConfirmDialog } from "./ui";
 
+// Each role only sees the tools that belong to it.
 const NAV_BY_ROLE = {
   farmer: [
     { to: "/farmer", icon: "📊", label: "Dashboard", end: true },
     { to: "/farmer/products", icon: "🌱", label: "My Crops" },
     { to: "/farmer/orders", icon: "📦", label: "Orders" },
+    { to: "/messages", icon: "💬", label: "Messages", badge: "messages" },
     { to: "/insights", icon: "🤖", label: "AI Insights" },
     { to: "/market", icon: "🛒", label: "Marketplace" },
     { to: "/profile", icon: "⚙️", label: "Profile" },
@@ -18,13 +21,12 @@ const NAV_BY_ROLE = {
     { to: "/market", icon: "🛒", label: "Marketplace" },
     { to: "/cart", icon: "🧺", label: "Cart", badge: "cart" },
     { to: "/orders", icon: "📦", label: "My Orders" },
-    { to: "/insights", icon: "🤖", label: "AI Insights" },
+    { to: "/messages", icon: "💬", label: "Messages", badge: "messages" },
     { to: "/profile", icon: "⚙️", label: "Profile" },
   ],
   driver: [
     { to: "/driver", icon: "🚚", label: "Deliveries", end: true },
-    { to: "/market", icon: "🛒", label: "Marketplace" },
-    { to: "/insights", icon: "🤖", label: "AI Insights" },
+    { to: "/messages", icon: "💬", label: "Messages", badge: "messages" },
     { to: "/profile", icon: "⚙️", label: "Profile" },
   ],
 };
@@ -40,6 +42,7 @@ const ROLE_AVATAR = { farmer: "👨‍🌾", buyer: "🧑‍🍳", driver: "🚚
 export default function AppShell({ title, subtitle, actions, children }) {
   const { user, logout } = useAuth();
   const { itemCount } = useCart();
+  const { unread } = useMessages();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -47,6 +50,12 @@ export default function AppShell({ title, subtitle, actions, children }) {
   const [confirmLogout, setConfirmLogout] = useState(false);
 
   const navItems = NAV_BY_ROLE[user?.role] || [];
+
+  const badgeValue = (kind) => {
+    if (kind === "cart") return itemCount;
+    if (kind === "messages") return unread;
+    return 0;
+  };
 
   // Close the mobile drawer whenever the route changes. Adjusting state during
   // render (rather than in an effect) avoids a second render pass.
@@ -69,29 +78,32 @@ export default function AppShell({ title, subtitle, actions, children }) {
     navigate("/login", { replace: true });
   };
 
-  const navLink = (item, onClick) => (
-    <NavLink
-      key={item.to}
-      to={item.to}
-      end={item.end}
-      onClick={onClick}
-      className={({ isActive }) =>
-        `flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition ${
-          isActive
-            ? "bg-emerald-600 text-white shadow"
-            : "text-emerald-100 hover:bg-emerald-900"
-        }`
-      }
-    >
-      <span className="text-base">{item.icon}</span>
-      <span className="flex-1">{item.label}</span>
-      {item.badge === "cart" && itemCount > 0 && (
-        <span className="rounded-full bg-white px-2 py-0.5 text-xs font-bold text-emerald-700">
-          {itemCount}
-        </span>
-      )}
-    </NavLink>
-  );
+  const navLink = (item, onClick) => {
+    const count = badgeValue(item.badge);
+    return (
+      <NavLink
+        key={item.to}
+        to={item.to}
+        end={item.end}
+        onClick={onClick}
+        className={({ isActive }) =>
+          `flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition ${
+            isActive
+              ? "bg-emerald-600 text-white shadow"
+              : "text-emerald-100 hover:bg-emerald-900"
+          }`
+        }
+      >
+        <span className="text-base">{item.icon}</span>
+        <span className="flex-1">{item.label}</span>
+        {item.badge && count > 0 && (
+          <span className="rounded-full bg-white px-2 py-0.5 text-xs font-bold text-emerald-700">
+            {count}
+          </span>
+        )}
+      </NavLink>
+    );
+  };
 
   const sidebarContent = (onNavigate) => (
     <>
@@ -155,9 +167,12 @@ export default function AppShell({ title, subtitle, actions, children }) {
             <button
               onClick={() => setDrawerOpen(true)}
               aria-label="Open menu"
-              className="rounded-xl bg-slate-100 px-3 py-2 text-lg lg:hidden"
+              className="relative rounded-xl bg-slate-100 px-3 py-2 text-lg lg:hidden"
             >
               ☰
+              {unread > 0 && (
+                <span className="absolute -right-1 -top-1 h-2.5 w-2.5 rounded-full bg-red-500" />
+              )}
             </button>
 
             <div className="min-w-0 flex-1">

@@ -8,6 +8,7 @@ import {
 } from "react-leaflet";
 import L from "leaflet";
 import AppShell from "../../components/AppShell";
+import StartChatButton from "../../components/StartChatButton";
 import {
   Badge,
   Button,
@@ -374,12 +375,20 @@ export default function DriverDashboard() {
                         )}
 
                         {status === "In Transit" && (
-                          <Button
-                            disabled={busyId === stop.orderId}
-                            onClick={() => updateStatus(stop.orderId, "Delivered")}
-                          >
-                            {busyId === stop.orderId ? "Working…" : "✓ Delivered"}
-                          </Button>
+                          <>
+                            <StartChatButton
+                              kind="buyer-driver"
+                              orderId={stop.orderId}
+                              label="💬 Buyer"
+                              variant="outline"
+                            />
+                            <Button
+                              disabled={busyId === stop.orderId}
+                              onClick={() => updateStatus(stop.orderId, "Delivered")}
+                            >
+                              {busyId === stop.orderId ? "Working…" : "✓ Delivered"}
+                            </Button>
+                          </>
                         )}
                       </div>
                     </div>

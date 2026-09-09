@@ -28,7 +28,7 @@ export default defineConfig([
         'warn',
         {
           allowConstantExport: true,
-          allowExportNames: ['useAuth', 'useCart', 'useToast'],
+          allowExportNames: ['useAuth', 'useCart', 'useToast', 'useMessages'],
         },
       ],
     },
