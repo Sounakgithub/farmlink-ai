@@ -49,7 +49,7 @@ chips speed up the common messages. Backend: `models/Conversation.js`,
 
 | Feature | Where | How it works |
 | --- | --- | --- |
-| Smart price advisor | `ml-service` `POST /predict-price` | RandomForest on crop / location / quantity / demand / market price, with a SHAP explanation of every prediction (see [Explainable AI](#explainable-ai)) |
+| Smart price advisor | `ml-service` `POST /predict-price` | RandomForest on crop / location / quantity / demand / market price, trained on 3,600 generated rows covering 10 crops x 8 cities. Every prediction carries a SHAP explanation (see [Explainable AI](#explainable-ai)) |
 | Demand forecasting | `ml-service` `POST /forecast-demand`, `POST /demand-insights` | Gradient-boosted regression trained on 3 years of monthly demand (seasonality, festivals, price elasticity, weather, momentum). R² 0.974, MAE ≈ 8% |
 | Delivery route optimisation | `backend` `POST /api/routes/optimize`, `POST /api/routes/optimize-orders` | Haversine distance matrix → nearest-neighbour tour → 2-opt local search. Returns visiting order, per-leg distance, ETA and the saving vs. an unsorted route |
 
@@ -83,13 +83,13 @@ between them fairly. It is a good fit here for three reasons:
 ### What a SHAP value means
 
 The explainer starts from a **base value** — the average price the model
-predicts across everything it was trained on (₹27.03/kg in the shipped model).
+predicts across everything it was trained on (₹32.42/kg in the shipped model).
 Each feature's SHAP value is how many rupees per kg that feature pushed the
 prediction away from that average:
 
 ```
 base_value  +  Σ(feature contributions)  =  the model's prediction
-   27.03    +          +6.80             =        33.83
+   32.42    +          -0.21             =        32.21
 ```
 
 That identity is the guarantee. A positive value pushed the price up, a negative
@@ -148,48 +148,48 @@ of independent influence.
 ```json
 {
   "crop": "Onion",
-  "location": "Mumbai",
+  "location": "Patna",
   "quantity": 400,
-  "demand": 8,
-  "market_price": 32
+  "demand": 7,
+  "market_price": 30
 }
 ```
 
 ```json
 {
-  "recommended_price": 33.83,
+  "recommended_price": 32.21,
   "explanation": {
     "method": "shap.TreeExplainer",
-    "base_value": 27.03,
-    "predicted_value": 33.83,
-    "reconstructed_value": 33.83,
+    "base_value": 32.42,
+    "predicted_value": 32.21,
+    "reconstructed_value": 32.21,
     "features": [
+      {
+        "feature": "location",
+        "label": "Location",
+        "value": "Patna",
+        "impact": -1.15,
+        "abs_impact": 1.15,
+        "direction": "decrease",
+        "statement": "Selling in Patna contributed about ₹1.1/kg downward to the model's predicted price."
+      },
       {
         "feature": "market_price",
         "label": "Current market price",
-        "value": 32,
-        "impact": 7.05,
-        "abs_impact": 7.05,
+        "value": 30,
+        "impact": 0.53,
+        "abs_impact": 0.53,
         "direction": "increase",
-        "statement": "The current market price of ₹32/kg contributed about ₹7.0/kg upward to the model's predicted price."
-      },
-      {
-        "feature": "crop",
-        "label": "Crop type",
-        "value": "Onion",
-        "impact": -0.57,
-        "abs_impact": 0.57,
-        "direction": "decrease",
-        "statement": "Choosing Onion contributed about ₹0.6/kg downward to the model's predicted price."
+        "statement": "The current market price of ₹30/kg contributed about ₹0.5/kg upward to the model's predicted price."
       },
       {
         "feature": "demand",
         "label": "Demand level",
-        "value": 8,
-        "impact": 0.36,
-        "abs_impact": 0.36,
+        "value": 7,
+        "impact": 0.48,
+        "abs_impact": 0.48,
         "direction": "increase",
-        "statement": "A demand level of 8 out of 10 contributed about ₹0.4/kg upward to the model's predicted price."
+        "statement": "A demand level of 7 out of 10 contributed about ₹0.5/kg upward to the model's predicted price."
       }
     ]
   }
@@ -198,6 +198,37 @@ of independent influence.
 
 Features are truncated above for brevity — the API returns all five.
 
+### The training data is synthetic
+
+`ml-service/dataset.csv` is **generated, not measured**. `generate_price_dataset.py`
+builds it from a fixed seed, so the same 3,600 rows come back every run:
+
+```bash
+cd ml-service
+python generate_price_dataset.py   # writes dataset.csv, with quality checks
+python train_model.py              # writes price_model.pkl
+```
+
+It covers all 10 crops and 8 cities the UI offers, and models
+`recommended_price` as the market price times a margin that responds to demand,
+lot size, crop shelf life and city. The generator refuses to write the file if
+any quality check fails (missing values, duplicates, impossible prices,
+negative quantities, unknown categories, implausible price ratios, wrong dtypes).
+
+**These are invented numbers.** They are plausible in shape and scale, but no
+row corresponds to a real mandi, city or sale, and neither the dataset nor the
+model trained on it should be presented as real agricultural market data or
+used to price an actual harvest. Held-out metrics (MAE ₹0.79/kg, R² 0.995) say
+how well the forest recovered the generator's own rules — they are **not**
+evidence of real-world pricing accuracy, and would be much worse on real data.
+
+This replaced an earlier 26-row hand-written file, which was too small and too
+narrow for the model to learn anything but "follow the market price". It also
+only knew 6 crops and 3 cities, so the other 4 crops and 5 cities fell through
+`handle_unknown="ignore"` as an all-zero row and contributed *nothing* — the
+model returned an identical price for Chennai, Hyderabad, Kolkata, Patna and
+Bangalore.
+
 ### If SHAP is unavailable
 
 The explanation is strictly additive to the old contract. `recommended_price` is
@@ -205,7 +236,7 @@ unchanged, and if `shap` is not installed, the explainer fails to build, or an
 individual explanation errors, the response is simply:
 
 ```json
-{ "recommended_price": 33.83, "explanation": null }
+{ "recommended_price": 32.21, "explanation": null }
 ```
 
 The price still works, and the UI drops the "Why this price?" panel rather than
@@ -245,7 +276,8 @@ cd ml-service
 pip install -r requirements.txt
 python generate_demand_data.py     # writes demand_dataset.csv
 python train_demand_model.py       # writes demand_model.pkl + demand_context.json
-python train_model.py              # (re)trains the price model
+python generate_price_dataset.py   # writes dataset.csv   (3,600 synthetic rows)
+python train_model.py              # writes price_model.pkl
 python app.py                      # http://localhost:8000
 ```
 
