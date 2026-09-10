@@ -1,6 +1,7 @@
 import { useState } from "react";
 import AppShell from "../../components/AppShell";
 import DemandPanel from "../../components/DemandPanel";
+import PriceExplanation from "../../components/PriceExplanation";
 import { Button, inputClass } from "../../components/ui";
 import { ml } from "../../lib/api";
 import { useAuth } from "../../context/AuthContext";
@@ -32,6 +33,7 @@ export default function Insights() {
     demand: 8,
     market_price: 26,
   });
+  // the whole /predict-price response: { recommended_price, explanation }
   const [price, setPrice] = useState(null);
   const [priceLoading, setPriceLoading] = useState(false);
 
@@ -68,7 +70,7 @@ export default function Insights() {
         demand: Number(priceForm.demand),
         market_price: Number(priceForm.market_price),
       });
-      setPrice(data.recommended_price);
+      setPrice(data);
     } catch (error) {
       toast.error(offline(error));
     } finally {
@@ -293,10 +295,17 @@ export default function Insights() {
             </form>
 
             {price !== null && (
-              <div className="mt-5 rounded-2xl border border-emerald-200 bg-white p-5 text-center">
-                <p className="text-sm text-slate-500">AI recommended price</p>
-                <p className="mt-2 text-4xl font-bold text-emerald-700">₹{price}</p>
-                <p className="mt-1 text-sm text-slate-500">per kg</p>
+              <div className="mt-5 space-y-4">
+                <div className="rounded-2xl border border-emerald-200 bg-white p-5 text-center">
+                  <p className="text-sm text-slate-500">AI recommended price</p>
+                  <p className="mt-2 text-4xl font-bold text-emerald-700">
+                    ₹{price.recommended_price}
+                  </p>
+                  <p className="mt-1 text-sm text-slate-500">per kg</p>
+                </div>
+
+                {/* Renders nothing when the ML service returned explanation: null */}
+                <PriceExplanation explanation={price.explanation} />
               </div>
             )}
           </section>

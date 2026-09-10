@@ -7,6 +7,8 @@ from flask_cors import CORS
 import joblib
 import pandas as pd
 
+from price_explainer import build_explainer, explain_prediction
+
 app = Flask(__name__)
 CORS(app)
 
@@ -16,6 +18,13 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # Load models
 # ----------------------------------------------------------------------------
 price_model = joblib.load(os.path.join(BASE_DIR, "price_model.pkl"))
+
+# Build the SHAP explainer once, from the model we just loaded. If `shap` is
+# missing or the explainer cannot be built, this returns None and price
+# predictions carry on working with `explanation: null`.
+price_explainer = build_explainer(price_model)
+
+PRICE_FEATURES = ["crop", "location", "quantity", "demand", "market_price"]
 
 demand_model = None
 demand_context = {"crops": [], "locations": [], "monthly": {}, "levels": {}}
@@ -160,26 +169,47 @@ def predict_demand(crop, location, month, price=None, prev_demand=None):
 
 
 # ----------------------------------------------------------------------------
-# Price endpoint (unchanged behaviour)
+# Price endpoint
+# ----------------------------------------------------------------------------
+# Response contract (unchanged for existing consumers):
+#   { "recommended_price": <float> }
+# Extended with an optional Explainable-AI block:
+#   { "recommended_price": <float>, "explanation": { ... } | null }
+# `explanation` is null whenever SHAP is unavailable or fails - the price is
+# always returned.
 # ----------------------------------------------------------------------------
 @app.route("/predict-price", methods=["POST"])
 def predict_price():
-    data = request.json
+    data = request.get_json(silent=True) or {}
 
-    input_data = pd.DataFrame([
+    missing = [field for field in PRICE_FEATURES if data.get(field) in (None, "")]
+    if missing:
+        return (
+            jsonify({"error": f"Missing required field(s): {', '.join(missing)}"}),
+            400,
+        )
+
+    row = {field: data[field] for field in PRICE_FEATURES}
+
+    try:
+        input_data = pd.DataFrame([row])
+        prediction = price_model.predict(input_data)
+        recommended_price = round(float(prediction[0]), 2)
+    except Exception as exc:  # noqa: BLE001
+        return jsonify({"error": f"Could not predict a price: {exc}"}), 400
+
+    # SHAP explanation - never allowed to break the prediction above.
+    try:
+        explanation = explain_prediction(row)
+    except Exception:  # noqa: BLE001 - belt and braces; explain_prediction already guards
+        explanation = None
+
+    return jsonify(
         {
-            "crop": data["crop"],
-            "location": data["location"],
-            "quantity": data["quantity"],
-            "demand": data["demand"],
-            "market_price": data["market_price"],
+            "recommended_price": recommended_price,
+            "explanation": explanation,
         }
-    ])
-
-    prediction = price_model.predict(input_data)
-    recommended_price = round(float(prediction[0]), 2)
-
-    return jsonify({"recommended_price": recommended_price})
+    )
 
 
 # ----------------------------------------------------------------------------
@@ -266,6 +296,7 @@ def home():
             "message": "FarmLink AI ML service is running",
             "endpoints": ["/predict-price", "/forecast-demand", "/demand-insights"],
             "demand_model_loaded": demand_model is not None,
+            "price_explainer_loaded": price_explainer is not None,
             "known_crops": demand_context.get("crops", []),
             "known_locations": demand_context.get("locations", []),
         }

@@ -49,9 +49,169 @@ chips speed up the common messages. Backend: `models/Conversation.js`,
 
 | Feature | Where | How it works |
 | --- | --- | --- |
-| Smart price advisor | `ml-service` `POST /predict-price` | RandomForest on crop / location / quantity / demand / market price |
+| Smart price advisor | `ml-service` `POST /predict-price` | RandomForest on crop / location / quantity / demand / market price, with a SHAP explanation of every prediction (see [Explainable AI](#explainable-ai)) |
 | Demand forecasting | `ml-service` `POST /forecast-demand`, `POST /demand-insights` | Gradient-boosted regression trained on 3 years of monthly demand (seasonality, festivals, price elasticity, weather, momentum). R² 0.974, MAE ≈ 8% |
 | Delivery route optimisation | `backend` `POST /api/routes/optimize`, `POST /api/routes/optimize-orders` | Haversine distance matrix → nearest-neighbour tour → 2-opt local search. Returns visiting order, per-leg distance, ETA and the saving vs. an unsorted route |
+
+## Explainable AI
+
+Every price the advisor returns comes with a breakdown of **why** the model
+picked that number. The farmer sees a "Why this price?" panel; the API returns
+an `explanation` block next to the price.
+
+### Why SHAP, and why it fits this model
+
+A price the farmer cannot question is a price the farmer will not trust. The
+advisor is a `RandomForestRegressor` — 100 trees voting — so there are no
+coefficients to read off and no single rule to point at.
+
+[SHAP](https://github.com/shap/shap) (SHapley Additive exPlanations) solves
+exactly this. It borrows the Shapley value from cooperative game theory: treat
+the five inputs as players and the prediction as a payout, then split the payout
+between them fairly. It is a good fit here for three reasons:
+
+- **It is exact for trees.** `shap.TreeExplainer` computes Shapley values for
+  tree ensembles analytically, not by sampling, so the same input always yields
+  the same explanation — no random wobble between two identical requests.
+- **It is additive.** The contributions and the base value always add back up to
+  the model's own output, which means the explanation cannot drift away from the
+  price actually shown.
+- **It is local.** It explains *this* prediction for *this* farmer, not the
+  model's average behaviour, which is what a farmer pricing one specific harvest
+  actually needs.
+
+### What a SHAP value means
+
+The explainer starts from a **base value** — the average price the model
+predicts across everything it was trained on (₹27.03/kg in the shipped model).
+Each feature's SHAP value is how many rupees per kg that feature pushed the
+prediction away from that average:
+
+```
+base_value  +  Σ(feature contributions)  =  the model's prediction
+   27.03    +          +6.80             =        33.83
+```
+
+That identity is the guarantee. A positive value pushed the price up, a negative
+value pulled it down, and the size is how strongly.
+
+### How it is wired in
+
+`ml-service/price_explainer.py` explains the **existing** `price_model.pkl` —
+nothing is retrained, re-fit or approximated:
+
+- The pipeline is `ColumnTransformer(OneHotEncoder on [crop, location] +
+  passthrough on [quantity, demand, market_price]) → RandomForestRegressor`.
+  `TreeExplainer` only understands the forest, so it is fed the **transformed**
+  12-column matrix, not the raw input.
+- The 9 one-hot columns are then **summed back** into their original feature.
+  Summing is valid because SHAP values are additive, and it is what turns
+  `crop_Tomato = +0.4, crop_Onion = 0.0, …` into a single **Crop type** row.
+  The mapping is read from the fitted `ColumnTransformer`'s `output_indices_`
+  and `categories_`, not by string-splitting column names — so a crop or city
+  containing an underscore cannot silently be attributed to the wrong feature.
+- The `TreeExplainer` is built **once at startup** and reused. A request costs
+  one `transform` plus one `shap_values` call on a single row.
+
+### From SHAP values to something a farmer can read
+
+Raw SHAP output is a vector of floats. The service converts it into:
+
+- a **label** (`market_price` → "Current market price") and the value entered,
+- a **direction** (`increase` / `decrease` / `neutral`, derived from the same
+  rounded number the API publishes, so the two can never disagree),
+- a **plain sentence** — *"The current market price of ₹32/kg contributed about
+  ₹7.0/kg upward to the model's predicted price."*
+
+Features are sorted by absolute contribution, and the UI shows the top 3–5, so
+nobody has to read twelve encoded columns. The word "SHAP" never reaches the
+screen.
+
+### Limitations — please read
+
+**SHAP explains the model, not the market.** A SHAP value says how much a
+feature moved *this model's* output, given how it was trained. It is not
+evidence that changing that feature in the real world would change the real
+price. That is why every statement says *"contributed to the model's
+prediction"* and never *"caused the price to rise"*.
+
+Two further caveats: the model can only reflect its training data
+(`ml-service/dataset.csv`), so an explanation inherits any bias or gap in it;
+and when two features move together (demand and market price often do), SHAP
+splits the credit between them — the split is fair, but it is not a measurement
+of independent influence.
+
+### Example response
+
+`POST /predict-price`
+
+```json
+{
+  "crop": "Onion",
+  "location": "Mumbai",
+  "quantity": 400,
+  "demand": 8,
+  "market_price": 32
+}
+```
+
+```json
+{
+  "recommended_price": 33.83,
+  "explanation": {
+    "method": "shap.TreeExplainer",
+    "base_value": 27.03,
+    "predicted_value": 33.83,
+    "reconstructed_value": 33.83,
+    "features": [
+      {
+        "feature": "market_price",
+        "label": "Current market price",
+        "value": 32,
+        "impact": 7.05,
+        "abs_impact": 7.05,
+        "direction": "increase",
+        "statement": "The current market price of ₹32/kg contributed about ₹7.0/kg upward to the model's predicted price."
+      },
+      {
+        "feature": "crop",
+        "label": "Crop type",
+        "value": "Onion",
+        "impact": -0.57,
+        "abs_impact": 0.57,
+        "direction": "decrease",
+        "statement": "Choosing Onion contributed about ₹0.6/kg downward to the model's predicted price."
+      },
+      {
+        "feature": "demand",
+        "label": "Demand level",
+        "value": 8,
+        "impact": 0.36,
+        "abs_impact": 0.36,
+        "direction": "increase",
+        "statement": "A demand level of 8 out of 10 contributed about ₹0.4/kg upward to the model's predicted price."
+      }
+    ]
+  }
+}
+```
+
+Features are truncated above for brevity — the API returns all five.
+
+### If SHAP is unavailable
+
+The explanation is strictly additive to the old contract. `recommended_price` is
+unchanged, and if `shap` is not installed, the explainer fails to build, or an
+individual explanation errors, the response is simply:
+
+```json
+{ "recommended_price": 33.83, "explanation": null }
+```
+
+The price still works, and the UI drops the "Why this price?" panel rather than
+breaking. `GET /` reports `price_explainer_loaded` so you can tell which mode
+the service is in.
+
 
 ## Running locally
 
@@ -122,6 +282,15 @@ node smoke-test-chat.js      # 26 checks: messaging access rules, payment method
 ```
 
 Each creates its own users and deletes everything it made afterwards.
+
+ML service (with `python app.py` running, or on its own for the offline layer):
+
+```bash
+cd ml-service
+python test_price_explain.py   # 54 checks: prediction, SHAP additivity,
+                               # feature mapping, directions, API compatibility,
+                               # and graceful degradation when SHAP fails
+```
 
 ## API
 

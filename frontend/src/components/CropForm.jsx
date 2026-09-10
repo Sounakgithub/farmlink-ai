@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ml } from "../lib/api";
+import PriceExplanation from "./PriceExplanation";
 import { useToast } from "../context/ToastContext";
 import { Button, inputClass } from "./ui";
 
@@ -23,6 +24,7 @@ export default function CropForm({ initial, onSubmit, onCancel, submitLabel = "S
   const [form, setForm] = useState({ ...EMPTY, ...(initial || {}) });
   const [submitting, setSubmitting] = useState(false);
   const [aiPrice, setAiPrice] = useState(null);
+  const [aiExplanation, setAiExplanation] = useState(null);
   const [aiLoading, setAiLoading] = useState(false);
 
   const handleChange = (e) =>
@@ -36,6 +38,7 @@ export default function CropForm({ initial, onSubmit, onCancel, submitLabel = "S
 
     setAiLoading(true);
     setAiPrice(null);
+    setAiExplanation(null);
 
     try {
       const data = await ml.predictPrice({
@@ -46,6 +49,8 @@ export default function CropForm({ initial, onSubmit, onCancel, submitLabel = "S
         market_price: Number(form.pricePerKg),
       });
       setAiPrice(data.recommended_price);
+      // may be null if the ML service could not build a SHAP explanation
+      setAiExplanation(data.explanation ?? null);
     } catch (error) {
       toast.error(
         error.status === 0
@@ -186,21 +191,26 @@ export default function CropForm({ initial, onSubmit, onCancel, submitLabel = "S
         </div>
 
         {aiPrice !== null && (
-          <div className="mt-4 flex flex-col gap-3 rounded-xl bg-white p-4 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-sm text-slate-600">
-              Recommended:{" "}
-              <span className="text-lg font-bold text-emerald-700">
-                ₹{aiPrice}/kg
-              </span>
-            </p>
+          <div className="mt-4 space-y-3">
+            <div className="flex flex-col gap-3 rounded-xl bg-white p-4 sm:flex-row sm:items-center sm:justify-between">
+              <p className="text-sm text-slate-600">
+                Recommended:{" "}
+                <span className="text-lg font-bold text-emerald-700">
+                  ₹{aiPrice}/kg
+                </span>
+              </p>
 
-            <Button
-              type="button"
-              variant="secondary"
-              onClick={() => setForm({ ...form, pricePerKg: String(aiPrice) })}
-            >
-              Use this price
-            </Button>
+              <Button
+                type="button"
+                variant="secondary"
+                onClick={() => setForm({ ...form, pricePerKg: String(aiPrice) })}
+              >
+                Use this price
+              </Button>
+            </div>
+
+            {/* Renders nothing when the ML service returned explanation: null */}
+            <PriceExplanation explanation={aiExplanation} />
           </div>
         )}
       </div>
