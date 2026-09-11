@@ -9,12 +9,14 @@ import Register from "./pages/auth/Register";
 import FarmerDashboard from "./pages/farmer/FarmerDashboard";
 import FarmerProducts from "./pages/farmer/FarmerProducts";
 import FarmerOrders from "./pages/farmer/FarmerOrders";
+import BuyerMatches from "./pages/farmer/BuyerMatches";
 import AddProduct from "./pages/farmer/AddProduct";
 
 import BuyerDashboard from "./pages/buyer/BuyerDashboard";
 import BuyerMarketplace from "./pages/buyer/BuyerMarketplace";
 import Cart from "./pages/buyer/Cart";
 import Orders from "./pages/buyer/Orders";
+import Recommendations from "./pages/buyer/Recommendations";
 
 import DriverDashboard from "./pages/driver/DriverDashboard";
 
@@ -67,6 +69,15 @@ export default function App() {
           }
         />
 
+        <Route
+          path="/farmer/buyer-matches"
+          element={
+            <ProtectedRoute roles={["farmer"]}>
+              <BuyerMatches />
+            </ProtectedRoute>
+          }
+        />
+
         {/* Farmer-only AI planning tools */}
         <Route
           path="/insights"
@@ -99,6 +110,14 @@ export default function App() {
           element={
             <ProtectedRoute roles={["buyer"]}>
               <Orders />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/recommendations"
+          element={
+            <ProtectedRoute roles={["buyer"]}>
+              <Recommendations />
             </ProtectedRoute>
           }
         />

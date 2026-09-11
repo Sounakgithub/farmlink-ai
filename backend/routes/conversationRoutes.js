@@ -53,7 +53,7 @@ router.get("/unread-count", protect, async (req, res) => {
 router.post("/", protect, async (req, res) => {
   try {
     const me = req.user;
-    const { kind, productId, orderId } = req.body || {};
+    const { kind, productId, orderId, buyerId } = req.body || {};
 
     if (!["buyer-farmer", "buyer-driver"].includes(kind)) {
       return res.status(400).json({ message: "Unknown conversation type." });
@@ -76,15 +76,37 @@ router.post("/", protect, async (req, res) => {
           return res.status(404).json({ message: "That crop is no longer listed." });
         }
 
-        // Only a buyer cold-starts a chat from a crop listing.
-        if (me.role !== "buyer") {
+        if (me.role === "buyer") {
+          buyer = me;
+          farmer = await User.findById(product.farmerId);
+        } else if (me.role === "farmer") {
+          // A farmer may open a thread from their OWN listing, naming the
+          // buyer to reach - this is how "Contact buyer" works on the AI
+          // matching results. Same model, same thread, same inbox: no
+          // separate chat system.
+          if (!sameId(product.farmerId, me._id)) {
+            return res.status(403).json({
+              message: "You can only start a chat from your own listing.",
+            });
+          }
+          if (!buyerId || !isValidId(buyerId)) {
+            return res.status(400).json({
+              message: "Which buyer would you like to contact?",
+            });
+          }
+
+          farmer = me;
+          buyer = await User.findById(buyerId);
+
+          if (buyer && buyer.role !== "buyer") {
+            return res.status(400).json({ message: "That account is not a buyer." });
+          }
+        } else {
           return res.status(403).json({
-            message: "Only a buyer can start a chat from a crop listing.",
+            message: "Only a buyer or the listing's farmer can start this chat.",
           });
         }
 
-        buyer = me;
-        farmer = await User.findById(product.farmerId);
         subject = product.cropName;
       } else if (orderId) {
         if (!isValidId(orderId)) {

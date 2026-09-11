@@ -9,6 +9,7 @@ const productRoutes = require("./routes/productRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 const conversationRoutes = require("./routes/conversationRoutes");
 const routeRoutes = require("./routes/routeRoutes");
+const matchingRoutes = require("./routes/matchingRoutes");
 
 const app = express();
 
@@ -20,7 +21,14 @@ app.get("/", (req, res) => {
     message: "FarmLink AI backend is running 🚜",
     database:
       mongoose.connection.readyState === 1 ? "connected" : "disconnected",
-    endpoints: ["/api/auth", "/api/products", "/api/orders", "/api/conversations", "/api/routes"],
+    endpoints: [
+      "/api/auth",
+      "/api/products",
+      "/api/orders",
+      "/api/conversations",
+      "/api/routes",
+      "/api/matching",
+    ],
   });
 });
 
@@ -29,6 +37,7 @@ app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/conversations", conversationRoutes);
 app.use("/api/routes", routeRoutes);
+app.use("/api/matching", matchingRoutes);
 
 // Unknown API path -> JSON, never an HTML error page.
 app.use("/api", (req, res) => {

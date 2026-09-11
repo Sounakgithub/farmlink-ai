@@ -102,14 +102,90 @@ router.get("/me", protect, (req, res) => {
   res.json({ user: req.user.toSafeJSON() });
 });
 
+// Sanitise the optional buyer matching preferences.
+//
+// Every field is independently optional, and "" / null clears one back to
+// "no opinion". Anything unparseable is dropped rather than rejected, so a
+// half-filled form still saves the parts that made sense.
+const FREQUENCIES = ["daily", "weekly", "fortnightly", "monthly", "occasional", ""];
+
+function cleanPreferences(input, existing = {}) {
+  const out = { ...existing };
+
+  const list = (value) =>
+    Array.isArray(value)
+      ? [...new Set(value.map((v) => String(v || "").trim()).filter(Boolean))].slice(0, 30)
+      : [];
+
+  const positive = (value) => {
+    if (value === null || value === "") return null;
+    const n = Number(value);
+    return Number.isFinite(n) && n >= 0 ? n : undefined; // undefined = leave as-is
+  };
+
+  if (input.preferredCrops !== undefined) out.preferredCrops = list(input.preferredCrops);
+  if (input.preferredLocations !== undefined) {
+    out.preferredLocations = list(input.preferredLocations);
+  }
+
+  for (const key of [
+    "minPricePerKg",
+    "maxPricePerKg",
+    "minQuantityKg",
+    "preferredQuantityKg",
+    "maxQuantityKg",
+  ]) {
+    if (input[key] !== undefined) {
+      const value = positive(input[key]);
+      if (value !== undefined) out[key] = value;
+    }
+  }
+
+  if (input.purchaseFrequency !== undefined) {
+    const freq = String(input.purchaseFrequency || "").toLowerCase().trim();
+    if (FREQUENCIES.includes(freq)) out.purchaseFrequency = freq;
+  }
+
+  // Keep the ranges the right way round rather than storing a contradiction.
+  if (out.minPricePerKg != null && out.maxPricePerKg != null && out.minPricePerKg > out.maxPricePerKg) {
+    [out.minPricePerKg, out.maxPricePerKg] = [out.maxPricePerKg, out.minPricePerKg];
+  }
+  if (out.minQuantityKg != null && out.maxQuantityKg != null && out.minQuantityKg > out.maxQuantityKg) {
+    [out.minQuantityKg, out.maxQuantityKg] = [out.maxQuantityKg, out.minQuantityKg];
+  }
+
+  return out;
+}
+
 // PATCH /api/auth/me - update own profile
+// Extended (not replaced) to carry the optional buyer matching preferences,
+// so the existing name/phone/location behaviour is untouched.
 router.patch("/me", protect, async (req, res) => {
   try {
-    const { name, phone, location } = req.body;
+    const { name, phone, location, buyerPreferences } = req.body;
 
     if (name !== undefined) req.user.name = String(name).trim();
     if (phone !== undefined) req.user.phone = String(phone).trim();
     if (location !== undefined) req.user.location = String(location).trim();
+
+    if (buyerPreferences !== undefined) {
+      if (req.user.role !== "buyer") {
+        return res.status(403).json({
+          message: "Only a buyer account has matching preferences.",
+        });
+      }
+      if (typeof buyerPreferences !== "object" || buyerPreferences === null) {
+        return res.status(400).json({ message: "Preferences must be an object." });
+      }
+
+      const current = req.user.buyerPreferences
+        ? typeof req.user.buyerPreferences.toObject === "function"
+          ? req.user.buyerPreferences.toObject()
+          : req.user.buyerPreferences
+        : {};
+
+      req.user.buyerPreferences = cleanPreferences(buyerPreferences, current);
+    }
 
     await req.user.save();
 

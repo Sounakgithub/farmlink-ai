@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AppShell from "../../components/AppShell";
 import { Button, ConfirmDialog, inputClass } from "../../components/ui";
+import BuyerPreferencesForm from "../../components/BuyerPreferencesForm";
 import { useAuth } from "../../context/AuthContext";
 import { useToast } from "../../context/ToastContext";
 import { formatDate } from "../../lib/format";
@@ -141,6 +142,23 @@ export default function Profile() {
             </Button>
           </form>
         </section>
+
+        {/* Buyer-only: what the AI matching layer should optimise for. */}
+        {user?.role === "buyer" && (
+          <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6 lg:col-span-3">
+            <h2 className="text-lg font-bold text-slate-900 sm:text-xl">
+              🤖 Matching preferences
+            </h2>
+            <p className="mt-1 text-sm text-slate-500">
+              Optional. These sharpen your AI crop recommendations — leave anything
+              blank and we'll learn from your order history instead.
+            </p>
+
+            <div className="mt-6">
+              <BuyerPreferencesForm />
+            </div>
+          </section>
+        )}
       </div>
 
       <ConfirmDialog

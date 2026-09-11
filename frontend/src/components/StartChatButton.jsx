@@ -8,13 +8,16 @@ import { Button } from "./ui";
 /**
  * Opens (or reuses) a conversation and jumps to the thread.
  *
- * props: { kind, productId?, orderId?, label?, variant?, className? }
- *   kind = "buyer-farmer" | "buyer-driver"
+ * props: { kind, productId?, orderId?, buyerId?, label?, variant?, className? }
+ *   kind    = "buyer-farmer" | "buyer-driver"
+ *   buyerId = only when a FARMER opens a thread from their own listing
+ *             (the AI matching results); ignored for every other flow.
  */
 export default function StartChatButton({
   kind,
   productId,
   orderId,
+  buyerId,
   label = "💬 Message",
   variant = "outline",
   className = "",
@@ -31,6 +34,7 @@ export default function StartChatButton({
         kind,
         productId,
         orderId,
+        buyerId,
       });
       await refresh();
       navigate(`/messages/${conversation._id}`);

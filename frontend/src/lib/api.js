@@ -93,6 +93,22 @@ export const api = {
 };
 
 // ---------------------------------------------------------------------------
+// AI farmer <-> buyer matching (backend, JWT-protected)
+// ---------------------------------------------------------------------------
+export const matching = {
+  // Farmer: the buyers most likely to want one of their own listings.
+  buyersForProduct: (productId, { limit = 10, signal } = {}) =>
+    request("GET", `/matching/product/${productId}/buyers?limit=${limit}`, { signal }),
+
+  // Buyer: the crops and farmers that suit them.
+  recommendations: ({ limit = 10, signal } = {}) =>
+    request("GET", `/matching/buyer/recommendations?limit=${limit}`, { signal }),
+
+  // Preferences are saved through the existing profile endpoint
+  // (PATCH /auth/me) via AuthContext.updateProfile - no separate resource.
+};
+
+// ---------------------------------------------------------------------------
 // ML service (no auth, separate origin)
 // ---------------------------------------------------------------------------
 export const ml = {

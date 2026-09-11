@@ -12,6 +12,7 @@ const NAV_BY_ROLE = {
     { to: "/farmer/products", icon: "🌱", label: "My Crops" },
     { to: "/farmer/orders", icon: "📦", label: "Orders" },
     { to: "/messages", icon: "💬", label: "Messages", badge: "messages" },
+    { to: "/farmer/buyer-matches", icon: "🤝", label: "Buyer Matches" },
     { to: "/insights", icon: "🤖", label: "AI Insights" },
     { to: "/market", icon: "🛒", label: "Marketplace" },
     { to: "/profile", icon: "⚙️", label: "Profile" },
@@ -19,6 +20,7 @@ const NAV_BY_ROLE = {
   buyer: [
     { to: "/buyer", icon: "📊", label: "Dashboard", end: true },
     { to: "/market", icon: "🛒", label: "Marketplace" },
+    { to: "/recommendations", icon: "🤖", label: "AI Picks" },
     { to: "/cart", icon: "🧺", label: "Cart", badge: "cart" },
     { to: "/orders", icon: "📦", label: "My Orders" },
     { to: "/messages", icon: "💬", label: "Messages", badge: "messages" },

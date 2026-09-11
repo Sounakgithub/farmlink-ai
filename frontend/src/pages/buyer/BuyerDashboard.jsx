@@ -259,6 +259,26 @@ export default function BuyerDashboard() {
             </div>
           </div>
 
+          {/* AI recommendation entry point */}
+          <section className="flex flex-col gap-4 rounded-2xl border border-emerald-100 bg-gradient-to-br from-emerald-50 to-green-100 p-5 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:p-6">
+            <div>
+              <h2 className="text-lg font-bold text-emerald-950 sm:text-xl">
+                🤖 Crops picked for you
+              </h2>
+              <p className="mt-1 max-w-xl text-sm text-emerald-800">
+                Ranked by how well each listing fits what you buy — crop, price,
+                distance, quantity, demand and the farmer's track record.
+              </p>
+            </div>
+
+            <Button
+              onClick={() => navigate("/recommendations")}
+              className="shrink-0 whitespace-nowrap"
+            >
+              See my matches →
+            </Button>
+          </section>
+
           {/* Fresh picks */}
           <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
             <div className="flex flex-wrap items-center justify-between gap-3">

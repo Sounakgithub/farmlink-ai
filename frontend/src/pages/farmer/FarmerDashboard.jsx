@@ -156,6 +156,27 @@ export default function FarmerDashboard() {
             </section>
           </div>
 
+          {/* AI buyer matching entry point */}
+          <section className="flex flex-col gap-4 rounded-2xl border border-emerald-100 bg-gradient-to-br from-emerald-50 to-green-100 p-5 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:p-6">
+            <div>
+              <h2 className="text-lg font-bold text-emerald-950 sm:text-xl">
+                🤝 Find the best buyers for your crops
+              </h2>
+              <p className="mt-1 max-w-xl text-sm text-emerald-800">
+                We rank buyers on crop fit, distance, price, quantity, demand
+                outlook and track record — and show you why each one scored the
+                way it did.
+              </p>
+            </div>
+
+            <Button
+              onClick={() => navigate("/farmer/buyer-matches")}
+              className="shrink-0 whitespace-nowrap"
+            >
+              Find buyers →
+            </Button>
+          </section>
+
           {/* My crops preview */}
           <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
             <div className="flex flex-wrap items-center justify-between gap-3">
