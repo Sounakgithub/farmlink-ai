@@ -4,19 +4,20 @@ import { useAuth } from "../../context/AuthContext";
 import { HOME_FOR_ROLE } from "../../lib/constants";
 import { useToast } from "../../context/ToastContext";
 import { Button, ErrorNote, inputClass } from "../../components/ui";
+import BrandMark from "../../components/BrandMark";
 
 const ROLES = [
   {
     value: "farmer",
-    icon: "👨‍🌾",
+    icon: "🌾",
     title: "Farmer",
-    blurb: "List crops, get AI pricing, manage orders",
+    blurb: "List crops, price them with AI, manage orders",
   },
   {
     value: "buyer",
-    icon: "🧑‍🍳",
+    icon: "🧺",
     title: "Buyer",
-    blurb: "Buy direct from farms and track deliveries",
+    blurb: "Buy direct from farms and track every delivery",
   },
   {
     value: "driver",
@@ -71,122 +72,136 @@ export default function Register() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4 py-10 sm:px-6">
-      <div className="w-full max-w-lg rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-        <div className="text-center">
-          <span className="text-5xl">🌾</span>
-          <h1 className="mt-3 text-2xl font-bold text-slate-900 sm:text-3xl">
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-canvas px-4 py-12 sm:px-6">
+      {/* A hint of field colour behind the card. */}
+      <div className="pointer-events-none absolute -top-40 left-1/2 h-[30rem] w-[44rem] -translate-x-1/2 rounded-full bg-brand-200/35 blur-[120px]" />
+
+      <div className="animate-fade-up relative w-full max-w-xl">
+        <div className="mb-7 text-center">
+          <Link to="/" className="inline-block">
+            <BrandMark size={52} className="mx-auto" />
+          </Link>
+          <h1 className="fl-display mt-5 text-3xl text-ink sm:text-4xl">
             Create your account
           </h1>
-          <p className="mt-2 text-sm text-slate-500">
-            Join FarmLink and start trading directly.
+          <p className="mt-3 text-sm text-ink-soft">
+            One minute, and you are trading directly.
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="mt-8 space-y-5">
-          {error && <ErrorNote message={error} />}
+        <div className="fl-card p-6 sm:p-8">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {error && <ErrorNote message={error} />}
 
-          {/* Role picker */}
-          <div>
-            <span className="text-sm font-medium text-slate-700">I am a…</span>
-            <div className="mt-2 grid gap-3 sm:grid-cols-3">
-              {ROLES.map((role) => {
-                const active = form.role === role.value;
-                return (
-                  <button
-                    type="button"
-                    key={role.value}
-                    onClick={() => setForm({ ...form, role: role.value })}
-                    aria-pressed={active}
-                    className={`rounded-2xl border-2 p-4 text-left transition ${
-                      active
-                        ? "border-emerald-500 bg-emerald-50 shadow-sm"
-                        : "border-slate-200 bg-white hover:border-slate-300"
-                    }`}
-                  >
-                    <span className="text-2xl">{role.icon}</span>
-                    <p className="mt-2 text-sm font-bold text-slate-900">
-                      {role.title}
-                    </p>
-                    <p className="mt-1 text-xs leading-4 text-slate-500">
-                      {role.blurb}
-                    </p>
-                  </button>
-                );
-              })}
+            {/* Role picker */}
+            <div>
+              <span className="text-sm font-semibold text-ink">I am a…</span>
+              <div className="mt-3 grid gap-3 sm:grid-cols-3">
+                {ROLES.map((role) => {
+                  const active = form.role === role.value;
+                  return (
+                    <button
+                      type="button"
+                      key={role.value}
+                      onClick={() => setForm({ ...form, role: role.value })}
+                      aria-pressed={active}
+                      className={`group relative overflow-hidden rounded-2xl border p-4 text-left transition-all duration-250 ${
+                        active
+                          ? "border-brand-500 bg-brand-50/70 shadow-[0_0_0_3px_rgba(34,197,94,.14)]"
+                          : "border-line bg-surface hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-[var(--shadow-card)]"
+                      }`}
+                    >
+                      {active && (
+                        <span className="absolute right-3 top-3 flex h-5 w-5 items-center justify-center rounded-full bg-brand-600 text-[11px] font-bold text-white">
+                          ✓
+                        </span>
+                      )}
+                      <span className="text-2xl transition-transform duration-250 group-hover:scale-110">
+                        {role.icon}
+                      </span>
+                      <p className="mt-2.5 text-sm font-bold text-ink">
+                        {role.title}
+                      </p>
+                      <p className="mt-1 text-xs leading-relaxed text-ink-soft">
+                        {role.blurb}
+                      </p>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-
-          <label className="block">
-            <span className="text-sm font-medium text-slate-700">Full name</span>
-            <input
-              type="text"
-              name="name"
-              value={form.name}
-              onChange={handleChange}
-              placeholder="e.g. Ravi Kumar"
-              required
-              className={inputClass}
-            />
-          </label>
-
-          <label className="block">
-            <span className="text-sm font-medium text-slate-700">Email</span>
-            <input
-              type="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              placeholder="you@example.com"
-              required
-              autoComplete="email"
-              className={inputClass}
-            />
-          </label>
-
-          <div className="grid gap-5 sm:grid-cols-2">
-            <label className="block">
-              <span className="text-sm font-medium text-slate-700">Password</span>
-              <input
-                type="password"
-                name="password"
-                value={form.password}
-                onChange={handleChange}
-                placeholder="At least 6 characters"
-                required
-                minLength={6}
-                autoComplete="new-password"
-                className={inputClass}
-              />
-            </label>
 
             <label className="block">
-              <span className="text-sm font-medium text-slate-700">
-                City <span className="text-slate-400">(optional)</span>
-              </span>
+              <span className="text-sm font-semibold text-ink">Full name</span>
               <input
                 type="text"
-                name="location"
-                value={form.location}
+                name="name"
+                value={form.name}
                 onChange={handleChange}
-                placeholder="e.g. Delhi"
+                placeholder="e.g. Ravi Kumar"
+                required
                 className={inputClass}
               />
             </label>
-          </div>
 
-          <Button type="submit" className="w-full py-3" disabled={submitting}>
-            {submitting ? "Creating account…" : "Create account"}
-          </Button>
-        </form>
+            <label className="block">
+              <span className="text-sm font-semibold text-ink">Email</span>
+              <input
+                type="email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                placeholder="you@example.com"
+                required
+                autoComplete="email"
+                className={inputClass}
+              />
+            </label>
 
-        <p className="mt-6 text-center text-sm text-slate-600">
+            <div className="grid gap-5 sm:grid-cols-2">
+              <label className="block">
+                <span className="text-sm font-semibold text-ink">Password</span>
+                <input
+                  type="password"
+                  name="password"
+                  value={form.password}
+                  onChange={handleChange}
+                  placeholder="At least 6 characters"
+                  required
+                  minLength={6}
+                  autoComplete="new-password"
+                  className={inputClass}
+                />
+              </label>
+
+              <label className="block">
+                <span className="text-sm font-semibold text-ink">
+                  City <span className="font-normal text-ink-faint">(optional)</span>
+                </span>
+                <input
+                  type="text"
+                  name="location"
+                  value={form.location}
+                  onChange={handleChange}
+                  placeholder="e.g. Delhi"
+                  className={inputClass}
+                />
+              </label>
+            </div>
+
+            <Button type="submit" size="lg" className="w-full" loading={submitting}>
+              {submitting ? "Creating account…" : "Create account"}
+            </Button>
+          </form>
+        </div>
+
+        <p className="mt-6 text-center text-sm text-ink-soft">
           Already have an account?{" "}
           <Link
             to="/login"
-            className="font-semibold text-emerald-600 hover:text-emerald-700"
+            className="font-bold text-brand-700 transition hover:text-brand-800"
           >
-            Log in
+            Sign in
           </Link>
         </p>
       </div>

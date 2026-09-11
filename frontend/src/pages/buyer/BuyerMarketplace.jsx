@@ -2,12 +2,19 @@ import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AppShell from "../../components/AppShell";
 import BuyModal from "../../components/BuyModal";
-import { Badge, Button, EmptyState, ErrorNote, Spinner } from "../../components/ui";
+import {
+  Button,
+  EmptyState,
+  ErrorNote,
+  Segmented,
+  SkeletonCards,
+} from "../../components/ui";
+import ProductCard from "../../components/ProductCard";
 import { api } from "../../lib/api";
 import { useAsyncData } from "../../lib/useAsyncData";
 import { useAuth } from "../../context/AuthContext";
 import { useCart } from "../../context/CartContext";
-import { currency, cropIcon } from "../../lib/format";
+import { cropIcon } from "../../lib/format";
 
 const SORTS = {
   newest: { label: "Newest first", fn: (a, b) => new Date(b.createdAt) - new Date(a.createdAt) },
@@ -60,163 +67,154 @@ export default function BuyerMarketplace() {
       .sort(SORTS[sort].fn);
   }, [products, search, crop, sort]);
 
+  const activeFilters = search || crop !== "All";
+
   return (
     <AppShell
       title="Marketplace"
       subtitle={
         isBuyer
-          ? "Fresh produce, direct from farmers"
+          ? "Fresh produce, direct from the farm"
           : "See how your crops compare with other farms"
       }
       actions={
         isBuyer && (
           <Button onClick={() => navigate("/cart")} className="whitespace-nowrap">
-            🧺 Cart{itemCount > 0 ? ` (${itemCount})` : ""}
+            🧺 Cart{itemCount > 0 ? ` · ${itemCount}` : ""}
           </Button>
         )
       }
     >
-      {error && <ErrorNote message={error} onRetry={reload} />}
+      {error && <ErrorNote message={error} onRetry={reload} className="mb-6" />}
 
-      {/* Search + filters */}
-      <div className="mb-6 flex flex-col gap-3 lg:flex-row">
-        <div className="relative flex-1">
-          <span className="absolute left-4 top-1/2 -translate-y-1/2">🔍</span>
+      {/* ---- search + sort ---- */}
+      <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
+        <div className="group relative flex-1">
+          <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-ink-faint transition-colors group-focus-within:text-brand-600">
+            🔍
+          </span>
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search crops, farmers or locations…"
-            className="w-full rounded-xl border border-slate-200 bg-white py-3 pl-11 pr-4 text-sm outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
+            aria-label="Search the marketplace"
+            className="w-full rounded-xl border border-line-strong bg-surface py-3 pl-11 pr-4 text-sm text-ink outline-none transition duration-200 placeholder:text-ink-faint focus:border-brand-500 focus:ring-4 focus:ring-brand-500/12"
           />
+          {search && (
+            <button
+              onClick={() => setSearch("")}
+              aria-label="Clear search"
+              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-canvas px-2 py-1 text-xs text-ink-soft transition hover:bg-line"
+            >
+              ✕
+            </button>
+          )}
         </div>
 
-        <div className="grid grid-cols-2 gap-3 lg:flex">
-          <select
-            value={crop}
-            onChange={(e) => setCrop(e.target.value)}
-            aria-label="Filter by crop"
-            className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium outline-none focus:border-emerald-500"
-          >
-            {cropNames.map((name) => (
-              <option key={name} value={name}>
-                {name === "All" ? "🌱 All crops" : name}
-              </option>
-            ))}
-          </select>
-
-          <select
-            value={sort}
-            onChange={(e) => setSort(e.target.value)}
-            aria-label="Sort products"
-            className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium outline-none focus:border-emerald-500"
-          >
-            {Object.entries(SORTS).map(([key, { label }]) => (
-              <option key={key} value={key}>
-                {label}
-              </option>
-            ))}
-          </select>
-        </div>
+        <Segmented
+          className="self-start lg:self-auto"
+          value={sort}
+          onChange={setSort}
+          options={[
+            { value: "newest", label: "Newest" },
+            { value: "priceLow", label: "₹ Low" },
+            { value: "priceHigh", label: "₹ High" },
+            { value: "stock", label: "Stock" },
+          ]}
+        />
       </div>
 
-      <p className="mb-5 text-sm text-slate-500">
-        {visible.length} product{visible.length === 1 ? "" : "s"} available
-      </p>
+      {/* ---- crop chips ---- */}
+      <div className="fl-scrollbar-none -mx-1 mt-4 flex gap-2 overflow-x-auto px-1 pb-1">
+        {cropNames.map((name) => {
+          const active = crop === name;
+          return (
+            <button
+              key={name}
+              onClick={() => setCrop(name)}
+              aria-pressed={active}
+              className={`flex shrink-0 items-center gap-1.5 rounded-full border px-3.5 py-2 text-xs font-semibold transition-all duration-200 ${
+                active
+                  ? "border-brand-600 bg-brand-600 text-white shadow-[0_4px_14px_-4px_rgba(22,163,74,.6)]"
+                  : "border-line bg-surface text-ink-soft hover:border-brand-200 hover:text-ink"
+              }`}
+            >
+              <span>{name === "All" ? "🌱" : cropIcon(name)}</span>
+              {name === "All" ? "All crops" : name}
+            </button>
+          );
+        })}
+      </div>
 
-      {loading ? (
-        <Spinner label="Loading the marketplace…" />
-      ) : visible.length === 0 ? (
-        <EmptyState
-          title="No products found"
-          description="Try a different search term or crop filter."
-          action={
-            (search || crop !== "All") && (
-              <Button
-                variant="secondary"
-                onClick={() => {
-                  setSearch("");
-                  setCrop("All");
-                }}
-              >
-                Clear filters
-              </Button>
-            )
-          }
-        />
-      ) : (
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-          {visible.map((product) => {
-            const soldOut = product.quantity <= 0;
-            const inCart = isInCart(product._id);
+      <div className="mt-6 flex items-center justify-between gap-3">
+        <p className="text-sm text-ink-soft">
+          <span className="fl-numeric font-bold text-ink">{visible.length}</span>{" "}
+          listing{visible.length === 1 ? "" : "s"}
+          {activeFilters ? " match your filters" : " available"}
+        </p>
 
-            return (
-              <article
+        {activeFilters && (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => {
+              setSearch("");
+              setCrop("All");
+            }}
+          >
+            Clear filters
+          </Button>
+        )}
+      </div>
+
+      {/* ---- grid ---- */}
+      <div className="mt-5">
+        {loading ? (
+          <SkeletonCards count={8} className="lg:grid-cols-3 2xl:grid-cols-4" />
+        ) : visible.length === 0 ? (
+          <EmptyState
+            icon="🔎"
+            title="Nothing matches that"
+            description={
+              activeFilters
+                ? "Try a different crop or a broader search term."
+                : "No produce is listed right now. Farmers add fresh stock every day."
+            }
+            action={
+              activeFilters && (
+                <Button
+                  variant="secondary"
+                  onClick={() => {
+                    setSearch("");
+                    setCrop("All");
+                  }}
+                >
+                  Clear filters
+                </Button>
+              )
+            }
+          />
+        ) : (
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+            {visible.map((product, index) => (
+              <div
                 key={product._id}
-                className="group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+                className="animate-fade-up"
+                style={{ animationDelay: `${Math.min(index, 8) * 45}ms` }}
               >
-                <div className="flex h-32 items-center justify-center bg-gradient-to-br from-emerald-50 to-green-100">
-                  <span className="text-5xl transition group-hover:scale-110">
-                    {cropIcon(product.cropName)}
-                  </span>
-                </div>
-
-                <div className="flex flex-1 flex-col p-5">
-                  <div className="flex items-start justify-between gap-2">
-                    <h3 className="text-lg font-bold text-slate-900">
-                      {product.cropName}
-                    </h3>
-
-                    <Badge
-                      className={
-                        soldOut
-                          ? "bg-red-100 text-red-700"
-                          : "bg-emerald-100 text-emerald-700"
-                      }
-                    >
-                      {soldOut ? "Sold out" : "Available"}
-                    </Badge>
-                  </div>
-
-                  <div className="mt-3 flex-1 space-y-1.5 text-sm text-slate-600">
-                    <p className="truncate">👨‍🌾 {product.farmerName}</p>
-                    <p className="truncate">📍 {product.location}</p>
-                    <p>📦 {product.quantity} {product.unit} available</p>
-                  </div>
-
-                  <div className="mt-4 border-t border-slate-100 pt-4">
-                    <p className="text-2xl font-bold text-emerald-600">
-                      {currency(product.pricePerKg)}
-                      <span className="ml-1 text-xs font-medium text-slate-500">
-                        / kg
-                      </span>
-                    </p>
-
-                    {isBuyer ? (
-                      <Button
-                        onClick={() => setBuying(product)}
-                        disabled={soldOut}
-                        variant={inCart ? "outline" : "primary"}
-                        className="mt-4 w-full py-3"
-                      >
-                        {soldOut
-                          ? "Sold out"
-                          : inCart
-                          ? "✓ In cart — buy more"
-                          : "Choose quantity"}
-                      </Button>
-                    ) : (
-                      <p className="mt-4 text-center text-xs text-slate-400">
-                        Sign in as a buyer to order
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </article>
-            );
-          })}
-        </div>
-      )}
+                <ProductCard
+                  product={product}
+                  viewerLocation={user?.location}
+                  inCart={isInCart(product._id)}
+                  canBuy={isBuyer}
+                  onChoose={setBuying}
+                />
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
 
       <BuyModal product={buying} open={!!buying} onClose={() => setBuying(null)} />
     </AppShell>

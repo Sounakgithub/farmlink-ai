@@ -4,6 +4,7 @@ import { useAuth } from "../../context/AuthContext";
 import { HOME_FOR_ROLE } from "../../lib/constants";
 import { useToast } from "../../context/ToastContext";
 import { Button, ErrorNote, inputClass } from "../../components/ui";
+import BrandMark, { BrandLockup } from "../../components/BrandMark";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -40,87 +41,125 @@ export default function Login() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-slate-50 lg:flex-row">
-      {/* Brand panel */}
-      <div className="hidden bg-gradient-to-br from-emerald-900 via-emerald-800 to-green-700 p-12 text-white lg:flex lg:w-1/2 lg:flex-col lg:justify-center">
-        <span className="text-6xl">🌾</span>
-        <h1 className="mt-6 text-4xl font-bold">FarmLink AI</h1>
-        <p className="mt-4 max-w-md text-lg text-emerald-100">
-          Fresh produce, straight from the farm — with AI pricing, demand
-          forecasting and optimised delivery routes.
-        </p>
+    <div className="flex min-h-screen flex-col lg:flex-row">
+      {/* ---- brand panel ------------------------------------------------- */}
+      <div className="fl-soil relative hidden overflow-hidden p-12 lg:flex lg:w-[46%] lg:flex-col lg:justify-between">
+        <div className="fl-grid-lines pointer-events-none absolute inset-0 opacity-60" />
+        <div className="animate-drift pointer-events-none absolute -left-32 top-1/4 h-[28rem] w-[28rem] rounded-full bg-brand-500/18 blur-[110px]" />
 
-        <div className="mt-10 space-y-4 text-sm text-emerald-100">
-          <p>🤖 AI price advisor &amp; demand forecasting</p>
-          <p>🧭 Optimised multi-stop delivery routing</p>
-          <p>🚜 Direct farmer-to-buyer marketplace</p>
+        <div className="relative">
+          <Link to="/" className="inline-block">
+            <BrandLockup size={34} tone="light" />
+          </Link>
         </div>
-      </div>
 
-      {/* Form */}
-      <div className="flex flex-1 items-center justify-center px-4 py-10 sm:px-6">
-        <div className="w-full max-w-md rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-          <div className="text-center lg:hidden">
-            <span className="text-5xl">🌾</span>
-          </div>
-
-          <h2 className="mt-4 text-center text-2xl font-bold text-slate-900 sm:text-3xl lg:mt-0">
-            Welcome back
-          </h2>
-          <p className="mt-2 text-center text-sm text-slate-500">
-            Log in to your FarmLink account.
+        <div className="relative animate-fade-up">
+          <h1 className="fl-display text-4xl text-white xl:text-5xl">
+            Welcome back to
+            <br />
+            <span className="fl-gradient-text">the field.</span>
+          </h1>
+          <p className="mt-6 max-w-md text-base leading-relaxed text-white/55">
+            Your crops, orders and deliveries — priced, matched and routed by
+            models that show their working.
           </p>
 
-          <form onSubmit={handleSubmit} className="mt-8 space-y-5">
-            {error && <ErrorNote message={error} />}
-
-            <label className="block">
-              <span className="text-sm font-medium text-slate-700">Email</span>
-              <input
-                type="email"
-                name="email"
-                value={form.email}
-                onChange={handleChange}
-                placeholder="you@example.com"
-                required
-                autoComplete="email"
-                className={inputClass}
-              />
-            </label>
-
-            <label className="block">
-              <span className="text-sm font-medium text-slate-700">Password</span>
-              <div className="relative">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  value={form.password}
-                  onChange={handleChange}
-                  placeholder="Your password"
-                  required
-                  autoComplete="current-password"
-                  className={`${inputClass} pr-16`}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword((v) => !v)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-emerald-600"
-                >
-                  {showPassword ? "Hide" : "Show"}
-                </button>
+          <div className="mt-10 space-y-3">
+            {[
+              ["◈", "AI price advisor, explained rupee by rupee"],
+              ["◎", "Buyer and produce matching with scores"],
+              ["➔", "Optimised farm-to-door delivery routing"],
+            ].map(([icon, text], i) => (
+              <div
+                key={text}
+                className="fl-glass-dark animate-fade-up flex items-center gap-3 rounded-xl px-4 py-3"
+                style={{ animationDelay: `${150 + i * 90}ms` }}
+              >
+                <span className="text-brand-400">{icon}</span>
+                <span className="text-sm text-white/70">{text}</span>
               </div>
-            </label>
+            ))}
+          </div>
+        </div>
 
-            <Button type="submit" className="w-full py-3" disabled={submitting}>
-              {submitting ? "Logging in…" : "Log in"}
-            </Button>
-          </form>
+        <p className="relative text-xs text-white/30">
+          Direct farmer-to-buyer commerce.
+        </p>
+      </div>
 
-          <p className="mt-6 text-center text-sm text-slate-600">
+      {/* ---- form -------------------------------------------------------- */}
+      <div className="flex flex-1 items-center justify-center bg-canvas px-4 py-10 sm:px-6">
+        <div className="animate-fade-up w-full max-w-md">
+          <div className="mb-8 text-center lg:hidden">
+            <Link to="/" className="inline-block">
+              <BrandMark size={48} className="mx-auto" />
+            </Link>
+          </div>
+
+          <div className="fl-card p-6 sm:p-8">
+            <h2 className="text-2xl font-bold tracking-tight text-ink sm:text-3xl">
+              Sign in
+            </h2>
+            <p className="mt-2 text-sm text-ink-soft">
+              Continue to your FarmLink workspace.
+            </p>
+
+            <form onSubmit={handleSubmit} className="mt-8 space-y-5">
+              {error && <ErrorNote message={error} />}
+
+              <label className="block">
+                <span className="text-sm font-semibold text-ink">Email</span>
+                <input
+                  type="email"
+                  name="email"
+                  value={form.email}
+                  onChange={handleChange}
+                  placeholder="you@example.com"
+                  required
+                  autoComplete="email"
+                  className={inputClass}
+                />
+              </label>
+
+              <label className="block">
+                <span className="text-sm font-semibold text-ink">Password</span>
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    value={form.password}
+                    onChange={handleChange}
+                    placeholder="Your password"
+                    required
+                    autoComplete="current-password"
+                    className={`${inputClass} pr-16`}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((v) => !v)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md px-2 py-1 text-xs font-bold text-brand-700 transition hover:bg-brand-50"
+                  >
+                    {showPassword ? "Hide" : "Show"}
+                  </button>
+                </div>
+              </label>
+
+              <Button
+                type="submit"
+                size="lg"
+                className="w-full"
+                loading={submitting}
+              >
+                {submitting ? "Signing in…" : "Sign in"}
+              </Button>
+            </form>
+          </div>
+
+          <p className="mt-6 text-center text-sm text-ink-soft">
             New to FarmLink?{" "}
             <Link
               to="/register"
-              className="font-semibold text-emerald-600 hover:text-emerald-700"
+              className="font-bold text-brand-700 transition hover:text-brand-800"
             >
               Create an account
             </Link>
