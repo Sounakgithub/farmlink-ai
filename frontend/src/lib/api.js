@@ -6,7 +6,7 @@ export const API_BASE =
 export const ML_BASE =
   import.meta.env.VITE_ML_BASE || "http://localhost:8000";
 
-const TOKEN_KEY = "farmlink_token";
+export const TOKEN_KEY = "farmlink_token";
 
 export function getToken() {
   try {
@@ -106,6 +106,20 @@ export const matching = {
 
   // Preferences are saved through the existing profile endpoint
   // (PATCH /auth/me) via AuthContext.updateProfile - no separate resource.
+};
+
+// ---------------------------------------------------------------------------
+// Fair-deal pricing: what a price means for the farmer and for the buyer
+// ---------------------------------------------------------------------------
+export const pricing = {
+  reference: (crop, location) =>
+    request(
+      "GET",
+      `/pricing/reference?crop=${encodeURIComponent(crop)}` +
+        (location ? `&location=${encodeURIComponent(location)}` : "")
+    ),
+
+  fairDeal: (payload) => request("POST", "/pricing/fair-deal", { body: payload }),
 };
 
 // ---------------------------------------------------------------------------

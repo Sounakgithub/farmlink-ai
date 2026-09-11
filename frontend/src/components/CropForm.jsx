@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ml } from "../lib/api";
 import PriceExplanation from "./PriceExplanation";
+import FairDealPanel from "./FairDealPanel";
 import { useToast } from "../context/ToastContext";
 import { Button, inputClass } from "./ui";
 
@@ -211,6 +212,15 @@ export default function CropForm({ initial, onSubmit, onCancel, submitLabel = "S
 
             {/* Renders nothing when the ML service returned explanation: null */}
             <PriceExplanation explanation={aiExplanation} />
+
+            {/* What this price is worth against a farm-gate sale to a trader */}
+            <FairDealPanel
+              cropName={form.cropName}
+              pricePerKg={form.pricePerKg}
+              quantityKg={form.quantity}
+              location={form.location}
+              audience="farmer"
+            />
           </div>
         )}
       </div>

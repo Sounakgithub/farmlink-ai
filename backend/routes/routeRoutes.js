@@ -6,7 +6,7 @@ const {
   hashSeed,
   DEFAULT_DEPOT,
 } = require("../utils/geocode");
-const { optimizeRoute } = require("../utils/routeOptimizer");
+const { optimizeRoute, optimizePickupDelivery } = require("../utils/routeOptimizer");
 const { protect, requireRole } = require("../middleware/auth");
 
 const router = express.Router();
@@ -88,8 +88,13 @@ router.post("/optimize", (req, res) => {
 
 // POST /api/routes/optimize-orders
 // Body: { start?, orderIds?, statuses?, roundTrip? }
-// Builds delivery stops from real orders (stop location = first product's
-// farm location) and returns the optimised driver route.
+//
+// Builds the driver's run from real orders. Each order contributes TWO linked
+// stops - collect at the farm, deliver to the address the buyer gave at
+// checkout - and the planner keeps every pickup ahead of its own delivery.
+//
+// (This used to route to the farm only, so the delivery half of every journey
+// was missing from both the distance and the map.)
 router.post("/optimize-orders", protect, requireRole("driver"), async (req, res) => {
   try {
     const {
@@ -123,45 +128,63 @@ router.post("/optimize-orders", protect, requireRole("driver"), async (req, res)
     }
 
     const approxStops = [];
-    const stops = orders.map((order) => {
-      const firstProduct = order.products && order.products[0];
-      const location =
-        (firstProduct &&
-          firstProduct.productId &&
-          firstProduct.productId.location) ||
+
+    const jobs = orders.map((order) => {
+      const firstLine = order.products && order.products[0];
+      const short = `#${String(order._id).slice(-6).toUpperCase()}`;
+      const crop = (firstLine && firstLine.cropName) || "Order";
+
+      // --- pickup: the farm the crop is listed at -------------------------
+      const farmPlace =
+        (firstLine && firstLine.productId && firstLine.productId.location) ||
+        (firstLine && firstLine.location) ||
         null;
+      const farmHit = farmPlace ? geocode(farmPlace) : null;
+      const farmPoint = farmHit || approxNear(startPoint, hashSeed(`${order._id}-pickup`));
+      const pickupLabel = `Collect ${crop} ${short}`;
+      if (!farmHit) approxStops.push(pickupLabel);
 
-      const hit = location ? geocode(location) : null;
-      const point = hit || approxNear(startPoint, hashSeed(order._id));
-      const label = `${
-        (firstProduct && firstProduct.cropName) || "Order"
-      } · #${String(order._id).slice(-6).toUpperCase()}`;
-
-      if (!hit) approxStops.push(label);
+      // --- dropoff: where the buyer asked for it --------------------------
+      const dropPlace = order.deliveryAddress || "";
+      const dropHit = dropPlace ? geocode(dropPlace) : null;
+      const dropPoint = dropHit || approxNear(startPoint, hashSeed(`${order._id}-dropoff`));
+      const dropLabel = `Deliver ${crop} ${short}`;
+      if (!dropHit) approxStops.push(dropLabel);
 
       return {
         orderId: order._id,
-        label,
-        crop: firstProduct && firstProduct.cropName,
+        crop,
         buyerName: order.buyerName,
-        location: location || "Unknown",
+        farmerName: firstLine && firstLine.farmerName,
         status: order.status,
         amount: order.totalAmount,
-        lat: point.lat,
-        lng: point.lng,
-        approxLocation: !hit,
+        pickup: {
+          lat: farmPoint.lat,
+          lng: farmPoint.lng,
+          label: pickupLabel,
+          place: farmPlace || "Unknown farm location",
+          approxLocation: !farmHit,
+        },
+        dropoff: {
+          lat: dropPoint.lat,
+          lng: dropPoint.lng,
+          label: dropLabel,
+          place: dropPlace || "No delivery address given",
+          approxLocation: !dropHit,
+        },
       };
     });
 
-    const plan = optimizeRoute({
+    const plan = optimizePickupDelivery({
       start: startPoint,
-      stops,
+      jobs,
       roundTrip,
       speedKmph: isFiniteNum(speedKmph) ? speedKmph : undefined,
     });
 
     res.json({ ...plan, approxStops, orderCount: orders.length });
   } catch (error) {
+    console.error("ROUTE PLAN ERROR:", error);
     res.status(500).json({ message: error.message });
   }
 });

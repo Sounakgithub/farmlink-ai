@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import L from "leaflet";
 import AppShell from "../../components/AppShell";
+import OrderTracking from "../../components/OrderTracking";
 import StartChatButton from "../../components/StartChatButton";
 import {
   Badge,
@@ -24,13 +23,6 @@ import {
   statusLabel,
   statusStyle,
 } from "../../lib/format";
-
-const driverIcon = L.divIcon({
-  html: "🚚",
-  className: "",
-  iconSize: [35, 35],
-  iconAnchor: [17, 17],
-});
 
 function paymentBadge(order) {
   const method = order.paymentMethod || "Cash on Delivery";
@@ -241,51 +233,20 @@ export default function Orders() {
                     </div>
                   )}
 
-                  {/* Live driver tracking */}
-                  {order.status === "In Transit" && order.driverLocation?.latitude && (
+                  {/* Full journey tracking: farm -> driver -> your address.
+                      Available from the moment the order is accepted, not just
+                      once a driver happens to be pinging a GPS position. */}
+                  {["Accepted", "Confirmed", "In Transit", "Delivered"].includes(
+                    order.status
+                  ) && (
                     <div className="mt-5 border-t border-slate-100 pt-5">
-                      <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-                        <div>
-                          <p className="text-sm font-semibold text-emerald-600">
-                            LIVE DELIVERY
-                          </p>
-                          <h4 className="mt-0.5 font-bold text-slate-900">
-                            🚚 Track your driver
-                          </h4>
-                          {order.driver?.phone && (
-                            <p className="text-xs text-slate-500">
-                              📞 {order.driver.phone}
-                            </p>
-                          )}
-                        </div>
-                        <Badge className="bg-indigo-100 text-indigo-700">
-                          ● Updated {formatDate(order.driverLocation.updatedAt)}
-                        </Badge>
-                      </div>
+                      {order.driver?.phone && (
+                        <p className="mb-3 text-xs text-slate-500">
+                          🚚 {order.driver.name} · 📞 {order.driver.phone}
+                        </p>
+                      )}
 
-                      <MapContainer
-                        center={[
-                          order.driverLocation.latitude,
-                          order.driverLocation.longitude,
-                        ]}
-                        zoom={14}
-                        scrollWheelZoom={false}
-                        className="h-64 w-full rounded-xl sm:h-80"
-                      >
-                        <TileLayer
-                          attribution="&copy; OpenStreetMap contributors"
-                          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        />
-                        <Marker
-                          position={[
-                            order.driverLocation.latitude,
-                            order.driverLocation.longitude,
-                          ]}
-                          icon={driverIcon}
-                        >
-                          <Popup>🚚 Your driver is here</Popup>
-                        </Marker>
-                      </MapContainer>
+                      <OrderTracking orderId={order._id} status={order.status} />
                     </div>
                   )}
 

@@ -4,6 +4,14 @@ const Order = require("../models/Order");
 const Product = require("../models/Product");
 const User = require("../models/User");
 const { protect, requireRole } = require("../middleware/auth");
+const {
+  geocode,
+  approxNear,
+  hashSeed,
+  DEFAULT_DEPOT,
+} = require("../utils/geocode");
+const { haversineKm } = require("../utils/routeOptimizer");
+const { pickDriverFor, driverCard } = require("../utils/driverAssignment");
 
 const router = express.Router();
 
@@ -31,6 +39,9 @@ const TRANSITIONS = {
 function isValidId(id) {
   return mongoose.Types.ObjectId.isValid(id);
 }
+
+// Human-friendly order reference, matching the one the UI shows.
+const shortId = (id) => `#${String(id).slice(-6).toUpperCase()}`;
 
 // Restrict a query to what this role is allowed to see.
 function scopeForUser(user) {
@@ -68,17 +79,29 @@ async function restoreStock(order) {
   );
 }
 
-// Attach the assigned driver's contact so the buyer can reach them.
+// Attach the assigned delivery partner so the buyer knows who is bringing
+// their order and how to reach them.
+//
+// Two bulk queries for the whole page, never one per order. Name, phone and
+// city only - the email and everything else on the account stay private.
 async function withDriver(orders) {
   const driverIds = [
     ...new Set(orders.filter((o) => o.driverId).map((o) => String(o.driverId))),
   ];
   if (driverIds.length === 0) return orders;
 
-  const drivers = await User.find({ _id: { $in: driverIds } }).select(
-    "name phone"
-  );
+  const [drivers, completedCounts] = await Promise.all([
+    User.find({ _id: { $in: driverIds } }).select("name phone location createdAt"),
+    Order.aggregate([
+      { $match: { driverId: { $in: driverIds.map((id) => new mongoose.Types.ObjectId(id)) }, status: "Delivered" } },
+      { $group: { _id: "$driverId", count: { $sum: 1 } } },
+    ]),
+  ]);
+
   const byId = new Map(drivers.map((d) => [String(d._id), d]));
+  const completedById = new Map(
+    completedCounts.map((row) => [String(row._id), row.count])
+  );
 
   return orders.map((order) => {
     if (!order.driverId) return order;
@@ -86,7 +109,14 @@ async function withDriver(orders) {
     return {
       ...order,
       driver: driver
-        ? { id: driver._id, name: driver.name, phone: driver.phone }
+        ? {
+            id: driver._id,
+            name: driver.name,
+            phone: driver.phone || "",
+            location: driver.location || "",
+            completedDeliveries: completedById.get(String(driver._id)) || 0,
+            partnerSince: driver.createdAt,
+          }
         : null,
     };
   });
@@ -347,6 +377,29 @@ router.patch("/:id/status", protect, async (req, res) => {
       if (order.paymentStatus === "Paid") order.paymentStatus = "Refunded";
     }
 
+    // Give the buyer a named delivery partner as soon as the order is live,
+    // rather than leaving them with nobody to see until the van moves.
+    if (["Accepted", "Confirmed"].includes(status) && !order.driverId) {
+      try {
+        const farmPlace =
+          (order.products[0] && order.products[0].location) || order.deliveryAddress;
+        const choice = await pickDriverFor(farmPlace);
+        if (choice) {
+          order.driverId = choice.driver._id;
+          order.statusHistory.push({
+            status,
+            by: `auto-assigned ${choice.driver.name}`,
+          });
+        }
+      } catch (assignError) {
+        // A failure to assign must never block the farmer accepting an order;
+        // the first driver to collect it will claim it instead.
+        console.error("DRIVER ASSIGNMENT FAILED:", assignError.message);
+      }
+    }
+
+    // The pool stays open: whoever actually collects the order owns it from
+    // then on, even if a different partner was pencilled in.
     if (status === "In Transit" && req.user.role === "driver") {
       order.driverId = req.user._id;
     }
@@ -421,6 +474,192 @@ router.patch("/:id/cancel", protect, requireRole("buyer"), async (req, res) => {
 });
 
 // ---------------------------------------------------------------------------
+// GET /api/orders/:id/tracking
+//
+// The whole journey for ONE order, for the parcel-tracking view: where it is
+// collected from, where it is going, where the driver is right now, and how
+// far along that is.
+//
+// Visible to the buyer who placed it, a farmer whose crop is in it, and the
+// assigned driver - nobody else.
+// ---------------------------------------------------------------------------
+router.get("/:id/tracking", protect, async (req, res) => {
+  try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ message: "Invalid order id." });
+    }
+
+    const order = await Order.findById(req.params.id).populate(
+      "products.productId",
+      "location cropName"
+    );
+
+    if (!order) {
+      return res.status(404).json({ message: "Order not found." });
+    }
+
+    const me = req.user;
+    const isBuyer = String(order.buyerId) === String(me._id);
+    const isFarmer = order.products.some(
+      (line) => String(line.farmerId) === String(me._id)
+    );
+    const isDriver = order.driverId && String(order.driverId) === String(me._id);
+
+    if (!isBuyer && !isFarmer && !isDriver) {
+      return res.status(403).json({ message: "This is not your order." });
+    }
+
+    const firstLine = order.products[0];
+
+    // --- the two ends of the journey ---------------------------------------
+    const farmPlace =
+      (firstLine && firstLine.productId && firstLine.productId.location) ||
+      (firstLine && firstLine.location) ||
+      "";
+    const farmHit = geocode(farmPlace);
+    const farmPoint =
+      farmHit || approxNear(DEFAULT_DEPOT, hashSeed(`${order._id}-pickup`));
+
+    const dropPlace = order.deliveryAddress || "";
+    const dropHit = geocode(dropPlace);
+    const dropPoint =
+      dropHit || approxNear(DEFAULT_DEPOT, hashSeed(`${order._id}-dropoff`));
+
+    const pickup = {
+      lat: farmPoint.lat,
+      lng: farmPoint.lng,
+      label: `${(firstLine && firstLine.cropName) || "Produce"} farm`,
+      place: farmPlace || "Farm location not recorded",
+      farmerName: firstLine && firstLine.farmerName,
+      approxLocation: !farmHit,
+    };
+
+    // The buyer's own address is only echoed back to people already entitled
+    // to it - the buyer themselves, the farmer fulfilling it, and the driver.
+    const dropoff = {
+      lat: dropPoint.lat,
+      lng: dropPoint.lng,
+      label: "Delivery address",
+      place: dropPlace || "No delivery address given",
+      approxLocation: !dropHit,
+    };
+
+    const totalKm = haversineKm(
+      { lat: pickup.lat, lng: pickup.lng },
+      { lat: dropoff.lat, lng: dropoff.lng }
+    );
+
+    // --- where the driver is, if they are sharing it -----------------------
+    let driver = null;
+    let progressPct = null;
+    let remainingKm = null;
+    let etaMinutes = null;
+
+    const hasPing =
+      order.driverLocation &&
+      Number.isFinite(order.driverLocation.latitude) &&
+      Number.isFinite(order.driverLocation.longitude);
+
+    if (hasPing) {
+      const at = { lat: order.driverLocation.latitude, lng: order.driverLocation.longitude };
+      const fromPickup = haversineKm({ lat: pickup.lat, lng: pickup.lng }, at);
+      const toDropoff = haversineKm(at, { lat: dropoff.lat, lng: dropoff.lng });
+
+      // Share of the journey covered. Using both legs rather than the straight
+      // pickup->driver distance keeps it sane when the driver detours.
+      const covered = fromPickup + toDropoff;
+      progressPct =
+        covered > 0 ? Math.round(Math.min(100, Math.max(0, (fromPickup / covered) * 100))) : 0;
+      remainingKm = Number(toDropoff.toFixed(2));
+      etaMinutes = Math.round((toDropoff / 28) * 60); // same 28km/h the planner assumes
+
+      driver = {
+        lat: at.lat,
+        lng: at.lng,
+        updatedAt: order.driverLocation.updatedAt,
+      };
+    } else {
+      // No live ping yet - fall back to what the status implies.
+      progressPct =
+        order.status === "Delivered" ? 100 : order.status === "In Transit" ? 50 : 0;
+      remainingKm = Number(totalKm.toFixed(2));
+      etaMinutes = Math.round((totalKm / 28) * 60);
+    }
+
+    // --- the stages the parcel moves through -------------------------------
+    const reached = (statuses) => statuses.includes(order.status);
+    const stages = [
+      {
+        key: "placed",
+        label: "Order placed",
+        done: true,
+        at: order.createdAt,
+      },
+      {
+        key: "accepted",
+        label: "Accepted by farmer",
+        done: reached(["Accepted", "Confirmed", "In Transit", "Delivered"]),
+      },
+      {
+        key: "picked",
+        label: `Collected from ${pickup.place}`,
+        done: reached(["In Transit", "Delivered"]),
+      },
+      {
+        key: "transit",
+        label: "Out for delivery",
+        done: reached(["In Transit", "Delivered"]),
+        current: order.status === "In Transit",
+      },
+      {
+        key: "delivered",
+        label: `Delivered to ${dropoff.place}`,
+        done: order.status === "Delivered",
+      },
+    ];
+
+    for (const entry of order.statusHistory || []) {
+      const stage = stages.find(
+        (s) =>
+          (s.key === "accepted" && ["Accepted", "Confirmed"].includes(entry.status)) ||
+          (s.key === "transit" && entry.status === "In Transit") ||
+          (s.key === "picked" && entry.status === "In Transit") ||
+          (s.key === "delivered" && entry.status === "Delivered")
+      );
+      if (stage && !stage.at) stage.at = entry.at;
+    }
+
+    res.json({
+      orderId: order._id,
+      status: order.status,
+      cancelled: ["Cancelled", "Rejected"].includes(order.status),
+      // Who is bringing it, as soon as one is assigned.
+      deliveryPartner: await driverCard(order.driverId),
+      crop: firstLine && firstLine.cropName,
+      items: order.products.map((line) => ({
+        cropName: line.cropName,
+        quantity: line.quantity,
+        farmerName: line.farmerName,
+      })),
+      pickup,
+      dropoff,
+      driver,
+      stages,
+      straightLineKm: Number(totalKm.toFixed(2)),
+      remainingKm,
+      etaMinutes,
+      progressPct,
+      hasLiveLocation: !!hasPing,
+      approximate: pickup.approxLocation || dropoff.approxLocation,
+      updatedAt: new Date().toISOString(),
+    });
+  } catch (error) {
+    console.error("ORDER TRACKING ERROR:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// ---------------------------------------------------------------------------
 // PATCH /api/orders/:id/location  -  driver GPS ping
 // ---------------------------------------------------------------------------
 router.patch("/:id/location", protect, requireRole("driver"), async (req, res) => {
@@ -437,6 +676,15 @@ router.patch("/:id/location", protect, requireRole("driver"), async (req, res) =
 
     if (!order) {
       return res.status(404).json({ message: "Order not found." });
+    }
+
+    // Only the driver actually carrying this order may report its position -
+    // otherwise any driver account could move the dot on someone else's
+    // tracking map.
+    if (!order.driverId || String(order.driverId) !== String(req.user._id)) {
+      return res.status(403).json({
+        message: "You are not the delivery partner for this order.",
+      });
     }
 
     order.driverLocation = {

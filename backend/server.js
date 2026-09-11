@@ -10,6 +10,7 @@ const orderRoutes = require("./routes/orderRoutes");
 const conversationRoutes = require("./routes/conversationRoutes");
 const routeRoutes = require("./routes/routeRoutes");
 const matchingRoutes = require("./routes/matchingRoutes");
+const pricingRoutes = require("./routes/pricingRoutes");
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.get("/", (req, res) => {
       "/api/conversations",
       "/api/routes",
       "/api/matching",
+      "/api/pricing",
     ],
   });
 });
@@ -38,6 +40,7 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/conversations", conversationRoutes);
 app.use("/api/routes", routeRoutes);
 app.use("/api/matching", matchingRoutes);
+app.use("/api/pricing", pricingRoutes);
 
 // Unknown API path -> JSON, never an HTML error page.
 app.use("/api", (req, res) => {

@@ -5,6 +5,8 @@ import { useCart } from "../context/CartContext";
 import { useToast } from "../context/ToastContext";
 import { currency, cropIcon } from "../lib/format";
 import StartChatButton from "./StartChatButton";
+import FairDealPanel from "./FairDealPanel";
+import { useAuth } from "../context/AuthContext";
 
 /**
  * Lets a buyer choose how many kilograms they want before the crop goes into
@@ -12,6 +14,7 @@ import StartChatButton from "./StartChatButton";
  */
 export default function BuyModal({ product, open, onClose }) {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const { addToCart, isInCart } = useCart();
   const toast = useToast();
 
@@ -110,6 +113,16 @@ export default function BuyModal({ product, open, onClose }) {
             )}
           </div>
         </div>
+
+        {/* Renders nothing when there is too little price history to compare */}
+        <FairDealPanel
+          cropName={product.cropName}
+          pricePerKg={product.pricePerKg}
+          quantityKg={qty}
+          location={product.location}
+          buyerLocation={user?.location}
+          audience="buyer"
+        />
 
         <div className="flex items-center justify-between border-t border-slate-100 pt-4">
           <span className="font-semibold text-slate-700">Subtotal</span>
