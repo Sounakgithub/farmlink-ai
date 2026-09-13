@@ -85,7 +85,7 @@ export default function CropForm({ initial, onSubmit, onCancel, submitLabel = "S
     <form onSubmit={handleSubmit} className="space-y-5">
       <div className="grid gap-5 sm:grid-cols-2">
         <label className="block">
-          <span className="text-sm font-medium text-slate-700">Crop name</span>
+          <span className="text-sm font-medium text-ink">Crop name</span>
           <input
             type="text"
             name="cropName"
@@ -98,7 +98,7 @@ export default function CropForm({ initial, onSubmit, onCancel, submitLabel = "S
         </label>
 
         <label className="block">
-          <span className="text-sm font-medium text-slate-700">Location</span>
+          <span className="text-sm font-medium text-ink">Location</span>
           <input
             type="text"
             name="location"
@@ -111,7 +111,7 @@ export default function CropForm({ initial, onSubmit, onCancel, submitLabel = "S
         </label>
 
         <label className="block">
-          <span className="text-sm font-medium text-slate-700">Quantity</span>
+          <span className="text-sm font-medium text-ink">Quantity</span>
           <input
             type="number"
             name="quantity"
@@ -125,7 +125,7 @@ export default function CropForm({ initial, onSubmit, onCancel, submitLabel = "S
         </label>
 
         <label className="block">
-          <span className="text-sm font-medium text-slate-700">Unit</span>
+          <span className="text-sm font-medium text-ink">Unit</span>
           <select
             name="unit"
             value={form.unit}
@@ -139,7 +139,7 @@ export default function CropForm({ initial, onSubmit, onCancel, submitLabel = "S
         </label>
 
         <label className="block">
-          <span className="text-sm font-medium text-slate-700">Price per kg (₹)</span>
+          <span className="text-sm font-medium text-ink">Price per kg (₹)</span>
           <input
             type="number"
             name="pricePerKg"
@@ -154,8 +154,8 @@ export default function CropForm({ initial, onSubmit, onCancel, submitLabel = "S
         </label>
 
         <label className="block">
-          <span className="text-sm font-medium text-slate-700">
-            Image URL <span className="text-slate-400">(optional)</span>
+          <span className="text-sm font-medium text-ink">
+            Image URL <span className="text-ink-faint">(optional)</span>
           </span>
           <input
             type="text"
@@ -169,13 +169,13 @@ export default function CropForm({ initial, onSubmit, onCancel, submitLabel = "S
       </div>
 
       {/* AI price helper */}
-      <div className="rounded-2xl border border-emerald-100 bg-emerald-50 p-4">
+      <div className="rounded-2xl border border-brand-100 bg-brand-50 p-4">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-sm font-semibold text-emerald-800">
+            <p className="text-sm font-semibold text-brand-800">
               🤖 Not sure what to charge?
             </p>
-            <p className="mt-1 text-xs text-emerald-700">
+            <p className="mt-1 text-xs text-brand-700">
               Get an AI-recommended price for this crop and location.
             </p>
           </div>
@@ -194,9 +194,9 @@ export default function CropForm({ initial, onSubmit, onCancel, submitLabel = "S
         {aiPrice !== null && (
           <div className="mt-4 space-y-3">
             <div className="flex flex-col gap-3 rounded-xl bg-white p-4 sm:flex-row sm:items-center sm:justify-between">
-              <p className="text-sm text-slate-600">
+              <p className="text-sm text-ink-soft">
                 Recommended:{" "}
-                <span className="text-lg font-bold text-emerald-700">
+                <span className="text-lg font-bold text-brand-700">
                   ₹{aiPrice}/kg
                 </span>
               </p>

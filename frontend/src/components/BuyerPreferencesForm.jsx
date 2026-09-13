@@ -81,15 +81,15 @@ export default function BuyerPreferencesForm() {
   const chip = (active) =>
     `rounded-full border px-3 py-1.5 text-xs font-semibold transition ${
       active
-        ? "border-emerald-500 bg-emerald-50 text-emerald-700"
-        : "border-slate-200 bg-white text-slate-600 hover:border-emerald-300"
+        ? "border-brand-500 bg-brand-50 text-brand-700"
+        : "border-line bg-white text-ink-soft hover:border-emerald-300"
     }`;
 
   return (
     <form onSubmit={save} className="space-y-6">
       <div>
-        <h3 className="text-sm font-bold text-slate-900">Crops you usually buy</h3>
-        <p className="mt-1 text-xs text-slate-500">
+        <h3 className="text-sm font-bold text-ink">Crops you usually buy</h3>
+        <p className="mt-1 text-xs text-ink-soft">
           Pick any number. Leave empty and we will learn from your orders instead.
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
@@ -107,7 +107,7 @@ export default function BuyerPreferencesForm() {
       </div>
 
       <div>
-        <h3 className="text-sm font-bold text-slate-900">Where you prefer to buy from</h3>
+        <h3 className="text-sm font-bold text-ink">Where you prefer to buy from</h3>
         <div className="mt-3 flex flex-wrap gap-2">
           {DEMAND_LOCATIONS.map((city) => (
             <button

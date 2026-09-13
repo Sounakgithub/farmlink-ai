@@ -9,7 +9,7 @@ import {
   ConfirmDialog,
   EmptyState,
   ErrorNote,
-  Spinner,
+  SkeletonRows,
 } from "../../components/ui";
 import { api } from "../../lib/api";
 import { useAsyncData } from "../../lib/useAsyncData";
@@ -29,13 +29,13 @@ function paymentBadge(order) {
   if (order.paymentStatus === "Paid")
     return {
       text: `✓ Paid · ${method}`,
-      cls: "bg-green-100 text-green-700",
+      cls: "bg-brand-100 text-brand-800",
     };
   if (order.paymentStatus === "Refunded")
-    return { text: "↩ Refunded", cls: "bg-slate-100 text-slate-600" };
+    return { text: "↩ Refunded", cls: "bg-canvas text-ink-soft" };
   return {
     text: `${method} · due on delivery`,
-    cls: "bg-amber-100 text-amber-700",
+    cls: "bg-harvest-100 text-harvest-700",
   };
 }
 
@@ -114,10 +114,10 @@ export default function Orders() {
       {error && <ErrorNote message={error} onRetry={reload} />}
 
       {loading ? (
-        <Spinner label="Loading your orders…" />
+        <SkeletonRows count={3} />
       ) : orders.length === 0 ? (
         <EmptyState
-          icon="📦"
+          icon="✦"
           title="No orders yet"
           description="Your purchases from farmers will appear here."
           action={<Button onClick={() => navigate("/market")}>Browse the marketplace</Button>}
@@ -141,14 +141,14 @@ export default function Orders() {
             return (
               <article
                 key={order._id}
-                className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
+                className="overflow-hidden fl-card"
               >
-                <header className="flex flex-col gap-3 border-b border-slate-100 bg-slate-50 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
+                <header className="flex flex-col gap-3 border-b border-line bg-canvas px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-ink-faint">
                       Order {shortId(order._id)}
                     </p>
-                    <p className="mt-1 text-sm text-slate-500">
+                    <p className="mt-1 text-sm text-ink-soft">
                       {formatDate(order.createdAt)}
                     </p>
                   </div>
@@ -166,15 +166,15 @@ export default function Orders() {
                     {order.products.map((line, index) => (
                       <div
                         key={`${order._id}-${index}`}
-                        className="flex flex-col gap-3 rounded-xl border border-slate-100 bg-slate-50 p-3 sm:flex-row sm:items-center sm:justify-between"
+                        className="flex flex-col gap-3 rounded-xl border border-line bg-canvas p-3 sm:flex-row sm:items-center sm:justify-between"
                       >
                         <div className="flex items-center gap-3">
                           <span className="text-2xl">{cropIcon(line.cropName)}</span>
                           <div>
-                            <p className="font-semibold text-slate-900">
+                            <p className="font-semibold text-ink">
                               {line.cropName}
                             </p>
-                            <p className="text-xs text-slate-500">
+                            <p className="text-xs text-ink-soft">
                               👨‍🌾 {line.farmerName}
                               {line.location ? ` · ${line.location}` : ""}
                             </p>
@@ -183,18 +183,18 @@ export default function Orders() {
 
                         <div className="flex items-center gap-6 text-sm">
                           <div>
-                            <p className="text-xs text-slate-400">Qty</p>
+                            <p className="text-xs text-ink-faint">Qty</p>
                             <p className="font-semibold">{line.quantity} kg</p>
                           </div>
                           <div>
-                            <p className="text-xs text-slate-400">Rate</p>
+                            <p className="text-xs text-ink-faint">Rate</p>
                             <p className="font-semibold">
                               {currency(line.pricePerKg)}
                             </p>
                           </div>
                           <div>
-                            <p className="text-xs text-slate-400">Total</p>
-                            <p className="font-bold text-emerald-600">
+                            <p className="text-xs text-ink-faint">Total</p>
+                            <p className="font-bold text-brand-700">
                               {currency(line.totalPrice)}
                             </p>
                           </div>
@@ -204,7 +204,7 @@ export default function Orders() {
                   </div>
 
                   {order.deliveryInstructions && (
-                    <p className="mt-3 rounded-xl bg-slate-50 p-3 text-xs text-slate-600">
+                    <p className="mt-3 rounded-xl bg-canvas p-3 text-xs text-ink-soft">
                       📝 Delivery note: {order.deliveryInstructions}
                     </p>
                   )}
@@ -239,9 +239,9 @@ export default function Orders() {
                   {["Accepted", "Confirmed", "In Transit", "Delivered"].includes(
                     order.status
                   ) && (
-                    <div className="mt-5 border-t border-slate-100 pt-5">
+                    <div className="mt-5 border-t border-line pt-5">
                       {order.driver?.phone && (
-                        <p className="mb-3 text-xs text-slate-500">
+                        <p className="mb-3 text-xs text-ink-soft">
                           🚚 {order.driver.name} · 📞 {order.driver.phone}
                         </p>
                       )}
@@ -250,10 +250,10 @@ export default function Orders() {
                     </div>
                   )}
 
-                  <div className="mt-5 flex flex-col gap-3 border-t border-slate-100 pt-4 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="mt-5 flex flex-col gap-3 border-t border-line pt-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                      <p className="text-xs text-slate-400">Order total</p>
-                      <p className="text-2xl font-bold text-emerald-600">
+                      <p className="text-xs text-ink-faint">Order total</p>
+                      <p className="text-2xl font-bold text-brand-700">
                         {currency(order.totalAmount)}
                       </p>
                     </div>

@@ -8,7 +8,13 @@ import {
   MatchReasons,
   MatchDetailsModal,
 } from "../../components/MatchScore";
-import { Button, EmptyState, ErrorNote, Spinner, inputClass } from "../../components/ui";
+import {
+  Button,
+  EmptyState,
+  ErrorNote,
+  SkeletonCards,
+  inputClass,
+} from "../../components/ui";
 import { api, matching } from "../../lib/api";
 import { useAsyncData } from "../../lib/useAsyncData";
 import { currency, cropIcon } from "../../lib/format";
@@ -60,7 +66,7 @@ export default function BuyerMatches() {
       {error && <ErrorNote message={error} onRetry={reload} />}
 
       {loading ? (
-        <Spinner label="Loading your crops…" />
+        <SkeletonCards count={3} />
       ) : products.length === 0 ? (
         <EmptyState
           icon="🌱"
@@ -75,9 +81,9 @@ export default function BuyerMatches() {
       ) : (
         <div className="space-y-6">
           {/* Crop picker */}
-          <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-            <h2 className="text-lg font-bold text-slate-900">Which crop are you selling?</h2>
-            <p className="mt-1 text-sm text-slate-500">
+          <section className="fl-card p-5 sm:p-6">
+            <h2 className="text-lg font-bold text-ink">Which crop are you selling?</h2>
+            <p className="mt-1 text-sm text-ink-soft">
               We rank buyers on crop fit, distance, price, quantity, demand and track record.
             </p>
 
@@ -106,7 +112,7 @@ export default function BuyerMatches() {
             </div>
 
             {selected && selected.quantity === 0 && (
-              <p className="mt-3 rounded-xl bg-amber-50 p-3 text-xs text-amber-800">
+              <p className="mt-3 rounded-xl bg-harvest-50 p-3 text-xs text-harvest-700">
                 ⚠️ This crop is sold out. Buyers are still ranked, but quantity fit
                 will score zero until you restock.
               </p>
@@ -115,23 +121,23 @@ export default function BuyerMatches() {
 
           {matchError && <ErrorNote message={matchError} onRetry={() => findBuyers(productId)} />}
 
-          {loadingMatches && <Spinner label="Ranking buyers…" />}
+          {loadingMatches && <SkeletonCards count={4} className="lg:grid-cols-2 xl:grid-cols-2" />}
 
           {result && !loadingMatches && (
             <section className="space-y-4">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <div>
-                  <h2 className="text-lg font-bold text-slate-900">
+                  <h2 className="text-lg font-bold text-ink">
                     {cropIcon(result.product.cropName)} Top buyers for {result.product.cropName}
                   </h2>
-                  <p className="mt-1 text-sm text-slate-500">
+                  <p className="mt-1 text-sm text-ink-soft">
                     {result.count} of {result.candidatesConsidered} buyer
                     {result.candidatesConsidered === 1 ? "" : "s"} considered
                   </p>
                 </div>
 
                 {result.demandForecastAvailable === false && (
-                  <span className="rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700">
+                  <span className="rounded-full bg-harvest-50 px-3 py-1 text-xs font-semibold text-harvest-700">
                     ⚠️ Demand forecast offline — scored neutrally
                   </span>
                 )}
@@ -148,15 +154,15 @@ export default function BuyerMatches() {
                   {result.matches.map((match, index) => (
                     <article
                       key={match.id}
-                      className="flex flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+                      className="flex flex-col fl-card p-5"
                     >
                       <div className="flex items-start justify-between gap-3">
                         <div className="min-w-0">
-                          <p className="text-xs font-semibold text-slate-400">#{index + 1}</p>
-                          <h3 className="truncate text-base font-bold text-slate-900">
+                          <p className="text-xs font-semibold text-ink-faint">#{index + 1}</p>
+                          <h3 className="truncate text-base font-bold text-ink">
                             {match.buyer.name}
                           </h3>
-                          <p className="mt-0.5 truncate text-xs text-slate-500">
+                          <p className="mt-0.5 truncate text-xs text-ink-soft">
                             📍 {match.buyer.location || "Location not set"}
                             {match.distanceKm != null && ` · ~${match.distanceKm} km away`}
                           </p>
@@ -165,9 +171,9 @@ export default function BuyerMatches() {
                         <MatchScoreBadge score={match.matchScore} quality={match.matchQuality} />
                       </div>
 
-                      <p className="mt-3 text-sm text-slate-600">{match.summary}</p>
+                      <p className="mt-3 text-sm text-ink-soft">{match.summary}</p>
 
-                      <div className="mt-4 rounded-xl bg-slate-50 p-3">
+                      <div className="mt-4 rounded-xl bg-canvas p-3">
                         <MatchBreakdown breakdown={match.scoreBreakdown} compact />
                       </div>
 

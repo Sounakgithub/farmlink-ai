@@ -51,13 +51,13 @@ export default function DemandPanel({ defaultLocation = "Delhi", limit = 8 }) {
   const maxDemand = Math.max(1, ...insights.map((i) => i.predicted_demand_kg));
 
   return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+    <section className="fl-card p-5 sm:p-6">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <h2 className="text-lg font-bold text-slate-900 sm:text-xl">
+          <h2 className="text-lg font-bold text-ink sm:text-xl">
             Demand forecast
           </h2>
-          <p className="mt-1 text-sm text-slate-500">
+          <p className="mt-1 text-sm text-ink-soft">
             {meta
               ? `AI prediction for ${MONTH_NAMES[meta.month - 1]} · ${meta.season}`
               : "Predicted demand for next month"}
@@ -70,7 +70,7 @@ export default function DemandPanel({ defaultLocation = "Delhi", limit = 8 }) {
         value={location}
         onChange={(e) => setLocation(e.target.value)}
         aria-label="Forecast location"
-        className="mt-4 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-medium outline-none focus:border-emerald-500"
+        className="mt-4 w-full fl-card rounded-xl px-3 py-2.5 text-sm font-medium outline-none focus:border-brand-500"
       >
         {DEMAND_LOCATIONS.map((city) => (
           <option key={city} value={city}>
@@ -83,13 +83,13 @@ export default function DemandPanel({ defaultLocation = "Delhi", limit = 8 }) {
         <div className="mt-6 space-y-4">
           {Array.from({ length: 5 }).map((_, i) => (
             <div key={i} className="animate-pulse">
-              <div className="mb-2 h-4 w-2/3 rounded bg-slate-100" />
-              <div className="h-2 rounded-full bg-slate-100" />
+              <div className="mb-2 h-4 w-2/3 rounded bg-canvas" />
+              <div className="h-2 rounded-full bg-canvas" />
             </div>
           ))}
         </div>
       ) : error ? (
-        <p className="mt-5 rounded-xl bg-amber-50 p-4 text-sm text-amber-700">
+        <p className="mt-5 rounded-xl bg-harvest-50 p-4 text-sm text-harvest-700">
           ⚠️ {error}
         </p>
       ) : (
@@ -106,16 +106,16 @@ export default function DemandPanel({ defaultLocation = "Delhi", limit = 8 }) {
                 <div className="mb-2 flex items-center justify-between gap-2">
                   <div className="flex min-w-0 items-center gap-3">
                     <span className="text-xl">{cropIcon(item.crop)}</span>
-                    <span className="truncate text-sm font-medium text-slate-800">
+                    <span className="truncate text-sm font-medium text-ink">
                       {item.crop}
                     </span>
                   </div>
 
                   <div className="flex shrink-0 items-center gap-2">
-                    <span className="text-xs text-slate-500">{item.level}</span>
+                    <span className="text-xs text-ink-soft">{item.level}</span>
                     <span
                       className={`text-xs font-semibold ${
-                        rising ? "text-emerald-600" : "text-rose-500"
+                        rising ? "text-brand-700" : "text-rose-500"
                       }`}
                     >
                       {rising ? "↑" : "↓"}
@@ -124,14 +124,14 @@ export default function DemandPanel({ defaultLocation = "Delhi", limit = 8 }) {
                   </div>
                 </div>
 
-                <div className="h-2 overflow-hidden rounded-full bg-slate-100">
+                <div className="h-2 overflow-hidden rounded-full bg-canvas">
                   <div
-                    className="h-full rounded-full bg-emerald-500 transition-all"
+                    className="h-full rounded-full bg-brand-500 transition-all"
                     style={{ width: `${width}%` }}
                   />
                 </div>
 
-                <p className="mt-1 text-xs text-slate-400">
+                <p className="mt-1 text-xs text-ink-faint">
                   ~{item.predicted_demand_kg.toLocaleString("en-IN")} kg predicted
                   (avg {item.historical_avg_kg.toLocaleString("en-IN")} kg)
                 </p>
@@ -139,7 +139,7 @@ export default function DemandPanel({ defaultLocation = "Delhi", limit = 8 }) {
             );
           })}
 
-          <p className="pt-1 text-xs text-slate-400">
+          <p className="pt-1 text-xs text-ink-faint">
             Trend compares the prediction with the historical average for this
             month. Gradient-boosted model, 3 years of seasonal data.
           </p>

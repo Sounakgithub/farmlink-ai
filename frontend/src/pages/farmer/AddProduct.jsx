@@ -23,7 +23,7 @@ export default function AddProduct() {
       title="Add a new crop"
       subtitle="List your produce for buyers on the marketplace"
     >
-      <div className="mx-auto max-w-3xl rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-8">
+      <div className="mx-auto max-w-3xl fl-card p-5 sm:p-8">
         <CropForm
           onSubmit={handleSubmit}
           onCancel={() => navigate("/farmer/products")}

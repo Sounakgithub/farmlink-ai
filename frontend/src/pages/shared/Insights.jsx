@@ -94,17 +94,17 @@ export default function Insights() {
 
         <div className="space-y-6 xl:col-span-2">
           {/* Multi-month forecast */}
-          <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-            <h2 className="text-lg font-bold text-slate-900 sm:text-xl">
+          <section className="fl-card p-5 sm:p-6">
+            <h2 className="text-lg font-bold text-ink sm:text-xl">
               📈 Multi-month demand forecast
             </h2>
-            <p className="mt-1 text-sm text-slate-500">
+            <p className="mt-1 text-sm text-ink-soft">
               Predict how demand for a crop will move over the coming months.
             </p>
 
             <form onSubmit={runForecast} className="mt-5 grid gap-4 sm:grid-cols-4">
               <label className="block">
-                <span className="text-sm font-medium text-slate-700">Crop</span>
+                <span className="text-sm font-medium text-ink">Crop</span>
                 <select
                   value={forecastForm.crop}
                   onChange={(e) =>
@@ -119,7 +119,7 @@ export default function Insights() {
               </label>
 
               <label className="block">
-                <span className="text-sm font-medium text-slate-700">Location</span>
+                <span className="text-sm font-medium text-ink">Location</span>
                 <select
                   value={forecastForm.location}
                   onChange={(e) =>
@@ -134,7 +134,7 @@ export default function Insights() {
               </label>
 
               <label className="block">
-                <span className="text-sm font-medium text-slate-700">Months</span>
+                <span className="text-sm font-medium text-ink">Months</span>
                 <input
                   type="number"
                   min="1"
@@ -156,7 +156,7 @@ export default function Insights() {
 
             {forecast && (
               <div className="mt-6">
-                <p className="text-sm font-semibold text-slate-700">
+                <p className="text-sm font-semibold text-ink">
                   {cropIcon(forecast.crop)} {forecast.crop} · {forecast.location}
                 </p>
 
@@ -171,24 +171,24 @@ export default function Insights() {
                         key={point.month}
                         className="flex min-w-14 flex-1 flex-col items-center gap-2"
                       >
-                        <span className="text-xs font-semibold text-slate-600">
+                        <span className="text-xs font-semibold text-ink-soft">
                           {(point.predicted_demand_kg / 1000).toFixed(1)}t
                         </span>
 
-                        <div className="flex h-32 w-full items-end rounded-lg bg-slate-100">
+                        <div className="flex h-32 w-full items-end rounded-lg bg-canvas">
                           <div
-                            className="w-full rounded-lg bg-emerald-500 transition-all"
+                            className="w-full rounded-lg bg-brand-500 transition-all"
                             style={{ height: `${height}%` }}
                             title={`${point.predicted_demand_kg} kg · ${point.level}`}
                           />
                         </div>
 
-                        <span className="text-xs font-medium text-slate-500">
+                        <span className="text-xs font-medium text-ink-soft">
                           {MONTHS[point.month - 1]}
                         </span>
                         <span
                           className={`text-[10px] font-semibold ${
-                            point.trend_pct >= 0 ? "text-emerald-600" : "text-rose-500"
+                            point.trend_pct >= 0 ? "text-brand-700" : "text-rose-500"
                           }`}
                         >
                           {point.trend_pct >= 0 ? "↑" : "↓"}
@@ -203,18 +203,18 @@ export default function Insights() {
           </section>
 
           {/* Price advisor */}
-          <section className="rounded-2xl border border-emerald-100 bg-gradient-to-br from-emerald-50 to-green-100 p-5 shadow-sm sm:p-6">
+          <section className="rounded-2xl border border-brand-100 bg-gradient-to-br from-emerald-50 to-green-100 p-5 shadow-sm sm:p-6">
             <h2 className="text-lg font-bold text-emerald-950 sm:text-xl">
               💰 Smart price advisor
             </h2>
-            <p className="mt-1 text-sm text-emerald-800">
+            <p className="mt-1 text-sm text-brand-800">
               A data-driven selling price based on crop, location, quantity,
               demand and current market conditions.
             </p>
 
             <form onSubmit={runPrice} className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               <label className="block">
-                <span className="text-sm font-medium text-slate-700">Crop</span>
+                <span className="text-sm font-medium text-ink">Crop</span>
                 <select
                   value={priceForm.crop}
                   onChange={(e) => setPriceForm({ ...priceForm, crop: e.target.value })}
@@ -227,7 +227,7 @@ export default function Insights() {
               </label>
 
               <label className="block">
-                <span className="text-sm font-medium text-slate-700">Location</span>
+                <span className="text-sm font-medium text-ink">Location</span>
                 <select
                   value={priceForm.location}
                   onChange={(e) =>
@@ -242,7 +242,7 @@ export default function Insights() {
               </label>
 
               <label className="block">
-                <span className="text-sm font-medium text-slate-700">
+                <span className="text-sm font-medium text-ink">
                   Quantity (kg)
                 </span>
                 <input
@@ -257,7 +257,7 @@ export default function Insights() {
               </label>
 
               <label className="block">
-                <span className="text-sm font-medium text-slate-700">
+                <span className="text-sm font-medium text-ink">
                   Demand (1–10)
                 </span>
                 <input
@@ -273,7 +273,7 @@ export default function Insights() {
               </label>
 
               <label className="block">
-                <span className="text-sm font-medium text-slate-700">
+                <span className="text-sm font-medium text-ink">
                   Market price (₹/kg)
                 </span>
                 <input
@@ -296,12 +296,12 @@ export default function Insights() {
 
             {price !== null && (
               <div className="mt-5 space-y-4">
-                <div className="rounded-2xl border border-emerald-200 bg-white p-5 text-center">
-                  <p className="text-sm text-slate-500">AI recommended price</p>
-                  <p className="mt-2 text-4xl font-bold text-emerald-700">
+                <div className="rounded-2xl border border-brand-200 bg-white p-5 text-center">
+                  <p className="text-sm text-ink-soft">AI recommended price</p>
+                  <p className="mt-2 text-4xl font-bold text-brand-700">
                     ₹{price.recommended_price}
                   </p>
-                  <p className="mt-1 text-sm text-slate-500">per kg</p>
+                  <p className="mt-1 text-sm text-ink-soft">per kg</p>
                 </div>
 
                 {/* Renders nothing when the ML service returned explanation: null */}

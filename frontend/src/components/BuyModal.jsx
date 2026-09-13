@@ -50,17 +50,17 @@ export default function BuyModal({ product, open, onClose }) {
       maxWidth="max-w-md"
     >
       <div className="space-y-5">
-        <div className="flex items-center justify-between rounded-xl bg-slate-50 p-4">
-          <span className="text-sm text-slate-500">Price</span>
-          <span className="text-lg font-bold text-emerald-600">
+        <div className="flex items-center justify-between rounded-xl bg-canvas p-4">
+          <span className="text-sm text-ink-soft">Price</span>
+          <span className="text-lg font-bold text-brand-700">
             {currency(product.pricePerKg)}
-            <span className="text-xs font-normal text-slate-500"> / kg</span>
+            <span className="text-xs font-normal text-ink-soft"> / kg</span>
           </span>
         </div>
 
         {/* Quantity picker */}
         <div>
-          <label className="text-sm font-medium text-slate-700">
+          <label className="text-sm font-medium text-ink">
             How many kilograms?
           </label>
 
@@ -68,7 +68,7 @@ export default function BuyModal({ product, open, onClose }) {
             <button
               type="button"
               onClick={() => setQty((q) => clamp(q - 1))}
-              className="h-11 w-11 rounded-xl bg-slate-100 text-xl font-bold text-slate-700 transition hover:bg-slate-200"
+              className="h-11 w-11 rounded-xl bg-canvas text-xl font-bold text-ink transition hover:bg-line"
               aria-label="Decrease"
             >
               −
@@ -80,20 +80,20 @@ export default function BuyModal({ product, open, onClose }) {
               max={stock || undefined}
               value={qty}
               onChange={(e) => setQty(clamp(Number(e.target.value)))}
-              className="h-11 w-24 rounded-xl border border-slate-200 text-center text-lg font-bold outline-none focus:border-emerald-500"
+              className="h-11 w-24 rounded-xl border border-line text-center text-lg font-bold outline-none focus:border-brand-500"
             />
 
             <button
               type="button"
               onClick={() => setQty((q) => clamp(q + 1))}
               disabled={qty >= stock}
-              className="h-11 w-11 rounded-xl bg-slate-100 text-xl font-bold text-slate-700 transition hover:bg-slate-200 disabled:opacity-40"
+              className="h-11 w-11 rounded-xl bg-canvas text-xl font-bold text-ink transition hover:bg-line disabled:opacity-40"
               aria-label="Increase"
             >
               +
             </button>
 
-            <span className="text-sm text-slate-400">
+            <span className="text-sm text-ink-faint">
               of {stock} {product.unit} available
             </span>
           </div>
@@ -105,7 +105,7 @@ export default function BuyModal({ product, open, onClose }) {
                   key={preset}
                   type="button"
                   onClick={() => setQty(preset)}
-                  className="rounded-lg border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-600 hover:border-emerald-400 hover:text-emerald-700"
+                  className="rounded-lg border border-line px-3 py-1 text-xs font-semibold text-ink-soft hover:border-emerald-400 hover:text-brand-700"
                 >
                   {preset} kg
                 </button>
@@ -124,9 +124,9 @@ export default function BuyModal({ product, open, onClose }) {
           audience="buyer"
         />
 
-        <div className="flex items-center justify-between border-t border-slate-100 pt-4">
-          <span className="font-semibold text-slate-700">Subtotal</span>
-          <span className="text-2xl font-bold text-emerald-600">
+        <div className="flex items-center justify-between border-t border-line pt-4">
+          <span className="font-semibold text-ink">Subtotal</span>
+          <span className="text-2xl font-bold text-brand-700">
             {currency(subtotal)}
           </span>
         </div>

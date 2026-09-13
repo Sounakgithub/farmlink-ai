@@ -50,22 +50,22 @@ export default function Profile() {
     <AppShell title="Profile" subtitle="Your account details">
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Identity card */}
-        <section className="rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-sm">
-          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-emerald-100 text-4xl">
+        <section className="fl-card p-6 text-center shadow-sm">
+          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-brand-100 text-4xl">
             {role.icon}
           </div>
 
-          <h2 className="mt-4 text-xl font-bold text-slate-900">{user?.name}</h2>
-          <p className="mt-1 break-all text-sm text-slate-500">{user?.email}</p>
+          <h2 className="mt-4 text-xl font-bold text-ink">{user?.name}</h2>
+          <p className="mt-1 break-all text-sm text-ink-soft">{user?.email}</p>
 
-          <span className="mt-4 inline-flex rounded-full bg-emerald-100 px-4 py-1.5 text-xs font-semibold text-emerald-700">
+          <span className="mt-4 inline-flex rounded-full bg-brand-100 px-4 py-1.5 text-xs font-semibold text-brand-700">
             {role.label}
           </span>
 
-          <p className="mt-4 text-xs leading-5 text-slate-500">{role.blurb}</p>
+          <p className="mt-4 text-xs leading-5 text-ink-soft">{role.blurb}</p>
 
           {user?.createdAt && (
-            <p className="mt-4 border-t border-slate-100 pt-4 text-xs text-slate-400">
+            <p className="mt-4 border-t border-line pt-4 text-xs text-ink-faint">
               Member since {formatDate(user.createdAt)}
             </p>
           )}
@@ -80,17 +80,17 @@ export default function Profile() {
         </section>
 
         {/* Editable details */}
-        <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6 lg:col-span-2">
-          <h2 className="text-lg font-bold text-slate-900 sm:text-xl">
+        <section className="fl-card p-5 sm:p-6 lg:col-span-2">
+          <h2 className="text-lg font-bold text-ink sm:text-xl">
             Account details
           </h2>
-          <p className="mt-1 text-sm text-slate-500">
+          <p className="mt-1 text-sm text-ink-soft">
             Keep your contact details up to date so orders reach you.
           </p>
 
           <form onSubmit={handleSave} className="mt-6 space-y-5">
             <label className="block">
-              <span className="text-sm font-medium text-slate-700">Full name</span>
+              <span className="text-sm font-medium text-ink">Full name</span>
               <input
                 type="text"
                 value={form.name}
@@ -102,7 +102,7 @@ export default function Profile() {
 
             <div className="grid gap-5 sm:grid-cols-2">
               <label className="block">
-                <span className="text-sm font-medium text-slate-700">Phone</span>
+                <span className="text-sm font-medium text-ink">Phone</span>
                 <input
                   type="tel"
                   value={form.phone}
@@ -113,7 +113,7 @@ export default function Profile() {
               </label>
 
               <label className="block">
-                <span className="text-sm font-medium text-slate-700">City</span>
+                <span className="text-sm font-medium text-ink">City</span>
                 <input
                   type="text"
                   value={form.location}
@@ -125,14 +125,14 @@ export default function Profile() {
             </div>
 
             <label className="block">
-              <span className="text-sm font-medium text-slate-700">Email</span>
+              <span className="text-sm font-medium text-ink">Email</span>
               <input
                 type="email"
                 value={user?.email || ""}
                 disabled
-                className={`${inputClass} cursor-not-allowed bg-slate-50 text-slate-400`}
+                className={`${inputClass} cursor-not-allowed bg-canvas text-ink-faint`}
               />
-              <span className="mt-1 block text-xs text-slate-400">
+              <span className="mt-1 block text-xs text-ink-faint">
                 Your email address can't be changed.
               </span>
             </label>
@@ -145,11 +145,11 @@ export default function Profile() {
 
         {/* Buyer-only: what the AI matching layer should optimise for. */}
         {user?.role === "buyer" && (
-          <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6 lg:col-span-3">
-            <h2 className="text-lg font-bold text-slate-900 sm:text-xl">
+          <section className="fl-card p-5 sm:p-6 lg:col-span-3">
+            <h2 className="text-lg font-bold text-ink sm:text-xl">
               🤖 Matching preferences
             </h2>
-            <p className="mt-1 text-sm text-slate-500">
+            <p className="mt-1 text-sm text-ink-soft">
               Optional. These sharpen your AI crop recommendations — leave anything
               blank and we'll learn from your order history instead.
             </p>

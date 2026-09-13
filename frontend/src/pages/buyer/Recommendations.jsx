@@ -9,7 +9,12 @@ import {
   MatchReasons,
   MatchDetailsModal,
 } from "../../components/MatchScore";
-import { Button, EmptyState, ErrorNote, Spinner } from "../../components/ui";
+import {
+  Button,
+  EmptyState,
+  ErrorNote,
+  SkeletonCards,
+} from "../../components/ui";
 import { matching } from "../../lib/api";
 import { useAsyncData } from "../../lib/useAsyncData";
 import { currency, cropIcon } from "../../lib/format";
@@ -47,17 +52,17 @@ export default function Recommendations() {
       {error && <ErrorNote message={error} onRetry={reload} />}
 
       {loading ? (
-        <Spinner label="Finding the best crops for you…" />
+        <SkeletonCards count={4} className="lg:grid-cols-2 xl:grid-cols-2" />
       ) : (
         <div className="space-y-6">
           {/* Nudge a brand-new buyer rather than pretending the scores are personal */}
           {unpersonalised && (
-            <div className="flex flex-col gap-3 rounded-2xl border border-blue-100 bg-blue-50 p-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-col gap-3 rounded-2xl border border-sky-100 bg-sky-50 p-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <p className="text-sm font-semibold text-blue-900">
+                <p className="text-sm font-semibold text-sky-900">
                   These are general recommendations for now
                 </p>
-                <p className="mt-1 text-xs text-blue-800">
+                <p className="mt-1 text-xs text-sky-800">
                   You have no orders or preferences yet, so everything is scored
                   neutrally. Tell us what you buy and the ranking gets personal.
                 </p>
@@ -69,7 +74,7 @@ export default function Recommendations() {
           )}
 
           {data?.demandForecastAvailable === false && (
-            <p className="rounded-xl bg-amber-50 p-3 text-xs text-amber-800">
+            <p className="rounded-xl bg-harvest-50 p-3 text-xs text-harvest-700">
               ⚠️ The demand forecasting service is offline, so the demand part of
               each score is a neutral placeholder.
             </p>
@@ -88,7 +93,7 @@ export default function Recommendations() {
             />
           ) : (
             <>
-              <p className="text-sm text-slate-500">
+              <p className="text-sm text-ink-soft">
                 Showing {matches.length} of {data.candidatesConsidered} listing
                 {data.candidatesConsidered === 1 ? "" : "s"}, best fit first.
               </p>
@@ -100,19 +105,19 @@ export default function Recommendations() {
                   return (
                     <article
                       key={match.id}
-                      className="flex flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+                      className="flex flex-col fl-card p-5"
                     >
                       <div className="flex items-start justify-between gap-3">
                         <div className="flex min-w-0 items-start gap-3">
                           <span className="text-3xl">{cropIcon(product.cropName)}</span>
                           <div className="min-w-0">
-                            <p className="text-xs font-semibold text-slate-400">
+                            <p className="text-xs font-semibold text-ink-faint">
                               #{index + 1}
                             </p>
-                            <h3 className="truncate text-base font-bold text-slate-900">
+                            <h3 className="truncate text-base font-bold text-ink">
                               {product.cropName}
                             </h3>
-                            <p className="mt-0.5 truncate text-xs text-slate-500">
+                            <p className="mt-0.5 truncate text-xs text-ink-soft">
                               👨‍🌾 {product.farmerName} · 📍 {product.location}
                               {match.distanceKm != null && ` · ~${match.distanceKm} km`}
                             </p>
@@ -123,18 +128,18 @@ export default function Recommendations() {
                       </div>
 
                       <div className="mt-3 flex flex-wrap items-baseline gap-x-4 gap-y-1">
-                        <span className="text-lg font-bold text-emerald-600">
+                        <span className="text-lg font-bold text-brand-700">
                           {currency(product.pricePerKg)}
-                          <span className="text-xs font-normal text-slate-500"> / kg</span>
+                          <span className="text-xs font-normal text-ink-soft"> / kg</span>
                         </span>
-                        <span className="text-xs text-slate-500">
+                        <span className="text-xs text-ink-soft">
                           {product.quantity.toLocaleString("en-IN")} {product.unit} available
                         </span>
                       </div>
 
-                      <p className="mt-2 text-sm text-slate-600">{match.summary}</p>
+                      <p className="mt-2 text-sm text-ink-soft">{match.summary}</p>
 
-                      <div className="mt-4 rounded-xl bg-slate-50 p-3">
+                      <div className="mt-4 rounded-xl bg-canvas p-3">
                         <MatchBreakdown breakdown={match.scoreBreakdown} compact />
                       </div>
 

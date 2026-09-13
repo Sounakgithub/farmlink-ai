@@ -8,7 +8,7 @@ import {
   EmptyState,
   ErrorNote,
   Modal,
-  Spinner,
+  SkeletonCards,
 } from "../../components/ui";
 import { api } from "../../lib/api";
 import { useAsyncData } from "../../lib/useAsyncData";
@@ -84,7 +84,7 @@ export default function FarmerProducts() {
       {error && <ErrorNote message={error} onRetry={reload} />}
 
       {loading ? (
-        <Spinner label="Loading your crops…" />
+        <SkeletonCards count={4} className="lg:grid-cols-3" />
       ) : products.length === 0 ? (
         <EmptyState
           title="No crops listed yet"
@@ -96,7 +96,7 @@ export default function FarmerProducts() {
           {products.map((product) => (
             <div
               key={product._id}
-              className="flex flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md"
+              className="flex flex-col fl-card p-5 transition hover:shadow-md"
             >
               <div className="flex items-start justify-between gap-3">
                 <span className="text-4xl">{cropIcon(product.cropName)}</span>
@@ -104,29 +104,29 @@ export default function FarmerProducts() {
                 <Badge
                   className={
                     product.quantity > 0
-                      ? "bg-emerald-100 text-emerald-700"
-                      : "bg-red-100 text-red-700"
+                      ? "bg-brand-100 text-brand-700"
+                      : "bg-rose-100 text-rose-700"
                   }
                 >
                   {product.quantity > 0 ? "In stock" : "Sold out"}
                 </Badge>
               </div>
 
-              <h3 className="mt-3 text-lg font-bold text-slate-900">
+              <h3 className="mt-3 text-lg font-bold text-ink">
                 {product.cropName}
               </h3>
 
-              <div className="mt-3 flex-1 space-y-1.5 text-sm text-slate-600">
+              <div className="mt-3 flex-1 space-y-1.5 text-sm text-ink-soft">
                 <p>📦 {product.quantity} {product.unit} available</p>
                 <p>📍 {product.location}</p>
               </div>
 
-              <div className="mt-4 flex items-end justify-between border-t border-slate-100 pt-4">
+              <div className="mt-4 flex items-end justify-between border-t border-line pt-4">
                 <div>
-                  <span className="text-xl font-bold text-emerald-600">
+                  <span className="text-xl font-bold text-brand-700">
                     {currency(product.pricePerKg)}
                   </span>
-                  <span className="ml-1 text-sm text-slate-500">/ kg</span>
+                  <span className="ml-1 text-sm text-ink-soft">/ kg</span>
                 </div>
               </div>
 

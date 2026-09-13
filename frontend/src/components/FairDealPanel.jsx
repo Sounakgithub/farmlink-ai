@@ -74,27 +74,27 @@ export default function FairDealPanel({
     <div
       className={`rounded-2xl border p-4 ${
         positive
-          ? "border-emerald-200 bg-emerald-50"
-          : "border-amber-200 bg-amber-50"
+          ? "border-brand-200 bg-brand-50"
+          : "border-harvest-300 bg-harvest-50"
       }`}
     >
       <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <h4 className="text-sm font-bold text-slate-900">
+        <h4 className="text-sm font-bold text-ink">
           {forFarmer ? "💰 What you earn" : "🏷️ What you save"}
         </h4>
         {confidence === "low" && (
-          <span className="rounded-full bg-white px-2 py-0.5 text-[10px] font-semibold text-amber-700">
+          <span className="rounded-full bg-white px-2 py-0.5 text-[10px] font-semibold text-harvest-700">
             few prices to compare
           </span>
         )}
       </div>
 
       {positive ? (
-        <p className="mt-2 text-sm text-slate-700">
+        <p className="mt-2 text-sm text-ink">
           {forFarmer ? (
             <>
               At {currency(deal.askingPrice)}/kg you earn{" "}
-              <strong className="text-emerald-700">
+              <strong className="text-brand-700">
                 {currency(deal.farmerGainPerKg)}/kg more
               </strong>{" "}
               than the {currency(comparedWith)}/kg a trader would typically pay at
@@ -103,7 +103,7 @@ export default function FairDealPanel({
           ) : (
             <>
               You pay {currency(deal.askingPrice)}/kg and save{" "}
-              <strong className="text-emerald-700">
+              <strong className="text-brand-700">
                 {currency(deal.buyerSavingPerKg)}/kg
               </strong>{" "}
               against the {currency(comparedWith)}/kg a shop would typically
@@ -112,15 +112,15 @@ export default function FairDealPanel({
           )}
         </p>
       ) : (
-        <p className="mt-2 text-sm text-amber-900">
+        <p className="mt-2 text-sm text-harvest-700">
           {forFarmer ? deal.verdict?.forFarmer : deal.verdict?.forBuyer}
         </p>
       )}
 
       {headlineTotal != null && positive && (
-        <p className="mt-2 text-lg font-bold text-emerald-700">
+        <p className="mt-2 text-lg font-bold text-brand-700">
           {currency(headlineTotal)}{" "}
-          <span className="text-xs font-normal text-slate-500">
+          <span className="text-xs font-normal text-ink-soft">
             on {deal.quantityKg} kg
           </span>
         </p>
@@ -130,15 +130,15 @@ export default function FairDealPanel({
       {!compact && (
         <div className="mt-4 space-y-1.5">
           {[
-            { label: "Trader pays the farmer", value: deal.farmGatePrice, tone: "text-slate-500" },
-            { label: "This listing", value: deal.askingPrice, tone: "font-bold text-emerald-700" },
-            { label: "Typical shop price", value: deal.retailPrice, tone: "text-slate-500" },
+            { label: "Trader pays the farmer", value: deal.farmGatePrice, tone: "text-ink-soft" },
+            { label: "This listing", value: deal.askingPrice, tone: "font-bold text-brand-700" },
+            { label: "Typical shop price", value: deal.retailPrice, tone: "text-ink-soft" },
           ].map((row) => {
             const pct = deal.retailPrice ? (row.value / deal.retailPrice) * 100 : 0;
             return (
               <div key={row.label}>
                 <div className="flex items-baseline justify-between gap-2 text-xs">
-                  <span className="text-slate-600">{row.label}</span>
+                  <span className="text-ink-soft">{row.label}</span>
                   <span className={`tabular-nums ${row.tone}`}>
                     {currency(row.value)}/kg
                   </span>
@@ -146,7 +146,7 @@ export default function FairDealPanel({
                 <div className="mt-0.5 h-1.5 w-full overflow-hidden rounded-full bg-white">
                   <div
                     className={`h-full rounded-full ${
-                      row.label === "This listing" ? "bg-emerald-500" : "bg-slate-300"
+                      row.label === "This listing" ? "bg-brand-500" : "bg-line-strong"
                     }`}
                     style={{ width: `${Math.max(3, Math.min(100, pct))}%` }}
                   />
@@ -158,17 +158,17 @@ export default function FairDealPanel({
       )}
 
       {!compact && quality?.length > 0 && (
-        <ul className="mt-4 space-y-1 border-t border-emerald-200/60 pt-3">
+        <ul className="mt-4 space-y-1 border-t border-brand-200/60 pt-3">
           {quality.map((point) => (
-            <li key={point} className="flex gap-2 text-[11px] leading-relaxed text-slate-600">
-              <span className="shrink-0 text-emerald-600">✓</span>
+            <li key={point} className="flex gap-2 text-[11px] leading-relaxed text-ink-soft">
+              <span className="shrink-0 text-brand-700">✓</span>
               <span>{point}</span>
             </li>
           ))}
         </ul>
       )}
 
-      <p className="mt-3 text-[10px] leading-relaxed text-slate-400">
+      <p className="mt-3 text-[10px] leading-relaxed text-ink-faint">
         Market reference: {currency(reference.pricePerKg)}/kg, the median of{" "}
         {reference.sampleSize} FarmLink{" "}
         {reference.basis === "past-orders" ? "past orders" : "listings"} for this

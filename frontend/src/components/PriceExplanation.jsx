@@ -32,27 +32,27 @@ export default function PriceExplanation({ explanation, className = "" }) {
   const maxImpact = Math.max(...rows.map((f) => Math.abs(f.impact)), 0.01);
 
   return (
-    <div className={`rounded-2xl border border-emerald-200 bg-white p-5 ${className}`}>
+    <div className={`rounded-2xl border border-brand-200 bg-white p-5 ${className}`}>
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2">
-          <h3 className="text-base font-bold text-slate-900">Why this price?</h3>
+          <h3 className="text-base font-bold text-ink">Why this price?</h3>
           <button
             type="button"
             onClick={() => setShowInfo((open) => !open)}
             aria-expanded={showInfo}
             aria-label="How these factors are calculated"
-            className="flex h-5 w-5 items-center justify-center rounded-full border border-slate-300 text-[11px] font-bold text-slate-500 transition hover:border-emerald-400 hover:text-emerald-600"
+            className="flex h-5 w-5 items-center justify-center rounded-full border border-line-strong text-[11px] font-bold text-ink-soft transition hover:border-emerald-400 hover:text-brand-700"
           >
             i
           </button>
         </div>
-        <span className="rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-semibold text-emerald-700">
+        <span className="rounded-full bg-brand-50 px-3 py-1 text-[11px] font-semibold text-brand-700">
           ✨ Powered by Explainable AI
         </span>
       </div>
 
       {showInfo && (
-        <p className="mt-3 rounded-xl bg-slate-50 p-3 text-xs leading-relaxed text-slate-600">
+        <p className="mt-3 rounded-xl bg-canvas p-3 text-xs leading-relaxed text-ink-soft">
           The model starts from an average price of{" "}
           <strong>₹{Number(explanation.base_value).toFixed(2)}/kg</strong> across
           everything it was trained on, then adjusts up or down for your crop,
@@ -62,7 +62,7 @@ export default function PriceExplanation({ explanation, className = "" }) {
         </p>
       )}
 
-      <p className="mt-3 text-xs text-slate-500">
+      <p className="mt-3 text-xs text-ink-soft">
         Starting from an average of ₹{Number(explanation.base_value).toFixed(2)}/kg,
         these factors shaped the recommendation:
       </p>
@@ -75,15 +75,15 @@ export default function PriceExplanation({ explanation, className = "" }) {
           return (
             <li key={factor.feature}>
               <div className="flex items-baseline justify-between gap-3">
-                <span className="text-sm font-semibold text-slate-700">
+                <span className="text-sm font-semibold text-ink">
                   {factor.label}
-                  <span className="ml-1.5 font-normal text-slate-400">
+                  <span className="ml-1.5 font-normal text-ink-faint">
                     {factor.value}
                   </span>
                 </span>
                 <span
                   className={`shrink-0 text-sm font-bold tabular-nums ${
-                    up ? "text-emerald-600" : "text-rose-500"
+                    up ? "text-brand-700" : "text-rose-500"
                   }`}
                 >
                   {up ? "+" : "−"}
@@ -92,7 +92,7 @@ export default function PriceExplanation({ explanation, className = "" }) {
               </div>
 
               {/* diverging bar: centre line = no effect, right = upward */}
-              <div className="mt-1.5 flex h-2.5 w-full overflow-hidden rounded-full bg-slate-100">
+              <div className="mt-1.5 flex h-2.5 w-full overflow-hidden rounded-full bg-canvas">
                 <div className="flex w-1/2 justify-end">
                   {!up && (
                     <div
@@ -105,14 +105,14 @@ export default function PriceExplanation({ explanation, className = "" }) {
                 <div className="flex w-1/2 justify-start">
                   {up && (
                     <div
-                      className="h-full rounded-r-full bg-emerald-500"
+                      className="h-full rounded-r-full bg-brand-500"
                       style={{ width: `${width * 2}%` }}
                     />
                   )}
                 </div>
               </div>
 
-              <p className="mt-1.5 text-xs leading-relaxed text-slate-500">
+              <p className="mt-1.5 text-xs leading-relaxed text-ink-soft">
                 {up ? "🟢" : "🔴"} {factor.statement}
               </p>
             </li>
@@ -120,7 +120,7 @@ export default function PriceExplanation({ explanation, className = "" }) {
         })}
       </ul>
 
-      <p className="mt-4 border-t border-slate-100 pt-3 text-[11px] leading-relaxed text-slate-400">
+      <p className="mt-4 border-t border-line pt-3 text-[11px] leading-relaxed text-ink-faint">
         These factors show how the AI model arrived at its number. They explain
         the model's reasoning, not real-world cause and effect.
       </p>

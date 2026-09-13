@@ -87,20 +87,20 @@ export default function Cart() {
             {cart.map((item) => (
               <div
                 key={item._id}
-                className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5"
+                className="fl-card p-4 shadow-sm sm:p-5"
               >
                 <div className="flex gap-4">
-                  <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-50 to-green-100 text-3xl sm:h-20 sm:w-20 sm:text-4xl">
+                  <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-brand-50 to-brand-100 text-3xl sm:h-20 sm:w-20 sm:text-4xl">
                     {cropIcon(item.cropName)}
                   </div>
 
                   <div className="min-w-0 flex-1">
                     <div className="flex items-start justify-between gap-3">
                       <div className="min-w-0">
-                        <h3 className="truncate text-lg font-bold text-slate-900">
+                        <h3 className="truncate text-lg font-bold text-ink">
                           {item.cropName}
                         </h3>
-                        <p className="truncate text-sm text-slate-500">
+                        <p className="truncate text-sm text-ink-soft">
                           👨‍🌾 {item.farmerName} · 📍 {item.location}
                         </p>
                       </div>
@@ -108,7 +108,7 @@ export default function Cart() {
                       <button
                         onClick={() => removeFromCart(item._id)}
                         aria-label={`Remove ${item.cropName}`}
-                        className="shrink-0 rounded-lg bg-red-50 px-3 py-2 text-xs font-semibold text-red-600 transition hover:bg-red-100"
+                        className="shrink-0 rounded-lg bg-rose-50 px-3 py-2 text-xs font-semibold text-rose-600 transition hover:bg-rose-100"
                       >
                         🗑️
                       </button>
@@ -119,7 +119,7 @@ export default function Cart() {
                         <button
                           onClick={() => setQuantity(item._id, item.cartQuantity - 1)}
                           aria-label="Decrease quantity"
-                          className="h-9 w-9 rounded-lg bg-slate-100 text-lg font-bold text-slate-700 transition hover:bg-slate-200"
+                          className="h-9 w-9 rounded-lg bg-canvas text-lg font-bold text-ink transition hover:bg-line"
                         >
                           −
                         </button>
@@ -133,28 +133,28 @@ export default function Cart() {
                             setQuantity(item._id, Number(e.target.value))
                           }
                           aria-label={`Quantity of ${item.cropName} in kg`}
-                          className="h-9 w-16 rounded-lg border border-slate-200 text-center text-sm font-semibold outline-none focus:border-emerald-500"
+                          className="h-9 w-16 rounded-lg border border-line text-center text-sm font-semibold outline-none focus:border-brand-500"
                         />
 
                         <button
                           onClick={() => setQuantity(item._id, item.cartQuantity + 1)}
                           disabled={item.cartQuantity >= item.stock}
                           aria-label="Increase quantity"
-                          className="h-9 w-9 rounded-lg bg-slate-100 text-lg font-bold text-slate-700 transition hover:bg-slate-200 disabled:opacity-40"
+                          className="h-9 w-9 rounded-lg bg-canvas text-lg font-bold text-ink transition hover:bg-line disabled:opacity-40"
                         >
                           +
                         </button>
 
-                        <span className="ml-1 text-xs text-slate-400">
+                        <span className="ml-1 text-xs text-ink-faint">
                           kg (max {item.stock})
                         </span>
                       </div>
 
                       <div className="text-right">
-                        <p className="text-xs text-slate-400">
+                        <p className="text-xs text-ink-faint">
                           {currency(item.pricePerKg)}/kg
                         </p>
-                        <p className="text-lg font-bold text-slate-900">
+                        <p className="text-lg font-bold text-ink">
                           {currency(item.pricePerKg * item.cartQuantity)}
                         </p>
                       </div>
@@ -166,7 +166,7 @@ export default function Cart() {
 
             <button
               onClick={clearCart}
-              className="text-sm font-semibold text-slate-500 transition hover:text-red-600"
+              className="text-sm font-semibold text-ink-soft transition hover:text-rose-600"
             >
               Clear cart
             </button>
@@ -175,26 +175,26 @@ export default function Cart() {
           {/* Summary + checkout */}
           <aside>
             <div className="sticky top-24 space-y-4">
-              <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-                <h3 className="text-lg font-bold text-slate-900">Order summary</h3>
+              <div className="fl-card p-5 sm:p-6">
+                <h3 className="text-lg font-bold text-ink">Order summary</h3>
 
                 <div className="mt-5 space-y-3 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Products</span>
+                    <span className="text-ink-soft">Products</span>
                     <span className="font-medium">{cart.length}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Total quantity</span>
+                    <span className="text-ink-soft">Total quantity</span>
                     <span className="font-medium">{itemCount} kg</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Delivery</span>
-                    <span className="font-semibold text-emerald-600">Free</span>
+                    <span className="text-ink-soft">Delivery</span>
+                    <span className="font-semibold text-brand-700">Free</span>
                   </div>
                 </div>
 
                 <label className="mt-5 block">
-                  <span className="text-sm font-medium text-slate-700">
+                  <span className="text-sm font-medium text-ink">
                     Delivery address
                   </span>
                   <textarea
@@ -207,9 +207,9 @@ export default function Cart() {
                 </label>
 
                 <label className="mt-4 block">
-                  <span className="text-sm font-medium text-slate-700">
+                  <span className="text-sm font-medium text-ink">
                     Delivery instructions{" "}
-                    <span className="text-slate-400">(optional)</span>
+                    <span className="text-ink-faint">(optional)</span>
                   </span>
                   <textarea
                     rows={2}
@@ -218,7 +218,7 @@ export default function Cart() {
                     placeholder="e.g. call on arrival, gate code, landmark"
                     className={`${inputClass} resize-none`}
                   />
-                  <span className="mt-1 block text-xs text-slate-400">
+                  <span className="mt-1 block text-xs text-ink-faint">
                     You can also chat with your delivery partner once one is
                     assigned.
                   </span>
@@ -226,8 +226,8 @@ export default function Cart() {
               </div>
 
               {/* Payment method */}
-              <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-                <h3 className="text-lg font-bold text-slate-900">Payment method</h3>
+              <div className="fl-card p-5 sm:p-6">
+                <h3 className="text-lg font-bold text-ink">Payment method</h3>
 
                 <div className="mt-4 space-y-2">
                   {PAYMENT_METHODS.map((method) => {
@@ -240,24 +240,24 @@ export default function Cart() {
                         aria-pressed={active}
                         className={`flex w-full items-center gap-3 rounded-xl border-2 p-3 text-left transition ${
                           active
-                            ? "border-emerald-500 bg-emerald-50"
-                            : "border-slate-200 hover:border-slate-300"
+                            ? "border-brand-500 bg-brand-50"
+                            : "border-line hover:border-line-strong"
                         }`}
                       >
                         <span className="text-xl">{method.icon}</span>
                         <span className="min-w-0 flex-1">
-                          <span className="block text-sm font-semibold text-slate-900">
+                          <span className="block text-sm font-semibold text-ink">
                             {method.label}
                           </span>
-                          <span className="block truncate text-xs text-slate-500">
+                          <span className="block truncate text-xs text-ink-soft">
                             {method.hint}
                           </span>
                         </span>
                         <span
                           className={`h-4 w-4 shrink-0 rounded-full border-2 ${
                             active
-                              ? "border-emerald-500 bg-emerald-500"
-                              : "border-slate-300"
+                              ? "border-brand-500 bg-brand-500"
+                              : "border-line-strong"
                           }`}
                         />
                       </button>
@@ -266,7 +266,7 @@ export default function Cart() {
                 </div>
 
                 {prepaid && (
-                  <p className="mt-3 rounded-xl bg-blue-50 p-3 text-xs leading-5 text-blue-700">
+                  <p className="mt-3 rounded-xl bg-sky-50 p-3 text-xs leading-5 text-sky-700 ring-1 ring-sky-100">
                     This is a demo checkout — no real payment is taken. Your order
                     is marked paid immediately.
                   </p>
@@ -274,10 +274,10 @@ export default function Cart() {
               </div>
 
               {/* Total + place */}
-              <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+              <div className="fl-card p-5 sm:p-6">
                 <div className="flex items-center justify-between">
-                  <span className="font-semibold text-slate-700">Total</span>
-                  <span className="text-2xl font-bold text-emerald-600">
+                  <span className="font-semibold text-ink">Total</span>
+                  <span className="text-2xl font-bold text-brand-700">
                     {currency(totalPrice)}
                   </span>
                 </div>
@@ -294,7 +294,7 @@ export default function Cart() {
                     : "Place order →"}
                 </Button>
 
-                <p className="mt-3 text-center text-xs text-slate-400">
+                <p className="mt-3 text-center text-xs text-ink-faint">
                   {chosen?.icon} Paying by {chosen?.label}
                 </p>
               </div>

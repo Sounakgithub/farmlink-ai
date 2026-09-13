@@ -1,7 +1,7 @@
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { HOME_FOR_ROLE } from "../lib/constants";
-import { Spinner } from "./ui";
+import BrandMark from "./BrandMark";
 
 /**
  * Gates a route behind login and, optionally, a set of roles.
@@ -14,8 +14,9 @@ export default function ProtectedRoute({ roles, children }) {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-slate-50">
-        <Spinner label="Restoring your session…" />
+      <div className="fl-soil flex min-h-screen flex-col items-center justify-center gap-5">
+        <BrandMark size={48} animated />
+        <p className="text-sm text-white/50">Restoring your session…</p>
       </div>
     );
   }

@@ -39,37 +39,55 @@ function ConversationRow({ convo, active, onClick, meId }) {
   return (
     <button
       onClick={onClick}
-      className={`flex w-full items-start gap-3 border-b border-slate-100 p-4 text-left transition hover:bg-slate-50 ${
-        active ? "bg-emerald-50" : ""
+      className={`relative flex w-full items-start gap-3 border-b border-line p-4 text-left transition-colors duration-200 hover:bg-canvas ${
+        active ? "bg-brand-50/70" : ""
       }`}
     >
-      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-100 text-lg">
+      {/* Active thread marker */}
+      <span
+        className={`absolute left-0 top-1/2 h-8 w-[3px] -translate-y-1/2 rounded-r-full bg-brand-500 transition-opacity duration-300 ${
+          active ? "opacity-100" : "opacity-0"
+        }`}
+      />
+
+      <span className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-canvas text-lg ring-1 ring-line">
         {ROLE_ICON[convo.other?.role] || "👤"}
+        {convo.unread > 0 && (
+          <span className="absolute -right-0.5 -top-0.5 h-3 w-3 rounded-full bg-brand-500 ring-2 ring-white" />
+        )}
       </span>
 
       <div className="min-w-0 flex-1">
         <div className="flex items-center justify-between gap-2">
-          <p className="truncate font-semibold text-slate-900">
+          <p
+            className={`truncate ${
+              convo.unread > 0 ? "font-bold text-ink" : "font-semibold text-ink"
+            }`}
+          >
             {convo.other?.name || "FarmLink"}
           </p>
-          <span className="shrink-0 text-[11px] text-slate-400">
+          <span className="shrink-0 text-[11px] text-ink-faint">
             {convo.lastMessageAt ? timeLabel(convo.lastMessageAt) : ""}
           </span>
         </div>
 
-        <p className="truncate text-xs text-slate-500">
+        <p className="truncate text-[11px] text-ink-faint">
           {convo.subject}
           {convo.kind === "buyer-farmer" ? " · price & freshness" : " · delivery"}
         </p>
 
-        <p className="mt-1 truncate text-sm text-slate-500">
+        <p
+          className={`mt-1 truncate text-sm ${
+            convo.unread > 0 ? "font-medium text-ink-soft" : "text-ink-faint"
+          }`}
+        >
           {mineLast && "You: "}
           {convo.lastMessageText || "No messages yet"}
         </p>
       </div>
 
       {convo.unread > 0 && (
-        <span className="mt-1 shrink-0 rounded-full bg-emerald-600 px-2 py-0.5 text-xs font-bold text-white">
+        <span className="fl-numeric mt-1 shrink-0 rounded-full bg-brand-600 px-2 py-0.5 text-[11px] font-bold text-white">
           {convo.unread}
         </span>
       )}
@@ -172,62 +190,87 @@ function Thread({ id, meId, onActivity, onBack }) {
   return (
     <div className="flex h-full flex-col">
       {/* Thread header */}
-      <div className="flex items-center gap-3 border-b border-slate-200 p-4">
+      <div className="fl-glass flex items-center gap-3 border-b border-line p-4">
         <button
           onClick={onBack}
-          className="rounded-lg bg-slate-100 px-3 py-1.5 text-sm font-semibold text-slate-600 lg:hidden"
+          aria-label="Back to conversations"
+          className="rounded-lg bg-canvas px-3 py-1.5 text-sm font-semibold text-ink-soft ring-1 ring-line transition hover:text-ink lg:hidden"
         >
           ←
         </button>
-        <span className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-lg">
+
+        <span className="relative flex h-11 w-11 items-center justify-center rounded-full bg-canvas text-lg ring-1 ring-line">
           {ROLE_ICON[thread.other?.role] || "👤"}
+          {/* Presence is not tracked on the server, so this marks the thread as
+              open rather than claiming the other person is online. */}
+          <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-brand-500 ring-2 ring-white" />
         </span>
+
         <div className="min-w-0">
-          <p className="truncate font-bold text-slate-900">
+          <p className="truncate font-bold text-ink">
             {thread.other?.name || "FarmLink"}
           </p>
-          <p className="truncate text-xs text-slate-500">
+          <p className="truncate text-xs text-ink-soft">
             {thread.subject}
             {thread.kind === "buyer-farmer"
-              ? " · freshness & price negotiation"
+              ? " · freshness & price"
               : " · delivery instructions"}
           </p>
         </div>
       </div>
 
       {/* Messages */}
-      <div className="flex-1 space-y-3 overflow-y-auto bg-slate-50 p-4">
+      <div className="flex-1 space-y-2.5 overflow-y-auto bg-canvas p-4">
         {thread.messages.length === 0 && (
-          <p className="mx-auto max-w-xs rounded-xl bg-white p-4 text-center text-sm text-slate-400">
-            {thread.kind === "buyer-farmer"
-              ? "Ask about freshness, harvest date or negotiate a price."
-              : "Share any delivery instructions with your delivery partner."}
-          </p>
+          <div className="mx-auto mt-8 max-w-xs text-center">
+            <span className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-50 text-2xl ring-1 ring-brand-100">
+              ✉
+            </span>
+            <p className="mt-4 text-sm leading-relaxed text-ink-soft">
+              {thread.kind === "buyer-farmer"
+                ? "Ask about freshness, harvest date or negotiate a price."
+                : "Share any delivery instructions with your delivery partner."}
+            </p>
+          </div>
         )}
 
         {thread.messages.map((msg, i) => {
           const mine = String(msg.senderId) === String(meId);
+          const previous = thread.messages[i - 1];
+          // Consecutive messages from one person read as a block: only the
+          // first in a run carries the name and the full corner radius.
+          const grouped =
+            previous && String(previous.senderId) === String(msg.senderId);
+
           return (
             <div
               key={msg._id || i}
-              className={`flex ${mine ? "justify-end" : "justify-start"}`}
+              className={`animate-fade-up flex ${
+                mine ? "justify-end" : "justify-start"
+              } ${grouped ? "mt-0.5" : "mt-3"}`}
             >
               <div
-                className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm shadow-sm ${
+                className={`max-w-[80%] px-4 py-2.5 text-sm shadow-sm sm:max-w-[70%] ${
                   mine
-                    ? "rounded-br-md bg-emerald-600 text-white"
-                    : "rounded-bl-md bg-white text-slate-800"
+                    ? `bg-brand-600 text-white ${
+                        grouped ? "rounded-2xl rounded-br-md" : "rounded-2xl rounded-br-md"
+                      }`
+                    : `bg-surface text-ink ring-1 ring-line ${
+                        grouped ? "rounded-2xl rounded-bl-md" : "rounded-2xl rounded-bl-md"
+                      }`
                 }`}
               >
-                {!mine && (
-                  <p className="mb-0.5 text-xs font-semibold text-slate-500">
+                {!mine && !grouped && (
+                  <p className="mb-1 text-[11px] font-bold text-brand-700">
                     {msg.senderName}
                   </p>
                 )}
-                <p className="whitespace-pre-wrap break-words">{msg.body}</p>
+                <p className="whitespace-pre-wrap break-words leading-relaxed">
+                  {msg.body}
+                </p>
                 <p
                   className={`mt-1 text-[10px] ${
-                    mine ? "text-emerald-100" : "text-slate-400"
+                    mine ? "text-white/60" : "text-ink-faint"
                   }`}
                 >
                   {timeLabel(msg.createdAt)}
@@ -241,13 +284,13 @@ function Thread({ id, meId, onActivity, onBack }) {
 
       {/* Quick replies */}
       {showChips && chips.length > 0 && (
-        <div className="flex gap-2 overflow-x-auto border-t border-slate-100 bg-white px-4 py-2">
+        <div className="fl-scrollbar-none flex gap-2 overflow-x-auto border-t border-line bg-surface px-4 py-2.5">
           {chips.map((chip) => (
             <button
               key={chip}
               onClick={() => send(chip)}
               disabled={sending}
-              className="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition hover:border-emerald-400 hover:text-emerald-700 disabled:opacity-50"
+              className="shrink-0 rounded-full border border-line bg-surface px-3.5 py-1.5 text-xs font-semibold text-ink-soft transition-all duration-200 hover:-translate-y-0.5 hover:border-brand-300 hover:text-brand-700 disabled:opacity-50"
             >
               {chip}
             </button>
@@ -261,7 +304,7 @@ function Thread({ id, meId, onActivity, onBack }) {
           e.preventDefault();
           send();
         }}
-        className="flex items-end gap-2 border-t border-slate-200 bg-white p-3"
+        className="flex items-end gap-2 border-t border-line bg-surface p-3"
       >
         <textarea
           rows={1}
@@ -274,10 +317,16 @@ function Thread({ id, meId, onActivity, onBack }) {
             }
           }}
           placeholder="Write a message…"
-          className="max-h-32 flex-1 resize-none rounded-xl border border-slate-200 px-4 py-2.5 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
+          className="max-h-32 flex-1 resize-none rounded-xl border border-line-strong bg-canvas px-4 py-2.5 text-sm text-ink outline-none transition duration-200 placeholder:text-ink-faint focus:border-brand-500 focus:bg-surface focus:ring-4 focus:ring-brand-500/12"
         />
-        <Button type="submit" disabled={sending || !draft.trim()} className="py-2.5">
-          {sending ? "…" : "Send"}
+        <Button
+          type="submit"
+          disabled={!draft.trim()}
+          loading={sending}
+          className="py-2.5"
+          aria-label="Send message"
+        >
+          {sending ? "" : "Send"}
         </Button>
       </form>
     </div>
@@ -345,7 +394,7 @@ export default function Messages() {
     <AppShell title="Messages" subtitle="Chat with farmers and delivery partners">
       {error && <ErrorNote message={error} onRetry={loadList} />}
 
-      <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+      <div className="fl-card overflow-hidden">
         <div className="grid lg:grid-cols-[340px_1fr]">
           {/* Conversation list */}
           <div
@@ -395,7 +444,7 @@ export default function Messages() {
                 onBack={() => navigate("/messages")}
               />
             ) : (
-              <div className="flex h-full items-center justify-center p-6 text-center text-sm text-slate-400">
+              <div className="flex h-full items-center justify-center p-6 text-center text-sm text-ink-faint">
                 Select a conversation to start chatting
               </div>
             )}

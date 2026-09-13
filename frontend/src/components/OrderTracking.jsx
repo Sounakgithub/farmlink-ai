@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import DeliveryMap, { MapLegend } from "./DeliveryMap";
 import DeliveryPartnerCard from "./DeliveryPartnerCard";
-import { Badge, Spinner } from "./ui";
+import { Badge, Card, Skeleton } from "./ui";
 import { api } from "../lib/api";
 import { formatDate, formatDuration } from "../lib/format";
 
@@ -54,11 +54,28 @@ export default function OrderTracking({ orderId, status, compact = false }) {
     };
   }, [orderId, status]);
 
-  if (loading) return <Spinner label="Locating your order…" />;
+  // A shaped skeleton rather than a spinner, so the layout never jumps.
+  if (loading) {
+    return (
+      <div className="space-y-4" aria-busy="true">
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex-1">
+            <Skeleton className="h-3 w-28" />
+            <Skeleton className="mt-2.5 h-6 w-56" />
+            <Skeleton className="mt-2 h-3 w-40" />
+          </div>
+          <Skeleton className="h-16 w-28 rounded-2xl" />
+        </div>
+        <Skeleton className="h-2.5 w-full rounded-full" />
+        <Skeleton className="h-24 w-full rounded-2xl" />
+        <Skeleton className="h-64 w-full rounded-xl" />
+      </div>
+    );
+  }
 
   if (error) {
     return (
-      <p className="rounded-xl bg-amber-50 p-3 text-xs text-amber-800">
+      <p className="rounded-xl bg-harvest-50 p-3 text-xs text-harvest-700 ring-1 ring-harvest-100">
         ⚠️ {error}
       </p>
     );
@@ -88,54 +105,77 @@ export default function OrderTracking({ orderId, status, compact = false }) {
       ]
     : null;
 
+  const delivered = tracking.status === "Delivered";
+
   return (
-    <div className="space-y-4">
-      {/* Headline */}
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div>
-          <p className="text-sm font-semibold text-emerald-600">
-            {tracking.status === "Delivered"
-              ? "DELIVERED"
+    <div className="space-y-5">
+      {/* ---- headline ---- */}
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div className="min-w-0">
+          <p className="fl-eyebrow flex items-center gap-2 text-brand-700">
+            {!delivered && tracking.hasLiveLocation && (
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-500 opacity-70" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-brand-500" />
+              </span>
+            )}
+            {delivered
+              ? "Delivered"
               : tracking.hasLiveLocation
-                ? "LIVE TRACKING"
-                : "ORDER JOURNEY"}
+                ? "Live tracking"
+                : "Order journey"}
           </p>
-          <h4 className="mt-0.5 font-bold text-slate-900">
-            {tracking.status === "Delivered"
-              ? "🏠 Arrived at your address"
+
+          <h4 className="mt-1.5 text-xl font-bold tracking-tight text-ink">
+            {delivered
+              ? "Arrived at your address"
               : tracking.status === "In Transit"
-                ? "🚚 On the way to you"
-                : "📦 Preparing your order"}
+                ? "On the way to you"
+                : "Preparing your order"}
           </h4>
-          <p className="mt-0.5 text-xs text-slate-500">
-            {pickup.place} → {dropoff.place}
+
+          <p className="mt-1 flex flex-wrap items-center gap-1.5 text-xs text-ink-soft">
+            <span className="font-semibold text-ink">{pickup.place}</span>
+            <span className="text-ink-faint">→</span>
+            <span className="font-semibold text-ink">{dropoff.place}</span>
           </p>
         </div>
 
-        {tracking.status !== "Delivered" && (
-          <div className="text-right">
-            <Badge className="bg-indigo-100 text-indigo-700">
-              {tracking.remainingKm} km away
-            </Badge>
-            <p className="mt-1 text-xs text-slate-500">
-              ~{formatDuration(tracking.etaMinutes)} away
+        {!delivered && (
+          <div className="shrink-0 rounded-2xl bg-canvas px-4 py-3 text-right ring-1 ring-line">
+            <p className="fl-numeric text-xl font-bold text-ink">
+              ~{formatDuration(tracking.etaMinutes)}
+            </p>
+            <p className="fl-numeric mt-0.5 text-xs text-ink-soft">
+              {tracking.remainingKm} km to go
             </p>
           </div>
         )}
       </div>
 
-      {/* Progress bar */}
+      {/* ---- progress rail ---- */}
       <div>
-        <div className="h-2 w-full overflow-hidden rounded-full bg-slate-100">
+        <div className="relative h-2.5 w-full overflow-hidden rounded-full bg-line">
           <div
-            className="h-full rounded-full bg-emerald-500 transition-all duration-700"
-            style={{ width: `${Math.max(3, progressPct)}%` }}
+            className="h-full rounded-full bg-gradient-to-r from-brand-600 to-brand-400 transition-[width] duration-1000 ease-out"
+            style={{ width: `${Math.max(4, progressPct)}%` }}
           />
         </div>
-        <div className="mt-1.5 flex justify-between text-[11px] text-slate-400">
-          <span>🌾 {pickup.place}</span>
-          <span>{progressPct}%</span>
-          <span>🏠 {dropoff.place}</span>
+
+        {/* The leading edge, sitting on the rail while the parcel moves. */}
+        {!delivered && progressPct > 4 && (
+          <div className="relative -mt-[13px] mb-[3px] h-0">
+            <span
+              className="absolute h-3.5 w-3.5 -translate-x-1/2 rounded-full border-2 border-white bg-brand-500 shadow-sm transition-[left] duration-1000 ease-out"
+              style={{ left: `${Math.max(4, progressPct)}%` }}
+            />
+          </div>
+        )}
+
+        <div className="mt-2.5 flex items-center justify-between text-[11px]">
+          <span className="flex items-center gap-1 text-ink-faint">🌾 Farm</span>
+          <span className="fl-numeric font-bold text-brand-700">{progressPct}%</span>
+          <span className="flex items-center gap-1 text-ink-faint">🏠 You</span>
         </div>
       </div>
 
@@ -157,69 +197,88 @@ export default function OrderTracking({ orderId, status, compact = false }) {
       <MapLegend approximate={tracking.approximate} />
 
       {driver?.updatedAt && (
-        <p className="text-xs text-slate-500">
-          ● Driver position updated {formatDate(driver.updatedAt)}
+        <p className="flex items-center gap-1.5 text-xs text-ink-faint">
+          <span className="h-1.5 w-1.5 rounded-full bg-brand-500" />
+          Driver position updated {formatDate(driver.updatedAt)}
         </p>
       )}
 
       {!tracking.hasLiveLocation && tracking.status === "In Transit" && (
-        <p className="rounded-xl bg-slate-50 p-3 text-xs text-slate-500">
+        <p className="rounded-xl bg-canvas p-3 text-xs text-ink-soft ring-1 ring-line">
           Your driver has not shared a live position yet, so the route shown is
           the planned one.
         </p>
       )}
 
       {tracking.approximate && (
-        <p className="rounded-xl bg-amber-50 p-3 text-xs text-amber-800">
+        <p className="rounded-xl bg-harvest-50 p-3 text-xs text-harvest-700 ring-1 ring-harvest-100">
           ⚠️ We could not pin one of these places exactly, so its marker is
           approximate. The delivery address on the order is what the driver uses.
         </p>
       )}
 
-      {/* Stage timeline */}
-      <ol className="space-y-0">
-        {stages.map((stage, index) => {
-          const last = index === stages.length - 1;
-          return (
-            <li key={stage.key} className="flex gap-3">
-              <div className="flex flex-col items-center">
-                <span
-                  className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[11px] font-bold ${
-                    stage.done
-                      ? "bg-emerald-500 text-white"
-                      : stage.current
-                        ? "bg-emerald-100 text-emerald-700 ring-2 ring-emerald-400"
-                        : "bg-slate-100 text-slate-400"
-                  }`}
-                >
-                  {stage.done ? "✓" : index + 1}
-                </span>
-                {!last && (
-                  <span
-                    className={`w-0.5 flex-1 ${
-                      stage.done ? "bg-emerald-400" : "bg-slate-200"
-                    }`}
-                    style={{ minHeight: "18px" }}
-                  />
-                )}
-              </div>
+      {/* ---- stage timeline ---- */}
+      <Card className="p-5">
+        <p className="fl-eyebrow text-ink-faint">Delivery timeline</p>
 
-              <div className={`pb-4 ${last ? "pb-0" : ""}`}>
-                <p
-                  className={`text-sm font-semibold ${
-                    stage.done ? "text-slate-900" : "text-slate-400"
-                  }`}
-                >
-                  {stage.label}
-                </p>
-                {stage.at && (
-                  <p className="text-xs text-slate-400">{formatDate(stage.at)}</p>
-                )}
-              </div>
-            </li>
-          );
-        })}
-      </ol>
+        <ol className="mt-4">
+          {stages.map((stage, index) => {
+            const last = index === stages.length - 1;
+            const active = stage.current && !stage.done;
+
+            return (
+              <li key={stage.key} className="flex gap-4">
+                {/* rail */}
+                <div className="flex flex-col items-center">
+                  <span
+                    className={`relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold transition-colors duration-300 ${
+                      stage.done
+                        ? "bg-brand-600 text-white"
+                        : active
+                          ? "animate-pulse-ring bg-brand-50 text-brand-700 ring-2 ring-brand-500"
+                          : "bg-canvas text-ink-faint ring-1 ring-line"
+                    }`}
+                  >
+                    {stage.done ? "✓" : index + 1}
+                  </span>
+
+                  {!last && (
+                    <span
+                      className={`w-0.5 flex-1 rounded-full transition-colors duration-500 ${
+                        stage.done ? "bg-brand-400" : "bg-line"
+                      }`}
+                      style={{ minHeight: "28px" }}
+                    />
+                  )}
+                </div>
+
+                {/* copy */}
+                <div className={last ? "pb-0 pt-1" : "pb-6 pt-1"}>
+                  <p
+                    className={`text-sm font-bold transition-colors duration-300 ${
+                      stage.done || active ? "text-ink" : "text-ink-faint"
+                    }`}
+                  >
+                    {stage.label}
+                  </p>
+
+                  {active && (
+                    <Badge tone="brand" pulse className="mt-1.5">
+                      Happening now
+                    </Badge>
+                  )}
+
+                  {stage.at && (
+                    <p className="mt-1 text-xs text-ink-faint">
+                      {formatDate(stage.at)}
+                    </p>
+                  )}
+                </div>
+              </li>
+            );
+          })}
+        </ol>
+      </Card>
     </div>
   );
 }

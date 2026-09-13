@@ -1,7 +1,14 @@
 import { useState } from "react";
 import AppShell from "../../components/AppShell";
 import StartChatButton from "../../components/StartChatButton";
-import { Badge, Button, EmptyState, ErrorNote, Spinner } from "../../components/ui";
+import {
+  Badge,
+  Button,
+  Card,
+  EmptyState,
+  ErrorNote,
+  SkeletonRows,
+} from "../../components/ui";
 import { api } from "../../lib/api";
 import { useAsyncData } from "../../lib/useAsyncData";
 import { useToast } from "../../context/ToastContext";
@@ -68,27 +75,49 @@ export default function FarmerOrders() {
       {error && <ErrorNote message={error} onRetry={reload} />}
 
       {/* Filters */}
-      <div className="-mx-1 mb-6 flex gap-2 overflow-x-auto px-1 pb-1">
-        {FILTERS.map((f) => (
-          <button
-            key={f.key}
-            onClick={() => setFilter(f.key)}
-            className={`shrink-0 rounded-xl px-4 py-2 text-sm font-semibold transition ${
-              filter === f.key
-                ? "bg-emerald-600 text-white"
-                : "bg-white text-slate-600 hover:bg-slate-100"
-            }`}
-          >
-            {f.label}
-          </button>
-        ))}
+      <div className="fl-scrollbar-none -mx-1 mb-6 flex gap-2 overflow-x-auto px-1 pb-1">
+        {FILTERS.map((f) => {
+          const count =
+            f.key === "all"
+              ? orders.length
+              : orders.filter((o) => o.status === f.key).length;
+          const active = filter === f.key;
+
+          return (
+            <button
+              key={f.key}
+              onClick={() => setFilter(f.key)}
+              aria-pressed={active}
+              className={`flex shrink-0 items-center gap-2 rounded-xl border px-4 py-2 text-sm font-semibold transition-all duration-200 ${
+                active
+                  ? "border-brand-600 bg-brand-600 text-white shadow-[0_4px_14px_-4px_rgba(22,163,74,.6)]"
+                  : "border-line bg-surface text-ink-soft hover:border-brand-200 hover:text-ink"
+              }`}
+            >
+              {f.label}
+              {count > 0 && (
+                <span
+                  className={`fl-numeric rounded-full px-1.5 py-0.5 text-[10px] font-bold ${
+                    active
+                      ? "bg-white/20 text-white"
+                      : f.key === "Pending"
+                        ? "bg-harvest-100 text-harvest-700"
+                        : "bg-canvas text-ink-faint"
+                  }`}
+                >
+                  {count}
+                </span>
+              )}
+            </button>
+          );
+        })}
       </div>
 
       {loading ? (
-        <Spinner label="Loading orders…" />
+        <SkeletonRows count={4} />
       ) : visible.length === 0 ? (
         <EmptyState
-          icon="📦"
+          icon="✦"
           title={filter === "all" ? "No orders yet" : "Nothing in this filter"}
           description={
             filter === "all"
@@ -99,25 +128,30 @@ export default function FarmerOrders() {
       ) : (
         <div className="space-y-5">
           {visible.map((order) => (
-            <article
+            <Card
               key={order._id}
-              className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
+              className={`animate-fade-up overflow-hidden ${
+                order.status === "Pending" ? "ring-2 ring-harvest-300/60" : ""
+              }`}
             >
-              <header className="flex flex-col gap-3 border-b border-slate-100 bg-slate-50 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
+              <header className="flex flex-col gap-3 border-b border-line bg-canvas px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                  <p className="fl-eyebrow text-ink-faint">
                     Order {shortId(order._id)}
                   </p>
-                  <h3 className="mt-1 font-bold text-slate-900">
+                  <h3 className="mt-1 font-bold text-ink">
                     {order.buyerName}
                   </h3>
-                  <p className="text-xs text-slate-500">
+                  <p className="text-xs text-ink-soft">
                     {formatDate(order.createdAt)}
                     {order.deliveryAddress ? ` · ${order.deliveryAddress}` : ""}
                   </p>
                 </div>
 
-                <Badge className={statusStyle(order.status)}>
+                <Badge
+                  className={statusStyle(order.status)}
+                  pulse={order.status === "Pending"}
+                >
                   {statusLabel(order.status)}
                 </Badge>
               </header>
@@ -127,31 +161,31 @@ export default function FarmerOrders() {
                   {order.products.map((line, index) => (
                     <div
                       key={`${order._id}-${index}`}
-                      className="flex flex-col gap-2 rounded-xl border border-slate-100 bg-slate-50 p-3 sm:flex-row sm:items-center sm:justify-between"
+                      className="flex flex-col gap-2 rounded-xl border border-line bg-canvas p-3 sm:flex-row sm:items-center sm:justify-between"
                     >
                       <div className="flex items-center gap-3">
                         <span className="text-2xl">{cropIcon(line.cropName)}</span>
                         <div>
-                          <p className="font-semibold text-slate-900">
+                          <p className="font-semibold text-ink">
                             {line.cropName}
                           </p>
-                          <p className="text-xs text-slate-500">
+                          <p className="fl-numeric text-xs text-ink-soft">
                             {line.quantity} kg × {currency(line.pricePerKg)}/kg
                           </p>
                         </div>
                       </div>
 
-                      <span className="font-bold text-emerald-600">
+                      <span className="fl-numeric font-bold text-ink">
                         {currency(line.totalPrice)}
                       </span>
                     </div>
                   ))}
                 </div>
 
-                <div className="mt-4 flex flex-col gap-3 border-t border-slate-100 pt-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="mt-4 flex flex-col gap-3 border-t border-line pt-4 sm:flex-row sm:items-center sm:justify-between">
                   <div>
-                    <p className="text-xs text-slate-400">Your earnings from this order</p>
-                    <p className="text-xl font-bold text-emerald-600">
+                    <p className="text-xs text-ink-faint">Your earnings from this order</p>
+                    <p className="fl-numeric text-2xl font-bold text-ink">
                       {currency(order.totalAmount)}
                     </p>
                   </div>
@@ -177,29 +211,30 @@ export default function FarmerOrders() {
                         </Button>
 
                         <Button
-                          disabled={busyId === order._id}
+                          loading={busyId === order._id}
                           onClick={() => updateStatus(order._id, "Accepted")}
                         >
-                          {busyId === order._id ? "Working…" : "✓ Accept order"}
+                          ✓ Accept order
                         </Button>
                       </>
                     )}
 
                     {order.status === "Accepted" && (
-                      <p className="text-sm text-slate-500">
-                        Waiting for a driver to pick it up.
-                      </p>
+                      <span className="inline-flex items-center gap-2 rounded-xl bg-canvas px-3.5 py-2 text-sm text-ink-soft ring-1 ring-line">
+                        <span className="h-1.5 w-1.5 rounded-full bg-harvest-500" />
+                        Waiting for a driver to collect
+                      </span>
                     )}
 
                     {order.status === "In Transit" && (
-                      <p className="text-sm text-indigo-600">
-                        🚚 On the way to the buyer.
-                      </p>
+                      <span className="inline-flex items-center gap-2 rounded-xl bg-sky-50 px-3.5 py-2 text-sm font-semibold text-sky-700 ring-1 ring-sky-100">
+                        🚚 On the way to the buyer
+                      </span>
                     )}
                   </div>
                 </div>
               </div>
-            </article>
+            </Card>
           ))}
         </div>
       )}
