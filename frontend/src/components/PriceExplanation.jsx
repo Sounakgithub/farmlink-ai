@@ -101,7 +101,7 @@ export default function PriceExplanation({ explanation, className = "" }) {
                     />
                   )}
                 </div>
-                <div className="w-px bg-slate-300" />
+                <div className="w-px bg-line-strong" />
                 <div className="flex w-1/2 justify-start">
                   {up && (
                     <div

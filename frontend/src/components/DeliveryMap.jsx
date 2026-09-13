@@ -123,7 +123,7 @@ export default function DeliveryMap({
   const centre = allPoints[0] || [28.6139, 77.209];
 
   return (
-    <div className={`overflow-hidden rounded-xl border border-slate-200 ${height}`}>
+    <div className={`overflow-hidden rounded-xl border border-line ${height}`}>
       <MapContainer
         center={centre}
         zoom={11}
@@ -223,17 +223,17 @@ export default function DeliveryMap({
 /** Small legend so the pin colours are not a guessing game. */
 export function MapLegend({ approximate = false }) {
   return (
-    <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-500">
+    <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-ink-faint">
       <span className="flex items-center gap-1.5">
-        <span className="inline-block h-2.5 w-2.5 rounded-full bg-emerald-600" />
+        <span className="inline-block h-2.5 w-2.5 rounded-full bg-brand-600" />
         Collect from farm
       </span>
       <span className="flex items-center gap-1.5">
-        <span className="inline-block h-2.5 w-2.5 rounded-full bg-blue-600" />
+        <span className="inline-block h-2.5 w-2.5 rounded-full bg-sky-600" />
         Deliver to buyer
       </span>
       <span className="flex items-center gap-1.5">
-        <span className="inline-block h-0.5 w-5 bg-emerald-600" />
+        <span className="inline-block h-0.5 w-5 bg-brand-600" />
         Planned path
       </span>
       {approximate && (

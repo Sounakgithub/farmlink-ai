@@ -398,7 +398,7 @@ export default function Messages() {
         <div className="grid lg:grid-cols-[340px_1fr]">
           {/* Conversation list */}
           <div
-            className={`border-slate-200 lg:border-r ${
+            className={`border-line lg:border-r ${
               id ? "hidden lg:block" : "block"
             }`}
           >

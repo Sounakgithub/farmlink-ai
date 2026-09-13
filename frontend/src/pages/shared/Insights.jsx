@@ -203,8 +203,8 @@ export default function Insights() {
           </section>
 
           {/* Price advisor */}
-          <section className="rounded-2xl border border-brand-100 bg-gradient-to-br from-emerald-50 to-green-100 p-5 shadow-sm sm:p-6">
-            <h2 className="text-lg font-bold text-emerald-950 sm:text-xl">
+          <section className="rounded-2xl border border-brand-100 bg-gradient-to-br from-brand-50 to-brand-100 p-5 shadow-sm sm:p-6">
+            <h2 className="text-lg font-bold text-brand-950 sm:text-xl">
               💰 Smart price advisor
             </h2>
             <p className="mt-1 text-sm text-brand-800">

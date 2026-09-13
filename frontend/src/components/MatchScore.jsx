@@ -16,7 +16,7 @@ const QUALITY_STYLE = {
   Strong: "bg-green-100 text-green-700",
   Good: "bg-blue-100 text-blue-700",
   Possible: "bg-harvest-100 text-harvest-700",
-  Weak: "bg-slate-200 text-ink-soft",
+  Weak: "bg-line text-ink-soft",
 };
 
 const RING_COLOR = {
