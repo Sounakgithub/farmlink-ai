@@ -25,6 +25,12 @@ const ROLES = [
     title: "Delivery",
     blurb: "Run optimised multi-stop delivery routes",
   },
+  {
+    value: "logistics",
+    icon: "🏢",
+    title: "Logistics company",
+    blurb: "Take delivery jobs for your fleet at your own rates",
+  },
 ];
 
 export default function Register() {
@@ -96,7 +102,7 @@ export default function Register() {
             {/* Role picker */}
             <div>
               <span className="text-sm font-semibold text-ink">I am a…</span>
-              <div className="mt-3 grid gap-3 sm:grid-cols-3">
+              <div className="mt-3 grid gap-3 sm:grid-cols-2">
                 {ROLES.map((role) => {
                   const active = form.role === role.value;
                   return (

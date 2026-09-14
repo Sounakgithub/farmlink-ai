@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import AppShell from "../../components/AppShell";
 import DeliveryMap, { MapLegend } from "../../components/DeliveryMap";
 import StartChatButton from "../../components/StartChatButton";
+import InspectionForm from "../../components/InspectionForm";
 import {
   Badge,
   Button,
@@ -13,7 +14,7 @@ import {
   SkeletonRows,
   StatCard,
 } from "../../components/ui";
-import { api } from "../../lib/api";
+import { api, operations } from "../../lib/api";
 import { useAsyncData } from "../../lib/useAsyncData";
 import { useAuth } from "../../context/AuthContext";
 import { useToast } from "../../context/ToastContext";
@@ -103,6 +104,41 @@ export default function DriverDashboard() {
 
   const { orders, plan, routeError } = data;
   const [busyId, setBusyId] = useState(null);
+  const [inspecting, setInspecting] = useState(null);
+  const [tolerancePct, setTolerancePct] = useState(5);
+
+  const openInspection = async (orderId) => {
+    const order = orders.find((o) => o._id === orderId);
+    if (!order) return;
+    setInspecting(order);
+    try {
+      const policy = await operations.inspectionPolicy();
+      setTolerancePct(policy.weightTolerancePct);
+    } catch {
+      /* keep the default tolerance */
+    }
+  };
+
+  const collect = async (inspection) => {
+    const orderId = inspecting._id;
+    setBusyId(orderId);
+    try {
+      const result = await operations.collectWithInspection(orderId, inspection);
+      toast.success(result.message);
+      setInspecting(null);
+      await reload();
+    } catch (err) {
+      if (err.data?.code === "PICKUP_INSPECTION_FAILED") {
+        toast.error("Inspection failed — the order was rejected and the buyer refunded.");
+        setInspecting(null);
+        await reload();
+      } else {
+        toast.error(err.data?.problems?.[0] || err.message);
+      }
+    } finally {
+      setBusyId(null);
+    }
+  };
 
   const updateStatus = async (orderId, status) => {
     setBusyId(orderId);
@@ -139,10 +175,10 @@ export default function DriverDashboard() {
     done: stopDone(stop),
   }));
 
-  // Earnings from what this driver has already delivered.
+  // Earnings: what the delivery jobs this driver completed paid.
   const earnings = orders
-    .filter((o) => o.status === "Delivered")
-    .reduce((sum, o) => sum + (o.totalAmount || 0), 0);
+    .filter((o) => o.status === "Delivered" && o.driverId === user?.id)
+    .reduce((sum, o) => sum + (o.charges?.deliveryPayout || 0), 0);
 
   // The queue, either from the optimised plan or a straight fallback.
   const queue =
@@ -313,7 +349,7 @@ export default function DriverDashboard() {
               tone="purple"
               label="Completed"
               value={delivered}
-              hint={earnings > 0 ? `${currency(earnings)} delivered` : "Delivered orders"}
+              hint={earnings > 0 ? `${currency(earnings)} earned from deliveries` : "Delivered orders"}
             />
           </section>
         )}
@@ -462,9 +498,9 @@ export default function DriverDashboard() {
                           {isPickup && ["Accepted", "Confirmed"].includes(status) && (
                             <Button
                               loading={busyId === stop.orderId}
-                              onClick={() => updateStatus(stop.orderId, "In Transit")}
+                              onClick={() => openInspection(stop.orderId)}
                             >
-                              🚚 Collected
+                              🔍 Inspect & collect
                             </Button>
                           )}
 
@@ -494,6 +530,15 @@ export default function DriverDashboard() {
           </div>
         </section>
       </div>
+
+      <InspectionForm
+        open={!!inspecting}
+        order={inspecting}
+        weightTolerancePct={tolerancePct}
+        busy={!!inspecting && busyId === inspecting._id}
+        onSubmit={collect}
+        onClose={() => setInspecting(null)}
+      />
     </AppShell>
   );
 }

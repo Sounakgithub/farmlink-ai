@@ -78,14 +78,17 @@ router.get("/", async (req, res) => {
     const { farmerId, crop, location, search, inStock } = req.query;
 
     const filter = {};
+    // Query text is matched literally: an unescaped pattern could throw on
+    // "(" or be crafted to make the regex engine backtrack for seconds.
+    const literal = (text) => String(text).slice(0, 100).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
     if (farmerId && isValidId(farmerId)) filter.farmerId = farmerId;
-    if (crop) filter.cropName = new RegExp(`^${crop}$`, "i");
-    if (location) filter.location = new RegExp(location, "i");
+    if (crop) filter.cropName = new RegExp(`^${literal(crop)}$`, "i");
+    if (location) filter.location = new RegExp(literal(location), "i");
     if (inStock === "true") filter.quantity = { $gt: 0 };
 
     if (search) {
-      const term = new RegExp(search, "i");
+      const term = new RegExp(literal(search), "i");
       filter.$or = [{ cropName: term }, { farmerName: term }, { location: term }];
     }
 
@@ -120,6 +123,71 @@ router.get("/:id", async (req, res) => {
 });
 
 // ---------------------------------------------------------------------------
+// Optional wholesale fields, shared by create and edit.
+//
+// bulkTiers: [{ minQuantityKg, pricePerKg }] - each must be cheaper than the
+// base price and than every smaller tier. coordinates: { lat, lng } or null.
+// Returns { values, error }; undefined values mean "not sent, leave as-is".
+// ---------------------------------------------------------------------------
+function readWholesaleFields(body, basePrice) {
+  const values = {};
+
+  if (body.bulkTiers !== undefined) {
+    if (body.bulkTiers === null || body.bulkTiers === "") {
+      values.bulkTiers = [];
+    } else if (!Array.isArray(body.bulkTiers)) {
+      return { error: "Bulk tiers must be a list." };
+    } else {
+      if (body.bulkTiers.length > 5) return { error: "At most 5 bulk tiers." };
+      const tiers = [];
+      for (const raw of body.bulkTiers) {
+        const minQuantityKg = Number(raw && raw.minQuantityKg);
+        const pricePerKg = Number(raw && raw.pricePerKg);
+        if (!Number.isFinite(minQuantityKg) || minQuantityKg < 2) {
+          return { error: "Each bulk tier needs a minimum quantity of at least 2 kg." };
+        }
+        if (!Number.isFinite(pricePerKg) || pricePerKg < 1) {
+          return { error: "Each bulk tier needs a price of at least 1." };
+        }
+        if (pricePerKg >= basePrice) {
+          return { error: `A bulk price (${pricePerKg}) must be below the base price (${basePrice}).` };
+        }
+        tiers.push({ minQuantityKg, pricePerKg });
+      }
+      tiers.sort((a, b) => a.minQuantityKg - b.minQuantityKg);
+      for (let i = 1; i < tiers.length; i += 1) {
+        if (tiers[i].minQuantityKg === tiers[i - 1].minQuantityKg) {
+          return { error: "Two bulk tiers cannot start at the same quantity." };
+        }
+        if (tiers[i].pricePerKg >= tiers[i - 1].pricePerKg) {
+          return { error: "Bulk prices must fall as the quantity rises." };
+        }
+      }
+      values.bulkTiers = tiers;
+    }
+  }
+
+  if (body.coordinates !== undefined) {
+    if (body.coordinates === null) {
+      values.coordinates = null;
+    } else {
+      const lat = Number(body.coordinates && body.coordinates.lat);
+      const lng = Number(body.coordinates && body.coordinates.lng);
+      if (!Number.isFinite(lat) || !Number.isFinite(lng) || Math.abs(lat) > 90 || Math.abs(lng) > 180) {
+        return { error: "Coordinates need a valid lat and lng." };
+      }
+      values.coordinates = { lat, lng };
+    }
+  }
+
+  if (body.needsRefrigeration !== undefined) {
+    values.needsRefrigeration = body.needsRefrigeration === true || body.needsRefrigeration === "true";
+  }
+
+  return { values };
+}
+
+// ---------------------------------------------------------------------------
 // POST /api/products  -  farmer adds a crop
 // farmerId / farmerName come from the token, never from the request body,
 // so a listing can never be created without an owner.
@@ -145,6 +213,11 @@ router.post("/", protect, requireRole("farmer"), async (req, res) => {
       return res.status(400).json({ message: "Price must be a positive number." });
     }
 
+    const wholesale = readWholesaleFields(req.body, numericPrice);
+    if (wholesale.error) {
+      return res.status(400).json({ message: wholesale.error });
+    }
+
     const product = await Product.create({
       farmerId: req.user._id,
       farmerName: req.user.name,
@@ -154,6 +227,9 @@ router.post("/", protect, requireRole("farmer"), async (req, res) => {
       location: String(location).trim(),
       pricePerKg: numericPrice,
       image: image || "",
+      bulkTiers: wholesale.values.bulkTiers || [],
+      coordinates: wholesale.values.coordinates || undefined,
+      needsRefrigeration: wholesale.values.needsRefrigeration || false,
     });
 
     res.status(201).json({
@@ -208,6 +284,30 @@ router.patch("/:id", protect, requireRole("farmer"), async (req, res) => {
         return res.status(400).json({ message: "Price must be a positive number." });
       }
       product.pricePerKg = n;
+    }
+
+    // Validate tiers against the price the listing will have after this edit.
+    const wholesale = readWholesaleFields(
+      {
+        ...req.body,
+        bulkTiers:
+          req.body.bulkTiers !== undefined
+            ? req.body.bulkTiers
+            : pricePerKg !== undefined && product.bulkTiers.length
+              ? product.bulkTiers.map((t) => ({ minQuantityKg: t.minQuantityKg, pricePerKg: t.pricePerKg }))
+              : undefined,
+      },
+      product.pricePerKg
+    );
+    if (wholesale.error) {
+      return res.status(400).json({ message: wholesale.error });
+    }
+    if (wholesale.values.bulkTiers !== undefined) product.bulkTiers = wholesale.values.bulkTiers;
+    if (wholesale.values.coordinates !== undefined) {
+      product.coordinates = wholesale.values.coordinates || undefined;
+    }
+    if (wholesale.values.needsRefrigeration !== undefined) {
+      product.needsRefrigeration = wholesale.values.needsRefrigeration;
     }
 
     const updated = await product.save();

@@ -180,6 +180,8 @@ export default function FarmerProducts() {
               location: editing.location,
               pricePerKg: String(editing.pricePerKg),
               image: editing.image || "",
+              bulkTiers: editing.bulkTiers || [],
+              needsRefrigeration: !!editing.needsRefrigeration,
             }}
             onSubmit={handleUpdate}
             onCancel={() => setEditing(null)}

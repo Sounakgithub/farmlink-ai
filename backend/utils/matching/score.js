@@ -17,7 +17,7 @@
 //    exactly - no floating-point drift between what we show and what we rank on.
 
 const { geocode } = require("../geocode");
-const { cropShare, hasBought, reliabilityRate } = require("./history");
+const { cropShare, hasBought, reliabilityRate, qualityRate } = require("./history");
 
 const WEIGHTS = {
   crop: 25,
@@ -322,15 +322,21 @@ function scoreReliability(profile) {
   }
 
   const settled = profile.completed + profile.broken;
-  // 3 base + up to 6 for the completion rate + up to 1 for having enough
-  // finished orders to trust the rate at all.
+  // 3 base + up to 6 for the record + up to 1 for having enough finished
+  // orders to trust it at all. For farmers with inspected pickups, the record
+  // blends completion (60%) with the share of crops that passed inspection
+  // (40%), so dependable delivery of poor produce no longer scores perfectly.
   const confidence = Math.min(1, settled / 5);
+  const passRate = qualityRate(profile);
+  const record = passRate === null ? rate : 0.6 * rate + 0.4 * passRate;
   return {
-    score: clamp(3 + 6 * rate + confidence, 0, WEIGHTS.reliability),
+    score: clamp(3 + 6 * record + confidence, 0, WEIGHTS.reliability),
     basis: "track-record",
     completed: profile.completed,
     broken: profile.broken,
     ratePct: Math.round(rate * 100),
+    inspected: profile.quality ? profile.quality.inspected : 0,
+    qualityPassPct: passRate === null ? null : Math.round(passRate * 100),
   };
 }
 

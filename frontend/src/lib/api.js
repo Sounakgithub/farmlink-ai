@@ -89,7 +89,101 @@ export const api = {
   get: (path, opts) => request("GET", path, opts),
   post: (path, body, opts) => request("POST", path, { ...opts, body }),
   patch: (path, body, opts) => request("PATCH", path, { ...opts, body }),
+  put: (path, body, opts) => request("PUT", path, { ...opts, body }),
   delete: (path, opts) => request("DELETE", path, opts),
+};
+
+// ---------------------------------------------------------------------------
+// Operations: delivered-price quotes, escrow, quality inspection
+// ---------------------------------------------------------------------------
+export const operations = {
+  // Checkout preview: tier prices, road distance, delivery fee. Creates nothing.
+  quote: (items, deliveryAddress, { signal } = {}) =>
+    request("POST", "/orders/quote", { body: { items, deliveryAddress }, signal }),
+
+  // Inspections, settlement, carrier and the ledger rows this viewer may see.
+  forOrder: (orderId) => request("GET", `/orders/${orderId}/operations`),
+
+  inspectionPolicy: () => request("GET", "/inspections/policy"),
+
+  // The collecting driver inspects at the farm gate, then collects in one step.
+  collectWithInspection: (orderId, inspection) =>
+    request("PATCH", `/orders/${orderId}/status`, {
+      body: { status: "In Transit", inspection },
+    }),
+
+  confirmDelivery: (orderId, report) =>
+    request("POST", `/inspections/order/${orderId}/delivery`, { body: report }),
+
+  farmerQuality: () => request("GET", "/inspections/farmer/me"),
+
+  optimalRoute: (from, to, weightKg) =>
+    request("POST", "/routes/optimal", { body: { from, to, weightKg } }),
+};
+
+// ---------------------------------------------------------------------------
+// Logistics companies and their drivers
+// ---------------------------------------------------------------------------
+export const logistics = {
+  myCompany: () => request("GET", "/logistics/provider/me"),
+  saveCompany: (profile) => request("PUT", "/logistics/provider/me", { body: profile }),
+  assignments: (status) =>
+    request("GET", `/logistics/assignments${status ? `?status=${status}` : ""}`),
+  accept: (assignmentId, driverId) =>
+    request("POST", `/logistics/assignments/${assignmentId}/accept`, { body: { driverId } }),
+  reject: (assignmentId, reason) =>
+    request("POST", `/logistics/assignments/${assignmentId}/reject`, { body: { reason } }),
+  drivers: () => request("GET", "/logistics/drivers"),
+  removeDriver: (driverId) => request("DELETE", `/logistics/drivers/${driverId}`),
+
+  // Driver side
+  join: (code) => request("POST", "/logistics/join", { body: { code } }),
+  leave: () => request("POST", "/logistics/leave"),
+};
+
+// ---------------------------------------------------------------------------
+// Wholesale (verified business buyers)
+// ---------------------------------------------------------------------------
+export const b2b = {
+  account: () => request("GET", "/b2b/account"),
+  requestAccount: (companyName, gstin) =>
+    request("POST", "/b2b/account", { body: { companyName, gstin } }),
+  quote: (items, deliveryAddress) =>
+    request("POST", "/b2b/quote", { body: { items, deliveryAddress } }),
+  placeOrder: (payload) => request("POST", "/b2b/orders", { body: payload }),
+  invoices: () => request("GET", "/b2b/invoices"),
+  payInvoice: (orderId) => request("POST", `/b2b/invoices/${orderId}/pay`),
+  apiKeys: () => request("GET", "/b2b/api-keys"),
+  createApiKey: (payload) => request("POST", "/b2b/api-keys", { body: payload }),
+  revokeApiKey: (id) => request("DELETE", `/b2b/api-keys/${id}`),
+};
+
+// ---------------------------------------------------------------------------
+// Platform administration
+// ---------------------------------------------------------------------------
+export const admin = {
+  overview: () => request("GET", "/admin/overview"),
+  settings: () => request("GET", "/admin/settings"),
+  saveSettings: (patch) => request("PUT", "/admin/settings", { body: patch }),
+  disputes: () => request("GET", "/admin/disputes"),
+  resolveDispute: (orderId, decision) =>
+    request("POST", `/admin/disputes/${orderId}/resolve`, { body: decision }),
+  businessAccounts: (status = "requested") =>
+    request("GET", `/admin/business-accounts?status=${status}`),
+  decideBusiness: (userId, decision) =>
+    request("POST", `/admin/business-accounts/${userId}`, { body: decision }),
+  providers: () => request("GET", "/admin/providers"),
+  moderateProvider: (id, patch) => request("PATCH", `/admin/providers/${id}`, { body: patch }),
+  audit: ({ action = "", entityId = "", page = 1, limit = 50 } = {}) =>
+    request(
+      "GET",
+      `/admin/audit?page=${page}&limit=${limit}` +
+        (action ? `&action=${encodeURIComponent(action)}` : "") +
+        (entityId ? `&entityId=${encodeURIComponent(entityId)}` : "")
+    ),
+  ledger: (orderId) => request("GET", `/admin/ledger/${orderId}`),
+  pairs: () => request("GET", "/admin/pairs"),
+  runSweeps: () => request("POST", "/admin/sweeps/run"),
 };
 
 // ---------------------------------------------------------------------------

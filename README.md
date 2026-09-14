@@ -11,12 +11,15 @@ A direct farmer-to-buyer marketplace with AI assistance and role-based dashboard
 Each role logs in and lands on its own dashboard, sees only its own navigation,
 and is blocked (redirected home) from other roles' pages.
 
-| | Farmer 👨‍🌾 | Buyer 🧑‍🍳 | Driver 🚚 |
-| --- | --- | --- | --- |
-| Lands on | `/farmer` | `/buyer` | `/driver` |
-| Own pages | My Crops (add / edit / delete), Incoming Orders (accept / reject), **AI Insights** (price advisor + demand forecast) | Marketplace, Cart, My Orders (cancel, reorder, live tracking) | Optimised delivery route, start / complete deliveries |
-| Everyone | Messages · Profile · Log out | | |
-| Marketplace | ✅ (compare prices) | ✅ (shop) | — |
+| | Farmer 👨‍🌾 | Buyer 🧑‍🍳 | Driver 🚚 | Logistics company 🏢 | Admin 🛡 |
+| --- | --- | --- | --- | --- | --- |
+| Lands on | `/farmer` | `/buyer` | `/driver` | `/logistics` | `/admin` |
+| Own pages | My Crops (add / edit / delete, bulk tiers), Incoming Orders (accept / reject, payout), **AI Insights** (price advisor + demand forecast) | Marketplace, Cart (delivered-price quote), My Orders (cancel, reorder, live tracking, confirm delivery), **Wholesale** (bulk quotes, invoices, API keys) | Optimised delivery route, pickup inspection, complete deliveries, join a company | Delivery offers (accept / decline), fleet and join code, rate card and liability cover | Overview, disputes, business and carrier verification, settings, audit log |
+| Everyone | Messages · Profile · Log out | | | | |
+| Marketplace | ✅ (compare prices) | ✅ (shop) | — | — | — |
+
+Admin accounts are created on the server (`npm run create-admin`), never
+through sign-up.
 
 The AI planning tools (price advisor, demand forecasting) are farmer-only. A
 buyer or driver never sees them.
@@ -45,6 +48,111 @@ chips speed up the common messages. Backend: `models/Conversation.js`,
   ships, plus the driver chat.
 - **Reorder** — one click re-adds a past order's items to the cart.
 
+## Operations: money, quality, carriers, wholesale
+
+The marketplace runs on an operations layer that sits alongside the order
+lifecycle rather than replacing it. `order.totalAmount` is still the produce
+total; everything below lives in new fields (`charges`, `settlement`,
+`inspection`, `logistics`, `invoice`).
+
+### Delivered price and fees (`utils/fees.js`, `utils/orderPricing.js`)
+
+Every channel (checkout, wholesale, partner API) prices a cart in one place:
+
+```
+buyer pays     produce  +  delivery fee
+delivery fee = carrier rate  +  logistics markup %
+farmer gets    produce  -  commission %
+carrier gets   its rate
+platform keeps commission  +  markup
+```
+
+- Line prices come from the database with the farmer's **bulk tiers** applied
+  (e.g. 100 kg+ at 27, 500 kg+ at 25).
+- The carrier rate is quoted on **real road distance** for the whole
+  multi-farm run (see routing below).
+- Consumer and verified-business accounts have separate fee tiers, editable by
+  an admin (defaults 4% / 8% consumer, 2.5% / 6% business).
+- All arithmetic is in integer paise, so the split always sums to what the
+  buyer paid, to the paisa (a unit test checks 2,000 random carts).
+
+### Escrow (`utils/settlement.js`, `models/LedgerEntry.js`)
+
+| Payment | On order | On delivery | Released when |
+| --- | --- | --- | --- |
+| UPI / Card / Net Banking | captured → **held** | release window starts | buyer confirms good condition, or 48 h pass without a dispute |
+| Cash on Delivery | awaiting payment | cash captured → **held** | same |
+| Invoice (wholesale) | **invoiced** | — | invoice paid → held → released |
+
+Rejected or cancelled orders are refunded (or voided if no money moved). Every
+movement is a ledger row, and each order's ledger provably closes to zero.
+Payments use a mock rail: there are no gateway credentials in this project, so
+a real gateway only has to supply a `gatewayRef`.
+
+### Two-point quality inspection (`utils/inspection.js`)
+
+1. **At the farm gate** the collecting driver grades the produce (A/B/C/REJECT),
+   checks freshness, pests, packaging and moisture, and weighs it. Goods
+   **cannot go In Transit** without a passed pickup inspection (admin setting).
+   A REJECT, a failed freshness/pest check, or weight short beyond tolerance
+   fails the load: the order is rejected and the buyer refunded. Failures need
+   notes; REJECT needs a photo.
+2. **At delivery** the buyer reports the condition. Good releases payment;
+   damaged/short/spoiled freezes it as a dispute.
+
+Liability is suggested from the chain of custody: failed at pickup → farmer;
+passed at pickup and arrived damaged → carrier; grade C that deteriorated →
+shared; weight lost between the two scales → carrier; no pickup record →
+undetermined. An admin makes the final decision. The buyer always gets the
+decided refund; the liable party funds it from their payout, then the platform,
+and anything beyond that is advanced by the platform and recorded as a claim
+against the carrier within the liability cover it published.
+
+Pickup pass rates also feed the farmer's **reliability pillar** in AI matching.
+
+### Logistics companies (`utils/logistics.js`)
+
+- A `logistics` account creates a company: coverage cities, rate card, largest
+  load, refrigeration and damage-liability cover. Drivers join with its code.
+- An admin verifies the company before it receives work.
+- When a farmer accepts an order, the job is **offered** to the cheapest
+  eligible carrier whose own rate fits the payout locked at checkout. Offers
+  expire (30 min default) and move on; a decline moves on immediately.
+- If no carrier is eligible, the order falls back to the **independent driver
+  pool** exactly as before, so nothing changes for deployments without carriers.
+
+### Road routing (`utils/roadRouting.js`)
+
+Google Distance Matrix when `GOOGLE_MAPS_API_KEY` is set, otherwise OSRM
+(`OSRM_URL`, default the public demo server, which has a fair-use limit), with a
+straight-line fallback that is always flagged approximate. Results are cached
+for five minutes. The tracking map draws the real road when one is available.
+
+### Wholesale and the partner API (`routes/b2bRoutes.js`, `routes/publicApiRoutes.js`)
+
+A buyer requests a business account with a company name and GSTIN; until an
+admin verifies it they stay a consumer. Verified businesses get the business
+fee tier, multi-line bulk quotes (50 kg minimum per line by default), optional
+net-15/net-30 invoices up to a credit limit, and API keys for `/api/v1`. Keys
+are shown once, stored as SHA-256 hashes, scoped, rate limited per key and
+revocable. Rate limiting is in-memory, which is correct for one API process; a
+multi-instance deployment needs a shared store such as Redis.
+
+### Admin console and audit trail
+
+Admins cannot sign up. Create one on the server:
+
+```bash
+cd backend
+npm run create-admin -- --email ops@example.com --name "Ops Lead" --password "at-least-12-chars"
+npm run create-admin -- --email existing@example.com --promote
+```
+
+The console (`/admin`) shows money and queues, resolves disputes, verifies
+business accounts and carriers, edits fees and operating settings, and browses
+the audit log. Every state change (orders, settlement, inspections, carrier
+offers, settings, API keys) writes an append-only `AuditLog` entry.
+
 ## AI / algorithms
 
 | Feature | Where | How it works |
@@ -52,6 +160,7 @@ chips speed up the common messages. Backend: `models/Conversation.js`,
 | Smart price advisor | `ml-service` `POST /predict-price` | RandomForest on crop / location / quantity / demand / market price, trained on 3,600 generated rows covering 10 crops x 8 cities. Every prediction carries a SHAP explanation (see [Explainable AI](#explainable-ai)) |
 | Demand forecasting | `ml-service` `POST /forecast-demand`, `POST /demand-insights` | Gradient-boosted regression trained on 3 years of monthly demand (seasonality, festivals, price elasticity, weather, momentum). R² 0.974, MAE ≈ 8% |
 | Delivery route optimisation | `backend` `POST /api/routes/optimize`, `POST /api/routes/optimize-orders` | Haversine distance matrix → nearest-neighbour tour → 2-opt local search. Returns visiting order, per-leg distance, ETA and the saving vs. an unsorted route |
+| Shortest road route | `backend` `POST /api/routes/optimal` | Google Distance Matrix or OSRM road distance, drive time and geometry between two places, straight-line fallback flagged approximate, plus priced carrier options |
 
 ## Explainable AI
 
@@ -286,8 +395,9 @@ python app.py                      # http://localhost:8000
 ```bash
 cd backend
 npm install
-# .env needs:  PORT=5000  MONGO_URI=<your mongo uri>  JWT_SECRET=<any long random string>
+cp .env.example .env               # MONGO_URI, JWT_SECRET; routing settings are optional
 npm start                          # http://localhost:5000
+npm run create-admin -- --email you@example.com --name "You" --password "a-long-password"
 ```
 
 ### 3. Frontend
@@ -299,8 +409,20 @@ npm run dev                        # http://localhost:5173
 ```
 
 Register three accounts (farmer, buyer, driver) to try the whole flow:
-farmer lists a crop → buyer orders it → farmer accepts → driver routes and
-delivers it → buyer watches the driver live on the map.
+farmer lists a crop → buyer orders it → farmer accepts → driver inspects,
+routes and delivers it → buyer watches the driver live on the map and confirms
+the delivery, which releases payment.
+
+### Docker
+
+```bash
+docker compose up --build          # MongoDB, ML service, API and the built frontend
+# app: http://localhost:5173   API: http://localhost:5000   ML: http://localhost:8000
+docker compose exec backend npm run create-admin -- --email you@example.com --name "You" --password "a-long-password"
+```
+
+Set `JWT_SECRET` (and optionally `GOOGLE_MAPS_API_KEY` / `OSRM_URL`) in a `.env`
+file next to `docker-compose.yml` for anything beyond local use.
 
 ## Tests
 
@@ -308,12 +430,24 @@ With the backend running:
 
 ```bash
 cd backend
-node smoke-test.js           # 38 checks: auth, ownership rules, order state machine
-node smoke-test-journey.js   # 39 checks: replays every screen's API calls for all 3 roles
-node smoke-test-chat.js      # 26 checks: messaging access rules, payment method, delivery notes
+npm run test:unit                 # 23 tests, no server needed: fee split, inspection rules,
+                                  # liability, bulk tiers, API key hashing, rate limiting, routing
+npm test                          # unit tests, then every smoke suite below
+
+node smoke-test.js                # 38 checks: auth, ownership rules, order state machine
+node smoke-test-journey.js        # 39 checks: replays every screen's API calls (1 skips without ML)
+node smoke-test-chat.js           # 26 checks: messaging access rules, payment method, delivery notes
+node smoke-test-delivery.js       # 57 checks: delivery addresses, tracking, driver GPS
+node smoke-test-value.js          # 65 checks: driver assignment and fair-deal pricing
+node smoke-test-matching.js       # 73 checks: AI farmer-buyer matching
+node smoke-test-operations.js     # 112 checks: fees and escrow, carrier offers, inspections,
+                                  # disputes, wholesale credit, partner API, admin, audit
 ```
 
-Each creates its own users and deletes everything it made afterwards.
+Each creates its own users and deletes everything it made afterwards (the
+operations suite also restores any platform setting it changes). CI
+(`.github/workflows/ci.yml`) runs all of them against a MongoDB service with
+straight-line routing, plus the ML tests and the frontend lint and build.
 
 ML service (with `python app.py` running, or on its own for the offline layer):
 
@@ -332,7 +466,9 @@ python test_price_explain.py   # 54 checks: prediction, SHAP additivity,
 | POST | `/api/auth/register` | `{name, email, password, role, location?}` → `{token, user}` |
 | POST | `/api/auth/login` | → `{token, user}` |
 | GET | `/api/auth/me` | restores the session on page refresh |
-| PATCH | `/api/auth/me` | update name / phone / location |
+| PATCH | `/api/auth/me` | update name / phone / location / exact `coordinates` |
+
+Sign-up roles: `farmer`, `buyer`, `driver`, `logistics`.
 
 ### Products
 | Method | Path | Who |
@@ -340,19 +476,46 @@ python test_price_explain.py   # 54 checks: prediction, SHAP additivity,
 | GET | `/api/products` | public — supports `?search=`, `?crop=`, `?location=`, `?inStock=true` |
 | GET | `/api/products/mine` | farmer — **only their own listings** |
 | GET | `/api/products/stats` | farmer — dashboard totals |
-| POST | `/api/products` | farmer — `farmerId` comes from the token |
+| POST | `/api/products` | farmer — `farmerId` comes from the token; optional `bulkTiers`, `coordinates`, `needsRefrigeration` |
 | PATCH/DELETE | `/api/products/:id` | farmer — ownership enforced server-side |
 
 ### Orders
 | Method | Path | Who |
 | --- | --- | --- |
-| POST | `/api/orders` | buyer — `{items:[{productId, quantity}], deliveryAddress, deliveryInstructions?, paymentMethod?}`; prices and totals are read from the DB, stock is reserved |
+| POST | `/api/orders/quote` | buyer — checkout preview: tier prices, road distance, delivery options, fee breakdown. Creates nothing |
+| POST | `/api/orders` | buyer — `{items:[{productId, quantity}], deliveryAddress, deliveryInstructions?, paymentMethod?}`; prices and totals are read from the DB, stock is reserved, escrow opened |
+| GET | `/api/orders/:id/operations` | buyer / farmer / carrier / admin — inspections, escrow state, carrier, and the ledger rows that viewer may see |
+| GET | `/api/orders/:id/tracking` | buyer / farmer / assigned driver — journey, live position, road geometry, carrier and inspection status |
 | GET | `/api/orders` | scoped: buyer→own, farmer→orders containing their crops, driver→delivery pool. Includes the assigned driver's contact for the buyer |
 | GET | `/api/orders/stats` | role-aware totals |
 | PATCH | `/api/orders/:id/status` | guarded state machine (see below) |
 | PATCH | `/api/orders/:id/instructions` | buyer — edit the delivery note until it ships |
 | PATCH | `/api/orders/:id/cancel` | buyer, before it ships (prepaid → refunded) |
 | PATCH | `/api/orders/:id/location` | driver GPS ping |
+
+### Inspections, logistics, wholesale, admin
+| Method | Path | Who |
+| --- | --- | --- |
+| GET | `/api/inspections/policy` | anyone signed in — grades, failure rules, tolerance |
+| POST | `/api/inspections/order/:id/pickup` | collecting driver or admin — or send `inspection` with the In Transit status change |
+| POST | `/api/inspections/order/:id/delivery` | buyer, once delivered — releases payment or opens a dispute |
+| GET | `/api/inspections/farmer/me` | farmer — own quality record |
+| POST | `/api/routes/optimal` | signed in — `{from, to, weightKg?}` road distance, ETA, geometry, carrier options |
+| GET/PUT | `/api/logistics/provider/me` | logistics — company profile, rate card, liability |
+| GET | `/api/logistics/assignments` | logistics — offers and accepted jobs (drop shown as a region until accepted) |
+| POST | `/api/logistics/assignments/:id/accept` · `/reject` | logistics — accept with one of its drivers, or decline |
+| GET · DELETE | `/api/logistics/drivers` · `/drivers/:id` | logistics — fleet and join code |
+| POST | `/api/logistics/join` · `/leave` | driver — join a company by code, or go independent |
+| GET/POST | `/api/b2b/account` | buyer — status, or request a business account `{companyName, gstin}` |
+| POST | `/api/b2b/quote` · `/orders` | verified business — bulk quote; order on `Invoice` or upfront |
+| GET · POST | `/api/b2b/invoices` · `/invoices/:orderId/pay` | buyer — invoices and credit position; pay (mock rail) |
+| GET/POST/DELETE | `/api/b2b/api-keys` | verified business — create (shown once), list, revoke |
+| GET · POST · GET | `/api/v1/products` · `/quotes` · `/orders` | partner — `X-API-Key`, scoped and rate limited |
+| GET | `/api/admin/overview` · `/audit` · `/pairs` · `/ledger/:orderId` | admin |
+| GET/PUT | `/api/admin/settings` | admin — fees, rate card, tolerance, release window, offer expiry |
+| GET · POST | `/api/admin/disputes` · `/disputes/:orderId/resolve` | admin — `{liability, refundPct, notes}` |
+| GET · POST | `/api/admin/business-accounts` · `/business-accounts/:userId` | admin — approve with terms and credit limit, or decline |
+| GET · PATCH | `/api/admin/providers` · `/providers/:id` | admin — verify or suspend carriers |
 
 ### Conversations
 | Method | Path | Who |
@@ -366,10 +529,11 @@ python test_price_explain.py   # 54 checks: prediction, SHAP additivity,
 Order lifecycle — each arrow is enforced by role on the server:
 
 ```
-Pending ──farmer──> Accepted ──driver──> In Transit ──driver──> Delivered
-   │                    │
-   ├──farmer──> Rejected│
-   └──────buyer─────────┴──> Cancelled     (stock is returned on Rejected/Cancelled)
+Pending ──farmer──> Accepted ──driver──> In Transit ──driver──> Delivered ──buyer confirms──> paid out
+   │                    │     (needs a passed         │                         └─reports a problem─> dispute
+   ├──farmer──> Rejected│      pickup inspection;     │
+   └──────buyer─────────┴──> Cancelled                 a failed one rejects and refunds)
+                              (stock is returned on Rejected/Cancelled)
 ```
 
 ## Notes on the farmer listing/deletion fix

@@ -581,6 +581,10 @@ async function layer2() {
     const users = await User.find({ email: new RegExp(`${stamp}@matchtest.local`) });
     const ids = users.map((u) => u._id);
     await Conversation.deleteMany({ participants: { $in: ids } });
+    const orderIds = (await Order.find({ buyerId: { $in: ids } }).select("_id")).map((o) => o._id);
+    await require("./models/LedgerEntry").deleteMany({ orderId: { $in: orderIds } });
+    await require("./models/Inspection").deleteMany({ orderId: { $in: orderIds } });
+    await require("./models/LogisticsAssignment").deleteMany({ orderId: { $in: orderIds } });
     await Order.deleteMany({ buyerId: { $in: ids } });
     await Product.deleteMany({ farmerId: { $in: ids } });
     await User.deleteMany({ _id: { $in: ids } });

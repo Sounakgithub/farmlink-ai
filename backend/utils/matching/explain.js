@@ -124,6 +124,11 @@ function explain(scored, ctx = {}) {
         `Mixed record — ${reliabilityPart.broken} of ${reliabilityPart.completed + reliabilityPart.broken} finished orders fell through.`
       );
     }
+    if (reliabilityPart.qualityPassPct !== null && reliabilityPart.qualityPassPct !== undefined) {
+      const line = `${reliabilityPart.qualityPassPct}% of ${reliabilityPart.inspected} inspected pickups passed quality checks.`;
+      if (reliabilityPart.qualityPassPct >= 80) reasons.push(line);
+      else limitations.push(line);
+    }
   } else if (reliabilityPart.basis === "orders-in-flight") {
     limitations.push("Orders placed but none completed yet, so there is no track record to judge.");
   } else {

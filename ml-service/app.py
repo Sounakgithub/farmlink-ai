@@ -304,4 +304,10 @@ def home():
 
 
 if __name__ == "__main__":
-    app.run(port=8000, debug=True)
+    # Defaults match local development; containers set ML_HOST=0.0.0.0 and
+    # FLASK_DEBUG=0 so the service is reachable and the debugger is off.
+    app.run(
+        host=os.environ.get("ML_HOST", "127.0.0.1"),
+        port=int(os.environ.get("PORT", "8000")),
+        debug=os.environ.get("FLASK_DEBUG", "1") == "1",
+    )

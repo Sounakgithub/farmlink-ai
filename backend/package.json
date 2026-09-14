@@ -6,7 +6,10 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "create-admin": "node scripts/create-admin.js",
+    "test": "npm run test:unit && npm run test:smoke",
+    "test:unit": "node --test \"test/*.test.js\"",
+    "test:smoke": "node smoke-test.js && node smoke-test-journey.js && node smoke-test-chat.js && node smoke-test-delivery.js && node smoke-test-value.js && node smoke-test-matching.js && node smoke-test-operations.js"
   },
   "keywords": [],
   "author": "",

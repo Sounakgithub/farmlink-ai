@@ -36,7 +36,9 @@ const UNKNOWN_DISTANCE_KM = 400;
  *          null when there is no driver on the platform at all.
  */
 async function pickDriverFor(pickupPlace) {
-  const drivers = await User.find({ role: "driver" }).select("name phone location createdAt");
+  // Drivers who belong to a logistics company take work through it, not
+  // from the independent pool.
+  const drivers = await User.find({ role: "driver", providerId: null }).select("name phone location createdAt");
   if (drivers.length === 0) return null;
 
   // One query for everyone's workload rather than one per driver.

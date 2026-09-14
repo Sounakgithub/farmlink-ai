@@ -11,7 +11,17 @@ const {
   DEFAULT_DEPOT,
 } = require("../utils/geocode");
 const { haversineKm } = require("../utils/routeOptimizer");
-const { pickDriverFor, driverCard } = require("../utils/driverAssignment");
+const { driverCard } = require("../utils/driverAssignment");
+const Inspection = require("../models/Inspection");
+const LedgerEntry = require("../models/LedgerEntry");
+const LogisticsProvider = require("../models/LogisticsProvider");
+const { priceCart, storedLines, storedCharges } = require("../utils/orderPricing");
+const settlement = require("../utils/settlement");
+const { dispatch } = require("../utils/logistics");
+const { recordPickupInspection } = require("../utils/inspection");
+const { getSettings } = require("../utils/settings");
+const { roadRoute } = require("../utils/roadRouting");
+const { audit } = require("../utils/audit");
 
 const router = express.Router();
 
@@ -47,14 +57,66 @@ const shortId = (id) => `#${String(id).slice(-6).toUpperCase()}`;
 function scopeForUser(user) {
   if (user.role === "buyer") return { buyerId: user._id };
   if (user.role === "farmer") return { "products.farmerId": user._id };
-  return {}; // driver sees the delivery pool
+  // A carrier company works from its offers (/api/logistics/assignments),
+  // never the raw order list with buyers' contact details.
+  if (user.role === "logistics") return { _id: { $in: [] } };
+  return {}; // driver sees the delivery pool; admin sees everything
+}
+
+/**
+ * Each party sees the money that concerns them, and nothing else.
+ *
+ *   buyer    what they pay: goods, delivery fee (carrier rate + markup), total
+ *   farmer   their own lines, commission and payout - never another farmer's
+ *   driver   what to collect on delivery, and what the job pays
+ *   admin    everything
+ */
+function projectCharges(plain, user, myLines) {
+  const c = plain.charges;
+  // Orders from before fees existed carry no breakdown worth showing.
+  if (!c || !c.grandTotal) return undefined;
+
+  if (user.role === "admin") return c;
+
+  if (user.role === "buyer") {
+    return {
+      goods: c.goods,
+      deliveryFee: c.deliveryFee,
+      grandTotal: c.grandTotal,
+      feeTier: c.feeTier,
+      carrierRate: c.logisticsPayout,
+      logisticsMarkup: c.logisticsMarkup,
+      logisticsMarkupPct: c.logisticsMarkupPct,
+      quote: c.quote,
+    };
+  }
+
+  if (user.role === "farmer") {
+    const goods = myLines.reduce((sum, l) => sum + l.totalPrice, 0);
+    const commission = Math.round(goods * (c.commissionPct || 0)) / 100;
+    return {
+      goods,
+      commissionPct: c.commissionPct,
+      commission,
+      payout: Math.round((goods - commission) * 100) / 100,
+    };
+  }
+
+  // driver / logistics
+  return {
+    grandTotal: c.grandTotal,
+    deliveryPayout: c.logisticsPayout,
+    quote: c.quote,
+  };
 }
 
 // A farmer must only ever see their own lines / totals within a shared order.
 function projectForUser(order, user) {
   const plain = order.toObject ? order.toObject() : order;
 
-  if (user.role !== "farmer") return plain;
+  if (user.role !== "farmer") {
+    return { ...plain, charges: projectCharges(plain, user, plain.products) };
+  }
 
   const myLines = plain.products.filter(
     (line) => String(line.farmerId) === String(user._id)
@@ -65,6 +127,7 @@ function projectForUser(order, user) {
     products: myLines,
     totalAmount: myLines.reduce((sum, l) => sum + l.totalPrice, 0),
     fullOrderAmount: plain.totalAmount,
+    charges: projectCharges(plain, user, myLines),
   };
 }
 
@@ -123,6 +186,52 @@ async function withDriver(orders) {
 }
 
 // ---------------------------------------------------------------------------
+// POST /api/orders/quote  -  checkout preview
+// What this cart will cost, delivered: tier prices, road distance, the delivery
+// options and the fee breakdown. Creates nothing and reserves no stock.
+// ---------------------------------------------------------------------------
+router.post("/quote", protect, requireRole("buyer"), async (req, res) => {
+  try {
+    const { items, deliveryAddress } = req.body || {};
+    const priced = await priceCart({ items, buyer: req.user, deliveryAddress });
+    res.json(quoteResponse(priced, req.user));
+  } catch (error) {
+    if (!error.status) console.error("ORDER QUOTE ERROR:", error);
+    res.status(error.status || 500).json({ message: error.message });
+  }
+});
+
+/** The shape of a checkout preview, shared with the wholesale quote. */
+function quoteResponse(priced, user) {
+  const markup = priced.fees.logisticsMarkupPct / 100;
+  return {
+    lines: priced.lines,
+    charges: projectCharges({ charges: storedCharges(priced.charges) }, user, priced.lines),
+    delivery: priced.quote
+      ? {
+          distanceKm: priced.quote.route.distanceKm,
+          durationMin: priced.quote.route.durationMin,
+          routeSource: priced.quote.route.source,
+          approximate: priced.quote.route.approximate,
+          geometry: priced.quote.route.geometry,
+          chosen: priced.charges.quote,
+          options: priced.quote.options.map((o) => ({
+            carrier: o.carrier,
+            providerName: o.providerName,
+            deliveryFee: Math.round(o.providerFee * (1 + markup) * 100) / 100,
+            liability: o.liability,
+            refrigerated: o.refrigerated,
+          })),
+        }
+      : null,
+    fees: {
+      tier: priced.fees.tier,
+      logisticsMarkupPct: priced.fees.logisticsMarkupPct,
+    },
+  };
+}
+
+// ---------------------------------------------------------------------------
 // POST /api/orders  -  buyer places an order
 // Prices, totals and the farmer for each line are read from the database,
 // never trusted from the request body.
@@ -141,80 +250,89 @@ router.post("/", protect, requireRole("buyer"), async (req, res) => {
       return res.status(400).json({ message: "Choose a valid payment method." });
     }
 
-    const lines = [];
-    const stockUpdates = [];
-
-    for (const item of items) {
-      if (!isValidId(item.productId)) {
-        return res.status(400).json({ message: "Invalid product in cart." });
-      }
-
-      const product = await Product.findById(item.productId);
-
-      if (!product) {
-        return res.status(404).json({
-          message: `A product in your cart is no longer available.`,
-        });
-      }
-
-      const quantity = Number(item.quantity);
-
-      if (!Number.isFinite(quantity) || quantity <= 0) {
-        return res.status(400).json({
-          message: `Choose how many kg of ${product.cropName} you want.`,
-        });
-      }
-
-      if (quantity > product.quantity) {
-        return res.status(409).json({
-          message: `Only ${product.quantity} ${product.unit} of ${product.cropName} left in stock.`,
-        });
-      }
-
-      lines.push({
-        productId: product._id,
-        cropName: product.cropName,
-        farmerId: product.farmerId,
-        farmerName: product.farmerName,
-        location: product.location,
-        quantity,
-        pricePerKg: product.pricePerKg,
-        totalPrice: quantity * product.pricePerKg,
-      });
-
-      stockUpdates.push({ id: product._id, quantity });
-    }
-
-    const totalAmount = lines.reduce((sum, l) => sum + l.totalPrice, 0);
-    const prepaid = PREPAID.includes(method);
-
-    const order = await Order.create({
-      buyerId: req.user._id,
-      buyerName: req.user.name,
-      buyerEmail: req.user.email,
-      deliveryAddress: deliveryAddress || req.user.location || "",
-      deliveryInstructions: (deliveryInstructions || "").trim(),
-      paymentMethod: method,
-      paymentStatus: prepaid ? "Paid" : "Pending",
-      products: lines,
-      totalAmount,
-      status: "Pending",
-      statusHistory: [{ status: "Pending", by: req.user.name }],
+    const address = deliveryAddress || req.user.location || "";
+    const order = await placeOrder({
+      req,
+      items,
+      address,
+      deliveryInstructions,
+      method,
+      channel: req.apiKey ? "api" : "b2c",
     });
 
-    // Reserve the stock now that the order exists.
-    await Promise.all(
-      stockUpdates.map((u) =>
-        Product.updateOne({ _id: u.id }, { $inc: { quantity: -u.quantity } })
-      )
-    );
-
-    res.status(201).json({ message: "Order placed successfully", order });
+    res.status(201).json({
+      message: "Order placed successfully",
+      order: projectForUser(order, req.user),
+    });
   } catch (error) {
-    console.error("CREATE ORDER ERROR:", error);
-    res.status(400).json({ message: error.message });
+    if (!error.status) console.error("CREATE ORDER ERROR:", error);
+    res.status(error.status || 400).json({ message: error.message });
   }
 });
+
+/**
+ * Create a priced order, reserve its stock and open escrow.
+ * Shared by the retail checkout, the wholesale flow and the partner API.
+ */
+async function placeOrder({
+  req,
+  items,
+  address,
+  deliveryInstructions,
+  method,
+  channel,
+  minLineKg = 0,
+  invoice,
+}) {
+  const priced = await priceCart({
+    items,
+    buyer: req.user,
+    deliveryAddress: address,
+    minLineKg,
+  });
+
+  const lines = storedLines(priced.lines);
+  const totalAmount =
+    Math.round(lines.reduce((sum, l) => sum + l.totalPrice, 0) * 100) / 100;
+
+  let paymentStatus = PREPAID.includes(method) ? "Paid" : "Pending";
+  if (method === "Invoice") paymentStatus = "Invoiced";
+
+  const order = await Order.create({
+    buyerId: req.user._id,
+    buyerName: req.user.name,
+    buyerEmail: req.user.email,
+    deliveryAddress: address,
+    deliveryInstructions: String(deliveryInstructions || "").trim().slice(0, 500),
+    paymentMethod: method,
+    paymentStatus,
+    products: lines,
+    totalAmount,
+    charges: storedCharges(priced.charges),
+    channel,
+    invoice,
+    status: "Pending",
+    statusHistory: [{ status: "Pending", by: req.user.name }],
+  });
+
+  // Reserve the stock now that the order exists.
+  await Promise.all(
+    priced.stockUpdates.map((u) =>
+      Product.updateOne({ _id: u.id }, { $inc: { quantity: -u.quantity } })
+    )
+  );
+
+  await settlement.onOrderPlaced(order, req);
+  await audit(req, "order.placed", "Order", order._id, {
+    channel,
+    totalAmount,
+    grandTotal: order.charges.grandTotal,
+    paymentMethod: method,
+    lines: lines.length,
+  });
+
+  return order;
+}
 
 // ---------------------------------------------------------------------------
 // GET /api/orders  -  role-scoped list
@@ -371,56 +489,100 @@ router.patch("/:id/status", protect, async (req, res) => {
       });
     }
 
-    // Returning stock when an order will not be fulfilled.
-    if (["Rejected", "Cancelled"].includes(status)) {
-      await restoreStock(order);
-      if (order.paymentStatus === "Paid") order.paymentStatus = "Refunded";
-    }
+    const from = order.status;
 
-    // Give the buyer a named delivery partner as soon as the order is live,
-    // rather than leaving them with nobody to see until the van moves.
-    if (["Accepted", "Confirmed"].includes(status) && !order.driverId) {
-      try {
-        const farmPlace =
-          (order.products[0] && order.products[0].location) || order.deliveryAddress;
-        const choice = await pickDriverFor(farmPlace);
-        if (choice) {
-          order.driverId = choice.driver._id;
-          order.statusHistory.push({
-            status,
-            by: `auto-assigned ${choice.driver.name}`,
+    // ---- leaving the farm -------------------------------------------------
+    if (status === "In Transit" && req.user.role === "driver") {
+      // A job offered to, or taken by, a logistics company is theirs to run.
+      if (["offered", "provider"].includes(order.logistics?.mode)) {
+        const mine =
+          String(order.driverId) === String(req.user._id) ||
+          (req.user.providerId &&
+            String(req.user.providerId) === String(order.logistics.providerId) &&
+            order.logistics.mode === "provider");
+        if (!mine) {
+          return res.status(403).json({
+            message:
+              order.logistics.mode === "offered"
+                ? `This delivery is waiting on ${order.logistics.providerName} to accept it.`
+                : `This delivery is assigned to ${order.logistics.providerName}.`,
           });
         }
-      } catch (assignError) {
-        // A failure to assign must never block the farmer accepting an order;
-        // the first driver to collect it will claim it instead.
-        console.error("DRIVER ASSIGNMENT FAILED:", assignError.message);
       }
-    }
 
-    // The pool stays open: whoever actually collects the order owns it from
-    // then on, even if a different partner was pencilled in.
-    if (status === "In Transit" && req.user.role === "driver") {
+      const settings = await getSettings();
+      if (settings.inspection.requirePickupInspection && order.inspection?.pickup?.result !== "passed") {
+        if (!req.body.inspection) {
+          return res.status(409).json({
+            message: "A passed pickup quality inspection is required before the goods leave the farm.",
+            code: "PICKUP_INSPECTION_REQUIRED",
+          });
+        }
+
+        // The driver can inspect and collect in one step.
+        const { verdict } = await recordPickupInspection(order, req, req.body.inspection);
+        if (verdict.result === "failed") {
+          return res.status(409).json({
+            message: "The goods failed pickup inspection. The order has been rejected and the buyer refunded.",
+            code: "PICKUP_INSPECTION_FAILED",
+            reasons: verdict.reasons,
+            order: projectForUser(order, req.user),
+          });
+        }
+      }
+
+      // The pool stays open: whoever actually collects the order owns it.
       order.driverId = req.user._id;
     }
 
-    // Cash is collected on delivery.
-    if (status === "Delivered" && order.paymentStatus === "Pending") {
-      order.paymentStatus = "Paid";
+    // ---- ended early ------------------------------------------------------
+    if (["Rejected", "Cancelled"].includes(status)) {
+      await restoreStock(order);
+      if (order.paymentStatus === "Paid") order.paymentStatus = "Refunded";
+      await settlement.onOrderVoided(order, req, `order ${status.toLowerCase()} by ${req.user.role}`);
     }
 
     order.status = status;
     order.statusHistory.push({ status, by: req.user.name });
 
+    // ---- accepted: find it a carrier ---------------------------------------
+    if (["Accepted", "Confirmed"].includes(status) && !order.driverId) {
+      try {
+        await dispatch(order, req);
+      } catch (dispatchError) {
+        // Never block a farmer accepting an order; the first driver to
+        // collect it will claim it instead.
+        console.error("DISPATCH FAILED:", dispatchError.message);
+      }
+    }
+
+    // ---- delivered --------------------------------------------------------
+    if (status === "Delivered") {
+      // Cash is collected on delivery.
+      if (order.paymentStatus === "Pending") order.paymentStatus = "Paid";
+      await settlement.onDelivered(order, req);
+      if (order.logistics?.mode === "provider" && order.logistics.providerId) {
+        await LogisticsProvider.updateOne(
+          { _id: order.logistics.providerId },
+          { $inc: { "stats.delivered": 1 } }
+        );
+      }
+    }
+
     const updated = await order.save();
+
+    await audit(req, "order.status", "Order", order._id, { from, to: status });
 
     res.json({
       message: `Order marked as ${status}`,
       order: projectForUser(updated, req.user),
     });
   } catch (error) {
-    console.error("UPDATE STATUS ERROR:", error);
-    res.status(500).json({ message: error.message });
+    if (!error.status) console.error("UPDATE STATUS ERROR:", error);
+    res.status(error.status || 500).json({
+      message: error.message,
+      ...(error.problems ? { problems: error.problems } : {}),
+    });
   }
 });
 
@@ -460,13 +622,19 @@ router.patch("/:id/cancel", protect, requireRole("buyer"), async (req, res) => {
 
     await restoreStock(order);
 
+    const from = order.status;
     order.status = "Cancelled";
     if (order.paymentStatus === "Paid") order.paymentStatus = "Refunded";
     order.statusHistory.push({ status: "Cancelled", by: req.user.name });
+    await settlement.onOrderVoided(order, req, "cancelled by buyer");
 
     const updated = await order.save();
+    await audit(req, "order.status", "Order", order._id, { from, to: "Cancelled" });
 
-    res.json({ message: "Order cancelled successfully", order: updated });
+    res.json({
+      message: "Order cancelled successfully",
+      order: projectForUser(updated, req.user),
+    });
   } catch (error) {
     console.error("CANCEL ORDER ERROR:", error);
     res.status(500).json({ message: error.message });
@@ -629,10 +797,41 @@ router.get("/:id/tracking", protect, async (req, res) => {
       if (stage && !stage.at) stage.at = entry.at;
     }
 
+    // The real road between farm and door, when a routing provider answers.
+    let road = null;
+    try {
+      road = await roadRoute(
+        { lat: pickup.lat, lng: pickup.lng },
+        { lat: dropoff.lat, lng: dropoff.lng }
+      );
+    } catch {
+      road = null;
+    }
+
     res.json({
       orderId: order._id,
       status: order.status,
       cancelled: ["Cancelled", "Rejected"].includes(order.status),
+      road: road
+        ? {
+            distanceKm: road.distanceKm,
+            durationMin: road.durationMin,
+            geometry: road.geometry,
+            source: road.source,
+            approximate: road.approximate,
+          }
+        : null,
+      logistics: order.logistics?.mode
+        ? {
+            mode: order.logistics.mode,
+            providerName: order.logistics.providerName || null,
+            liability: order.logistics.liability || null,
+          }
+        : null,
+      inspection: {
+        pickup: order.inspection?.pickup?.result ? order.inspection.pickup : null,
+        delivery: order.inspection?.delivery?.result ? order.inspection.delivery : null,
+      },
       // Who is bringing it, as soon as one is assigned.
       deliveryPartner: await driverCard(order.driverId),
       crop: firstLine && firstLine.cropName,
@@ -705,4 +904,122 @@ router.patch("/:id/location", protect, requireRole("driver"), async (req, res) =
   }
 });
 
+// ---------------------------------------------------------------------------
+// GET /api/orders/:id/operations
+//
+// Everything that happened to one order behind the scenes: both inspections
+// (with their evidence), the escrow state, the logistics assignment, and the
+// ledger rows this viewer is entitled to see.
+// ---------------------------------------------------------------------------
+router.get("/:id/operations", protect, async (req, res) => {
+  try {
+    if (!isValidId(req.params.id)) {
+      return res.status(400).json({ message: "Invalid order id." });
+    }
+
+    const order = await Order.findById(req.params.id);
+    if (!order) return res.status(404).json({ message: "Order not found." });
+
+    const me = req.user;
+    const isBuyer = String(order.buyerId) === String(me._id);
+    const isFarmer = order.products.some((l) => String(l.farmerId) === String(me._id));
+    const isDriver = order.driverId && String(order.driverId) === String(me._id);
+    let isCarrier = false;
+    if (me.role === "logistics" && order.logistics?.providerId) {
+      isCarrier = !!(await LogisticsProvider.exists({
+        _id: order.logistics.providerId,
+        ownerId: me._id,
+      }));
+    }
+    const isAdmin = me.role === "admin";
+
+    if (!isBuyer && !isFarmer && !isDriver && !isCarrier && !isAdmin) {
+      return res.status(403).json({ message: "This is not your order." });
+    }
+
+    const [inspections, ledger] = await Promise.all([
+      Inspection.find({ orderId: order._id }).sort({ createdAt: 1 }).lean(),
+      LedgerEntry.find({ orderId: order._id }).sort({ createdAt: 1 }).lean(),
+    ]);
+
+    // Ledger visibility: each party sees its own money movements.
+    const visibleLedger = ledger.filter((row) => {
+      if (isAdmin) return true;
+      if (isBuyer && row.party === "buyer") return true;
+      if (isFarmer && row.party === "farmer" && String(row.partyId) === String(me._id)) return true;
+      if ((isDriver || isCarrier) && row.party === "logistics" && String(row.partyId) === String(me._id)) return true;
+      return false;
+    });
+
+    const viewer = isAdmin
+      ? "admin"
+      : isBuyer
+        ? "buyer"
+        : isFarmer
+          ? "farmer"
+          : "carrier";
+
+    const plain = projectForUser(order, { ...me.toObject(), role: viewer === "carrier" ? "driver" : viewer, _id: me._id });
+
+    res.json({
+      orderId: order._id,
+      status: order.status,
+      viewer,
+      charges: plain.charges,
+      settlement: {
+        status: order.settlement?.status,
+        heldAt: order.settlement?.heldAt,
+        autoReleaseAt: order.settlement?.autoReleaseAt,
+        releasedAt: order.settlement?.releasedAt,
+        refundedAt: order.settlement?.refundedAt,
+        disputedAt: order.settlement?.disputedAt,
+        resolution: order.settlement?.resolution || null,
+      },
+      inspection: {
+        liability: order.inspection?.liability || "none",
+        liabilityReason: order.inspection?.liabilityReason || "",
+        records: inspections.map((i) => ({
+          id: i._id,
+          stage: i.stage,
+          result: i.result,
+          grade: i.grade,
+          condition: i.condition,
+          checks: i.checks,
+          expectedKg: i.expectedKg,
+          measuredKg: i.measuredKg,
+          notes: i.notes,
+          photos: i.photos,
+          reasons: i.reasons,
+          inspectorName: i.inspectorName,
+          inspectorRole: i.inspectorRole,
+          at: i.createdAt,
+        })),
+      },
+      logistics: {
+        mode: order.logistics?.mode || "unassigned",
+        providerName: order.logistics?.providerName || null,
+        offersMade: order.logistics?.offersMade || 0,
+        liability: order.logistics?.liability || null,
+      },
+      invoice: order.invoice || null,
+      ledger: visibleLedger.map((row) => ({
+        type: row.type,
+        party: row.party,
+        amount: row.amountPaise / 100,
+        memo: row.memo,
+        gateway: row.gateway,
+        at: row.createdAt,
+      })),
+      canConfirmDelivery:
+        isBuyer && order.status === "Delivered" && !order.inspection?.delivery?.result,
+    });
+  } catch (error) {
+    console.error("ORDER OPERATIONS ERROR:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
 module.exports = router;
+module.exports.placeOrder = placeOrder;
+module.exports.projectForUser = projectForUser;
+module.exports.quoteResponse = quoteResponse;

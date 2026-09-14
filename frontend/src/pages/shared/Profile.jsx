@@ -4,6 +4,7 @@ import AppShell from "../../components/AppShell";
 import { Button, ConfirmDialog, inputClass } from "../../components/ui";
 import BuyerPreferencesForm from "../../components/BuyerPreferencesForm";
 import { useAuth } from "../../context/AuthContext";
+import { logistics } from "../../lib/api";
 import { useToast } from "../../context/ToastContext";
 import { formatDate } from "../../lib/format";
 
@@ -11,6 +12,8 @@ const ROLE_INFO = {
   farmer: { icon: "👨‍🌾", label: "Farmer", blurb: "You can list crops and manage incoming orders." },
   buyer: { icon: "🧑‍🍳", label: "Buyer", blurb: "You can shop the marketplace and track deliveries." },
   driver: { icon: "🚚", label: "Delivery partner", blurb: "You run optimised multi-stop delivery routes." },
+  logistics: { icon: "🏢", label: "Logistics company", blurb: "Your fleet takes delivery jobs at the rates you publish." },
+  admin: { icon: "🛡", label: "Administrator", blurb: "You run platform settings, disputes and verifications." },
 };
 
 export default function Profile() {
@@ -25,6 +28,78 @@ export default function Profile() {
   });
   const [saving, setSaving] = useState(false);
   const [confirmLogout, setConfirmLogout] = useState(false);
+  const [locating, setLocating] = useState(false);
+  const [joinCode, setJoinCode] = useState("");
+  const [companyBusy, setCompanyBusy] = useState(false);
+
+  // Exact position makes delivery quotes and routes measure from the real
+  // door or farm rather than the middle of the city.
+  const useMyLocation = () => {
+    if (!navigator.geolocation) {
+      toast.error("This device cannot share a location.");
+      return;
+    }
+    setLocating(true);
+    navigator.geolocation.getCurrentPosition(
+      async ({ coords }) => {
+        try {
+          await updateProfile({
+            coordinates: {
+              lat: Number(coords.latitude.toFixed(5)),
+              lng: Number(coords.longitude.toFixed(5)),
+            },
+          });
+          toast.success("Exact location saved.");
+        } catch (error) {
+          toast.error(error.message);
+        } finally {
+          setLocating(false);
+        }
+      },
+      (error) => {
+        toast.error(error.message || "Location permission was refused.");
+        setLocating(false);
+      },
+      { enableHighAccuracy: true, timeout: 20000 }
+    );
+  };
+
+  const clearLocation = async () => {
+    try {
+      await updateProfile({ coordinates: null });
+      toast.success("Exact location removed.");
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  const joinCompany = async (e) => {
+    e.preventDefault();
+    setCompanyBusy(true);
+    try {
+      const result = await logistics.join(joinCode.trim());
+      await updateProfile({});
+      toast.success(result.message);
+      setJoinCode("");
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setCompanyBusy(false);
+    }
+  };
+
+  const leaveCompany = async () => {
+    setCompanyBusy(true);
+    try {
+      const result = await logistics.leave();
+      await updateProfile({});
+      toast.success(result.message);
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setCompanyBusy(false);
+    }
+  };
 
   const role = ROLE_INFO[user?.role] || ROLE_INFO.buyer;
 
@@ -141,7 +216,65 @@ export default function Profile() {
               {saving ? "Saving…" : "Save changes"}
             </Button>
           </form>
+
+          <div className="mt-6 flex flex-col gap-3 rounded-2xl border border-line p-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="text-sm font-semibold text-ink">Exact location</p>
+              <p className="mt-0.5 text-xs text-ink-soft">
+                {user?.coordinates?.lat != null
+                  ? `Saved: ${user.coordinates.lat}, ${user.coordinates.lng} — used for delivery distances.`
+                  : "Optional. Makes delivery quotes and routes measure from your real address."}
+              </p>
+            </div>
+            <div className="flex shrink-0 gap-2">
+              {user?.coordinates?.lat != null && (
+                <Button type="button" variant="ghost" size="sm" onClick={clearLocation}>
+                  Remove
+                </Button>
+              )}
+              <Button type="button" variant="outline" size="sm" loading={locating} onClick={useMyLocation}>
+                📍 Use my location
+              </Button>
+            </div>
+          </div>
         </section>
+
+        {/* Drivers: work independently or for a logistics company. */}
+        {user?.role === "driver" && (
+          <section className="fl-card p-5 sm:p-6 lg:col-span-3">
+            <h2 className="text-lg font-bold text-ink sm:text-xl">Logistics company</h2>
+            {user?.providerId ? (
+              <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <p className="text-sm text-ink-soft">
+                  You drive for a logistics company. It assigns you the delivery jobs it accepts,
+                  and you no longer receive independent jobs automatically.
+                </p>
+                <Button variant="secondary" loading={companyBusy} onClick={leaveCompany}>
+                  Go independent
+                </Button>
+              </div>
+            ) : (
+              <form onSubmit={joinCompany} className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-end">
+                <label className="block flex-1">
+                  <span className="text-sm text-ink-soft">
+                    Driving for a company? Enter the join code it gave you.
+                  </span>
+                  <input
+                    type="text"
+                    value={joinCode}
+                    onChange={(e) => setJoinCode(e.target.value.toUpperCase())}
+                    placeholder="e.g. 3F9A1C2B"
+                    maxLength={8}
+                    className={`${inputClass} font-mono tracking-widest`}
+                  />
+                </label>
+                <Button type="submit" loading={companyBusy} disabled={joinCode.trim().length !== 8}>
+                  Join company
+                </Button>
+              </form>
+            )}
+          </section>
+        )}
 
         {/* Buyer-only: what the AI matching layer should optimise for. */}
         {user?.role === "buyer" && (

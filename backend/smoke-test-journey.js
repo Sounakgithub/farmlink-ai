@@ -176,7 +176,7 @@ async function call(method, path, { token, body, base = BASE } = {}) {
 
   const started = await call("PATCH", `/orders/${orderId}/status`, {
     token: driver,
-    body: { status: "In Transit" },
+    body: { status: "In Transit", inspection: { grade: "A", checks: { freshness: true, pestFree: true, packaging: true } } },
   });
   check("Start delivery button works", started.status === 200, started.data);
 
@@ -232,6 +232,10 @@ async function call(method, path, { token, body, base = BASE } = {}) {
 
   const users = await User.find({ email: new RegExp(`j${stamp}@smoketest.local`) });
   const ids = users.map((u) => u._id);
+  const orderIds = (await Order.find({ buyerId: { $in: ids } }).select("_id")).map((o) => o._id);
+  await require("./models/LedgerEntry").deleteMany({ orderId: { $in: orderIds } });
+  await require("./models/Inspection").deleteMany({ orderId: { $in: orderIds } });
+  await require("./models/LogisticsAssignment").deleteMany({ orderId: { $in: orderIds } });
   await Order.deleteMany({ buyerId: { $in: ids } });
   await Product.deleteMany({ farmerId: { $in: ids } });
   await User.deleteMany({ _id: { $in: ids } });

@@ -6,8 +6,10 @@ const {
   hashSeed,
   DEFAULT_DEPOT,
 } = require("../utils/geocode");
-const { optimizeRoute, optimizePickupDelivery } = require("../utils/routeOptimizer");
+const { optimizeRoute, optimizePickupDelivery, haversineKm } = require("../utils/routeOptimizer");
 const { protect, requireRole } = require("../middleware/auth");
+const { roadRoute, pointFrom } = require("../utils/roadRouting");
+const { quoteDelivery } = require("../utils/logistics");
 
 const router = express.Router();
 
@@ -186,6 +188,76 @@ router.post("/optimize-orders", protect, requireRole("driver"), async (req, res)
   } catch (error) {
     console.error("ROUTE PLAN ERROR:", error);
     res.status(500).json({ message: error.message });
+  }
+});
+
+// POST /api/routes/optimal
+// Body: { from, to, weightKg?, needsRefrigeration? }
+//   from / to: a place name, or { lat, lng }
+//
+// The shortest real road between two points - distance, drive time and the
+// line to draw - from Google Distance Matrix or OSRM, falling back to a
+// flagged straight-line estimate. With a weight it also prices the trip with
+// every carrier that could take it and names the recommended one.
+router.post("/optimal", protect, async (req, res) => {
+  try {
+    const { from, to, weightKg, needsRefrigeration } = req.body || {};
+
+    const a = pointFrom(from);
+    const b = pointFrom(to);
+    if (!a || !b) {
+      return res.status(422).json({
+        message: !a ? "The starting point could not be located." : "The destination could not be located.",
+      });
+    }
+
+    const route = await roadRoute(a, b);
+    const straightKm = Math.round(haversineKm(a, b) * 10) / 10;
+
+    const result = {
+      distanceKm: route.distanceKm,
+      durationMin: route.durationMin,
+      source: route.source,
+      approximate: route.approximate,
+      geometry: route.geometry,
+      from: route.from,
+      to: route.to,
+      straightLineKm: straightKm,
+      detourFactor: straightKm > 0 ? Math.round((route.distanceKm / straightKm) * 100) / 100 : null,
+    };
+
+    const weight = Number(weightKg);
+    if (weightKg !== undefined && weightKg !== null && weightKg !== "") {
+      if (!Number.isFinite(weight) || weight <= 0 || weight > 100000) {
+        return res.status(400).json({ message: "Weight must be a positive number of kg." });
+      }
+      if (typeof from === "string" && typeof to === "string") {
+        const quote = await quoteDelivery({
+          lines: [{ location: from, quantity: weight }],
+          dropPlace: to,
+          needsRefrigeration: !!needsRefrigeration,
+        });
+        if (quote) {
+          result.carriers = quote.options.map((o) => ({
+            carrier: o.carrier,
+            providerName: o.providerName,
+            carrierRate: o.providerFee,
+            liability: o.liability,
+            refrigerated: o.refrigerated,
+          }));
+          result.suggestedCarrier = quote.best
+            ? { carrier: quote.best.carrier, providerName: quote.best.providerName, carrierRate: quote.best.providerFee }
+            : null;
+        }
+      } else {
+        result.carriersNote = "Carrier pricing needs place names, since carriers declare coverage by city.";
+      }
+    }
+
+    res.json(result);
+  } catch (error) {
+    console.error("OPTIMAL ROUTE ERROR:", error);
+    res.status(500).json({ message: "Could not work out a route right now." });
   }
 });
 

@@ -51,6 +51,7 @@ const NAV_BY_ROLE = {
         { to: "/market", icon: "◇", label: "Marketplace" },
         { to: "/cart", icon: "◰", label: "Cart", badge: "cart" },
         { to: "/orders", icon: "✦", label: "My Orders" },
+        { to: "/wholesale", icon: "▦", label: "Wholesale" },
       ],
     },
     {
@@ -78,15 +79,37 @@ const NAV_BY_ROLE = {
       ],
     },
   ],
+  logistics: [
+    {
+      group: "Operations",
+      items: [{ to: "/logistics", icon: "◱", label: "Jobs & fleet", end: true }],
+    },
+    {
+      group: "General",
+      items: [{ to: "/profile", icon: "⚙", label: "Profile" }],
+    },
+  ],
+  admin: [
+    {
+      group: "Platform",
+      items: [{ to: "/admin", icon: "◱", label: "Console", end: true }],
+    },
+    {
+      group: "General",
+      items: [{ to: "/profile", icon: "⚙", label: "Profile" }],
+    },
+  ],
 };
 
 const ROLE_LABEL = {
   farmer: "Farmer",
   buyer: "Buyer",
   driver: "Delivery partner",
+  logistics: "Logistics company",
+  admin: "Administrator",
 };
 
-const ROLE_AVATAR = { farmer: "🌾", buyer: "🧺", driver: "🚚" };
+const ROLE_AVATAR = { farmer: "🌾", buyer: "🧺", driver: "🚚", logistics: "🏢", admin: "🛡" };
 
 export default function AppShell({ title, subtitle, actions, children }) {
   const { user, logout } = useAuth();

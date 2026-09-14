@@ -1,0 +1,54 @@
+# Whole stack in containers:  docker compose up --build
+# Then open http://localhost:5173 and create an admin with:
+#   docker compose exec backend npm run create-admin -- --email you@example.com --name "You" --password "a-long-password"
+
+services:
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.runCommand({ ping: 1 })"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  ml-service:
+    build: ./ml-service
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    depends_on:
+      mongo:
+        condition: service_healthy
+    environment:
+      PORT: 5000
+      MONGO_URI: mongodb://mongo:27017/farmlink
+      # Override in a .env file next to this compose file for anything real.
+      JWT_SECRET: ${JWT_SECRET:-change-me-to-a-long-random-string}
+      ML_BASE: http://ml-service:8000
+      ROUTING_PROVIDER: ${ROUTING_PROVIDER:-}
+      OSRM_URL: ${OSRM_URL:-}
+      GOOGLE_MAPS_API_KEY: ${GOOGLE_MAPS_API_KEY:-}
+    ports:
+      - "5000:5000"
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_BASE: http://localhost:5000/api
+        VITE_ML_BASE: http://localhost:8000
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "5173:80"
+
+volumes:
+  mongo-data:

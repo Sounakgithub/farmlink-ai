@@ -365,7 +365,7 @@ async function layer2() {
 
   // ---- reality wins: whoever collects it owns it --------------------------
   const farDriver = farDriverRes.data.token;
-  await call("PATCH", `/orders/${orderId}/status`, { token: farDriver, body: { status: "In Transit" } });
+  await call("PATCH", `/orders/${orderId}/status`, { token: farDriver, body: { status: "In Transit", inspection: { grade: "A", checks: { freshness: true, pestFree: true, packaging: true } } } });
 
   const afterPickup = await call("GET", "/orders", { token: buyer });
   const moving = (afterPickup.data || []).find((o) => o._id === orderId);
@@ -401,6 +401,10 @@ async function layer2() {
     const users = await User.find({ email: new RegExp(`${stamp}@valuetest.local`) });
     const ids = users.map((u) => u._id);
     await Conversation.deleteMany({ participants: { $in: ids } });
+    const orderIds = (await Order.find({ buyerId: { $in: ids } }).select("_id")).map((o) => o._id);
+    await require("./models/LedgerEntry").deleteMany({ orderId: { $in: orderIds } });
+    await require("./models/Inspection").deleteMany({ orderId: { $in: orderIds } });
+    await require("./models/LogisticsAssignment").deleteMany({ orderId: { $in: orderIds } });
     await Order.deleteMany({ buyerId: { $in: ids } });
     await Product.deleteMany({ farmerId: { $in: ids } });
     await User.deleteMany({ _id: { $in: ids } });

@@ -5,7 +5,9 @@
 // reads profiles out of a Map, so ranking 200 buyers still costs two database
 // round-trips, not 200.
 
+const mongoose = require("mongoose");
 const Order = require("../../models/Order");
+const Inspection = require("../../models/Inspection");
 
 // Orders that prove the party actually follows through.
 const COMPLETED = ["Delivered"];
@@ -145,9 +147,31 @@ async function buildFarmerProfiles(farmerIds) {
     }
   }
 
+  // Produce quality: how this farmer's crops fared at independent pickup
+  // inspections. One aggregation for every farmer on the page.
+  const objectIds = ids
+    .filter((id) => mongoose.Types.ObjectId.isValid(String(id)))
+    .map((id) => new mongoose.Types.ObjectId(String(id)));
+  const quality = await Inspection.aggregate([
+    { $match: { stage: "pickup", farmerIds: { $in: objectIds } } },
+    { $unwind: "$farmerIds" },
+    { $match: { farmerIds: { $in: objectIds } } },
+    {
+      $group: {
+        _id: "$farmerIds",
+        inspected: { $sum: 1 },
+        passed: { $sum: { $cond: [{ $eq: ["$result", "passed"] }, 1, 0] } },
+      },
+    },
+  ]);
+  const qualityByFarmer = new Map(quality.map((q) => [String(q._id), q]));
+
   for (const id of ids) {
     const key = String(id);
-    profiles.set(key, drafts.has(key) ? finalise(drafts.get(key)) : emptyProfile());
+    const profile = drafts.has(key) ? finalise(drafts.get(key)) : emptyProfile();
+    const q = qualityByFarmer.get(key);
+    if (q) profile.quality = { inspected: q.inspected, passed: q.passed };
+    profiles.set(key, profile);
   }
   return profiles;
 }
@@ -169,6 +193,12 @@ function hasBought(profile, cropName) {
 }
 
 /** Share of finished business that completed rather than fell through, 0..1. */
+/** Share of pickup inspections passed, 0..1, or null with none on record. */
+function qualityRate(profile) {
+  if (!profile || !profile.quality || !profile.quality.inspected) return null;
+  return profile.quality.passed / profile.quality.inspected;
+}
+
 function reliabilityRate(profile) {
   if (!profile) return null;
   const settled = profile.completed + profile.broken;
@@ -182,6 +212,7 @@ module.exports = {
   cropShare,
   hasBought,
   reliabilityRate,
+  qualityRate,
   emptyProfile,
   median,
   COMPLETED,

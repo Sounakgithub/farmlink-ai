@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import AppShell from "../../components/AppShell";
 import OrderTracking from "../../components/OrderTracking";
 import StartChatButton from "../../components/StartChatButton";
+import OrderOperations from "../../components/OrderOperations";
 import {
   Badge,
   Button,
@@ -33,6 +34,11 @@ function paymentBadge(order) {
     };
   if (order.paymentStatus === "Refunded")
     return { text: "↩ Refunded", cls: "bg-canvas text-ink-soft" };
+  if (order.paymentStatus === "Invoiced")
+    return {
+      text: `Invoice ${order.invoice?.number || ""}`.trim(),
+      cls: "bg-sky-50 text-sky-700",
+    };
   return {
     text: `${method} · due on delivery`,
     cls: "bg-harvest-100 text-harvest-700",
@@ -250,11 +256,22 @@ export default function Orders() {
                     </div>
                   )}
 
+                  <div className="mt-5">
+                    <OrderOperations
+                      orderId={order._id}
+                      orderedKg={order.products.reduce((s, l) => s + l.quantity, 0)}
+                    />
+                  </div>
+
                   <div className="mt-5 flex flex-col gap-3 border-t border-line pt-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                      <p className="text-xs text-ink-faint">Order total</p>
+                      <p className="text-xs text-ink-faint">
+                        {order.charges?.deliveryFee
+                          ? `Produce ${currency(order.charges.goods)} + delivery ${currency(order.charges.deliveryFee)}`
+                          : "Order total"}
+                      </p>
                       <p className="text-2xl font-bold text-brand-700">
-                        {currency(order.totalAmount)}
+                        {currency(order.charges?.grandTotal || order.totalAmount)}
                       </p>
                     </div>
 

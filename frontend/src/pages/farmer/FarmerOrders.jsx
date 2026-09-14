@@ -1,6 +1,7 @@
 import { useState } from "react";
 import AppShell from "../../components/AppShell";
 import StartChatButton from "../../components/StartChatButton";
+import OrderOperations from "../../components/OrderOperations";
 import {
   Badge,
   Button,
@@ -184,9 +185,13 @@ export default function FarmerOrders() {
 
                 <div className="mt-4 flex flex-col gap-3 border-t border-line pt-4 sm:flex-row sm:items-center sm:justify-between">
                   <div>
-                    <p className="text-xs text-ink-faint">Your earnings from this order</p>
+                    <p className="text-xs text-ink-faint">
+                      {order.charges?.payout != null
+                        ? `Your payout (after ${order.charges.commissionPct}% commission)`
+                        : "Your earnings from this order"}
+                    </p>
                     <p className="fl-numeric text-2xl font-bold text-ink">
-                      {currency(order.totalAmount)}
+                      {currency(order.charges?.payout ?? order.totalAmount)}
                     </p>
                   </div>
 
@@ -222,7 +227,11 @@ export default function FarmerOrders() {
                     {order.status === "Accepted" && (
                       <span className="inline-flex items-center gap-2 rounded-xl bg-canvas px-3.5 py-2 text-sm text-ink-soft ring-1 ring-line">
                         <span className="h-1.5 w-1.5 rounded-full bg-harvest-500" />
-                        Waiting for a driver to collect
+                        {order.logistics?.mode === "offered"
+                          ? `Offered to ${order.logistics.providerName}`
+                          : order.logistics?.mode === "provider"
+                            ? `${order.logistics.providerName} will collect · keep produce ready for inspection`
+                            : "Waiting for a driver to collect"}
                       </span>
                     )}
 
@@ -233,6 +242,15 @@ export default function FarmerOrders() {
                     )}
                   </div>
                 </div>
+
+                {order.status !== "Pending" && (
+                  <div className="mt-4">
+                    <OrderOperations
+                      orderId={order._id}
+                      orderedKg={order.products.reduce((s, l) => s + l.quantity, 0)}
+                    />
+                  </div>
+                )}
               </div>
             </Card>
           ))}

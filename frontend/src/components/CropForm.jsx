@@ -23,6 +23,16 @@ export default function CropForm({ initial, onSubmit, onCancel, submitLabel = "S
   const toast = useToast();
 
   const [form, setForm] = useState({ ...EMPTY, ...(initial || {}) });
+  const [tiers, setTiers] = useState(
+    (initial?.bulkTiers || []).map((t) => ({
+      minQuantityKg: String(t.minQuantityKg),
+      pricePerKg: String(t.pricePerKg),
+    }))
+  );
+  const [chilled, setChilled] = useState(!!initial?.needsRefrigeration);
+
+  const setTier = (index, key, value) =>
+    setTiers(tiers.map((t, i) => (i === index ? { ...t, [key]: value } : t)));
   const [submitting, setSubmitting] = useState(false);
   const [aiPrice, setAiPrice] = useState(null);
   const [aiExplanation, setAiExplanation] = useState(null);
@@ -75,6 +85,10 @@ export default function CropForm({ initial, onSubmit, onCancel, submitLabel = "S
         location: form.location.trim(),
         pricePerKg: Number(form.pricePerKg),
         image: form.image.trim(),
+        bulkTiers: tiers
+          .filter((t) => t.minQuantityKg !== "" && t.pricePerKg !== "")
+          .map((t) => ({ minQuantityKg: Number(t.minQuantityKg), pricePerKg: Number(t.pricePerKg) })),
+        needsRefrigeration: chilled,
       });
     } finally {
       setSubmitting(false);
@@ -165,6 +179,76 @@ export default function CropForm({ initial, onSubmit, onCancel, submitLabel = "S
             placeholder="https://…"
             className={inputClass}
           />
+        </label>
+      </div>
+
+      {/* Wholesale: volume pricing and cold chain */}
+      <div className="rounded-2xl border border-line p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="text-sm font-semibold text-ink">Bulk prices <span className="font-normal text-ink-faint">(optional)</span></p>
+            <p className="mt-1 text-xs text-ink-soft">
+              Offer a lower price per kg on bigger orders. Each tier must be cheaper than the one before.
+            </p>
+          </div>
+          {tiers.length < 5 && (
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => setTiers([...tiers, { minQuantityKg: "", pricePerKg: "" }])}
+            >
+              + Add tier
+            </Button>
+          )}
+        </div>
+
+        {tiers.length > 0 && (
+          <div className="mt-3 space-y-2">
+            {tiers.map((tier, index) => (
+              <div key={index} className="flex flex-wrap items-center gap-2 text-sm">
+                <span className="text-ink-soft">From</span>
+                <input
+                  type="number"
+                  min="2"
+                  value={tier.minQuantityKg}
+                  onChange={(e) => setTier(index, "minQuantityKg", e.target.value)}
+                  aria-label="Minimum kg for this price"
+                  className="w-24 rounded-lg border border-line-strong px-2 py-1.5 outline-none focus:border-brand-500"
+                />
+                <span className="text-ink-soft">kg at ₹</span>
+                <input
+                  type="number"
+                  min="1"
+                  step="0.5"
+                  value={tier.pricePerKg}
+                  onChange={(e) => setTier(index, "pricePerKg", e.target.value)}
+                  aria-label="Price per kg for this tier"
+                  className="w-24 rounded-lg border border-line-strong px-2 py-1.5 outline-none focus:border-brand-500"
+                />
+                <span className="text-ink-soft">/kg</span>
+                <button
+                  type="button"
+                  onClick={() => setTiers(tiers.filter((_, i) => i !== index))}
+                  aria-label="Remove tier"
+                  className="ml-auto rounded-lg px-2 py-1 text-xs font-semibold text-rose-600 hover:bg-rose-50"
+                >
+                  Remove
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+
+        <label className="mt-4 flex items-center gap-2 text-sm text-ink">
+          <input
+            type="checkbox"
+            checked={chilled}
+            onChange={(e) => setChilled(e.target.checked)}
+            className="h-4 w-4 accent-brand-600"
+          />
+          Needs refrigerated transport
+          <span className="text-xs text-ink-faint">(only chilled carriers will be offered it)</span>
         </label>
       </div>
 

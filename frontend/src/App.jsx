@@ -19,6 +19,9 @@ import Orders from "./pages/buyer/Orders";
 import Recommendations from "./pages/buyer/Recommendations";
 
 import DriverDashboard from "./pages/driver/DriverDashboard";
+import LogisticsDashboard from "./pages/logistics/LogisticsDashboard";
+import AdminConsole from "./pages/admin/AdminConsole";
+import Wholesale from "./pages/buyer/Wholesale";
 
 import Insights from "./pages/shared/Insights";
 import Profile from "./pages/shared/Profile";
@@ -118,6 +121,35 @@ export default function App() {
           element={
             <ProtectedRoute roles={["buyer"]}>
               <Recommendations />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/wholesale"
+          element={
+            <ProtectedRoute roles={["buyer"]}>
+              <Wholesale />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Logistics company */}
+        <Route
+          path="/logistics"
+          element={
+            <ProtectedRoute roles={["logistics"]}>
+              <LogisticsDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Platform admin */}
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute roles={["admin"]}>
+              <AdminConsole />
             </ProtectedRoute>
           }
         />

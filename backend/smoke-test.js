@@ -206,7 +206,7 @@ const register = (role, name) =>
 
   const transit = await call("PATCH", `/orders/${orderId}/status`, {
     token: driver,
-    body: { status: "In Transit" },
+    body: { status: "In Transit", inspection: { grade: "A", checks: { freshness: true, pestFree: true, packaging: true } } },
   });
   check("driver starts the delivery", transit.status === 200, transit.data);
 
@@ -260,6 +260,10 @@ const register = (role, name) =>
 
   const users = await User.find({ email: new RegExp(`${stamp}@smoketest.local`) });
   const ids = users.map((u) => u._id);
+  const orderIds = (await Order.find({ buyerId: { $in: ids } }).select("_id")).map((o) => o._id);
+  await require("./models/LedgerEntry").deleteMany({ orderId: { $in: orderIds } });
+  await require("./models/Inspection").deleteMany({ orderId: { $in: orderIds } });
+  await require("./models/LogisticsAssignment").deleteMany({ orderId: { $in: orderIds } });
   await Order.deleteMany({ buyerId: { $in: ids } });
   await Product.deleteMany({ farmerId: { $in: ids } });
   await User.deleteMany({ _id: { $in: ids } });

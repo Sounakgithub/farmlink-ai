@@ -91,7 +91,14 @@ export default function OrderTracking({ orderId, status, compact = false }) {
     { ...dropoff, type: "dropoff" },
   ];
 
-  const waypoints = [
+  // The real road when a routing provider answered; otherwise the straight
+  // farm -> driver -> door line the map always drew.
+  const roadLine =
+    tracking.road && !tracking.road.approximate && tracking.road.geometry?.length > 2
+      ? tracking.road.geometry.map(([lat, lng]) => ({ lat, lng }))
+      : null;
+
+  const waypoints = roadLine || [
     { lat: pickup.lat, lng: pickup.lng },
     ...(driver ? [{ lat: driver.lat, lng: driver.lng }] : []),
     { lat: dropoff.lat, lng: dropoff.lng },
@@ -195,6 +202,18 @@ export default function OrderTracking({ orderId, status, compact = false }) {
         height={compact ? "h-56" : "h-64 sm:h-80"}
       />
       <MapLegend approximate={tracking.approximate} />
+
+      {tracking.road && (
+        <p className="fl-numeric text-xs text-ink-faint">
+          {tracking.road.approximate
+            ? `≈ ${tracking.road.distanceKm} km (straight-line estimate)`
+            : `${tracking.road.distanceKm} km by road · ~${formatDuration(tracking.road.durationMin)} drive`}
+          {tracking.logistics?.providerName ? ` · carried by ${tracking.logistics.providerName}` : ""}
+          {tracking.inspection?.pickup?.result === "passed"
+            ? ` · passed pickup inspection (grade ${tracking.inspection.pickup.grade})`
+            : ""}
+        </p>
+      )}
 
       {driver?.updatedAt && (
         <p className="flex items-center gap-1.5 text-xs text-ink-faint">

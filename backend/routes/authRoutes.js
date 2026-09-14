@@ -5,7 +5,9 @@ const { signToken, protect } = require("../middleware/auth");
 
 const router = express.Router();
 
-const VALID_ROLES = ["farmer", "buyer", "driver"];
+// Admin is deliberately absent: it can only be granted from the command line
+// (npm run create-admin), never through the public sign-up form.
+const VALID_ROLES = ["farmer", "buyer", "driver", "logistics"];
 
 // POST /api/auth/register
 router.post("/register", async (req, res) => {
@@ -162,11 +164,25 @@ function cleanPreferences(input, existing = {}) {
 // so the existing name/phone/location behaviour is untouched.
 router.patch("/me", protect, async (req, res) => {
   try {
-    const { name, phone, location, buyerPreferences } = req.body;
+    const { name, phone, location, buyerPreferences, coordinates } = req.body;
 
     if (name !== undefined) req.user.name = String(name).trim();
     if (phone !== undefined) req.user.phone = String(phone).trim();
     if (location !== undefined) req.user.location = String(location).trim();
+
+    // Optional exact position ("use my location"); null clears it.
+    if (coordinates !== undefined) {
+      if (coordinates === null) {
+        req.user.coordinates = undefined;
+      } else {
+        const lat = Number(coordinates && coordinates.lat);
+        const lng = Number(coordinates && coordinates.lng);
+        if (!Number.isFinite(lat) || !Number.isFinite(lng) || Math.abs(lat) > 90 || Math.abs(lng) > 180) {
+          return res.status(400).json({ message: "Coordinates need a valid lat and lng." });
+        }
+        req.user.coordinates = { lat, lng };
+      }
+    }
 
     if (buyerPreferences !== undefined) {
       if (req.user.role !== "buyer") {

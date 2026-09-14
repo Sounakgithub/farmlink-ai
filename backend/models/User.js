@@ -30,6 +30,38 @@ const buyerPreferencesSchema = new mongoose.Schema(
   { _id: false }
 );
 
+// Optional exact position. When present it beats geocoding the city name,
+// so distances and delivery quotes are measured from the real farm or door.
+const coordinatesSchema = new mongoose.Schema(
+  {
+    lat: { type: Number, min: -90, max: 90 },
+    lng: { type: Number, min: -180, max: 180 },
+  },
+  { _id: false }
+);
+
+// Wholesale buyers. Credit terms are granted by an admin, never self-assigned.
+const businessSchema = new mongoose.Schema(
+  {
+    companyName: { type: String, default: "", trim: true, maxlength: 160 },
+    gstin: { type: String, default: "", trim: true, uppercase: true, maxlength: 15 },
+    // "requested" until an admin reviews it.
+    status: {
+      type: String,
+      enum: ["none", "requested", "approved", "declined"],
+      default: "none",
+    },
+    creditLimit: { type: Number, min: 0, default: 0 },
+    paymentTerms: {
+      type: String,
+      enum: ["prepaid", "net15", "net30"],
+      default: "prepaid",
+    },
+    reviewedAt: { type: Date, default: null },
+  },
+  { _id: false }
+);
+
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -51,9 +83,11 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
 
+    // "logistics" is a third-party carrier's company account. "admin" can
+    // never be self-registered - see scripts/create-admin.js.
     role: {
       type: String,
-      enum: ["farmer", "buyer", "driver"],
+      enum: ["farmer", "buyer", "driver", "logistics", "admin"],
       required: true,
     },
 
@@ -74,6 +108,23 @@ const userSchema = new mongoose.Schema(
       type: buyerPreferencesSchema,
       default: () => ({}),
     },
+
+    coordinates: { type: coordinatesSchema, default: undefined },
+
+    // Buyers only: retail consumer or wholesale business.
+    accountType: {
+      type: String,
+      enum: ["consumer", "business"],
+      default: "consumer",
+    },
+    business: { type: businessSchema, default: () => ({}) },
+
+    // Drivers only: the logistics company they drive for, if any.
+    providerId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "LogisticsProvider",
+      default: null,
+    },
   },
   {
     timestamps: true,
@@ -90,8 +141,23 @@ userSchema.methods.toSafeJSON = function toSafeJSON() {
     phone: this.phone,
     location: this.location,
     buyerPreferences: this.buyerPreferences || {},
+    coordinates: this.coordinates || null,
+    accountType: this.accountType || "consumer",
+    business: this.business || { status: "none" },
+    providerId: this.providerId || null,
     createdAt: this.createdAt,
   };
+};
+
+/** Business buyers whose credit an admin has approved. */
+userSchema.methods.hasApprovedCredit = function hasApprovedCredit() {
+  return (
+    this.role === "buyer" &&
+    this.accountType === "business" &&
+    this.business?.status === "approved" &&
+    this.business?.paymentTerms !== "prepaid" &&
+    (this.business?.creditLimit || 0) > 0
+  );
 };
 
 /**
